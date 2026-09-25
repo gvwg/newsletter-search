@@ -28,6 +28,11 @@ Locally:
     python harvest.py
     python extract.py --limit 5
 
+If a link on the Newsletters page is corrected, the next run picks it up: issue
+files whose title or date changed are relabelled (no re-download), newly linked
+documents are extracted, and files for documents no longer linked are removed
+(at most 10 per run; more than that stops the run as a likely harvest problem).
+
 Useful options: `extract.py --force <docid>` re-extracts one issue (e.g. after a
 corrected PDF is uploaded to CE); `--all` rebuilds everything.
 

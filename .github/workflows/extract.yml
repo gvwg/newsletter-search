@@ -11,6 +11,9 @@ on:
 permissions:
   contents: write   # to commit extracted text back to the repo
 
+env:
+  PYTHONUNBUFFERED: "1"   # show per-issue progress live in the Actions log
+
 concurrency:
   group: extract
   cancel-in-progress: false

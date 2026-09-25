@@ -31,6 +31,9 @@ OCR_THRESHOLD_CHARS = 40   # fewer real characters than this on a page => OCR it
 OCR_DPI = 300
 OCR_LANGUAGE = "eng"
 
+META_KEYS = ("id", "title", "year", "month", "url")
+MAX_PRUNE = 10   # more orphans than this suggests a bad harvest; prune nothing
+
 
 def clean_text(text: str) -> str:
     """Normalise extracted text for indexing."""
@@ -78,6 +81,36 @@ def write_issue(meta: dict, pages: list):
     return path
 
 
+def sync_with_catalog(catalog: list) -> bool:
+    """Bring existing issue files in line with the catalog without downloading.
+
+    When a link on the CE page is corrected, a doc ID can move to a different
+    title (its text is still right, its title/month are not), and an ID can
+    drop out of the catalog entirely. Refresh metadata for the former and
+    delete the latter. Returns False if pruning was refused.
+    """
+    by_id = {i["id"]: i for i in catalog}
+    orphans = []
+    for path in sorted(ISSUES_DIR.glob("*.json")):
+        meta = by_id.get(path.stem)
+        if meta is None:
+            orphans.append(path)
+            continue
+        record = json.loads(path.read_text(encoding="utf-8"))
+        if any(record.get(k) != meta.get(k) for k in META_KEYS):
+            print(f"Metadata updated for {path.stem}: '{record.get('title')}' -> '{meta['title']}'")
+            record.update({k: meta.get(k) for k in META_KEYS})
+            path.write_text(json.dumps(record, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    if len(orphans) > MAX_PRUNE:
+        print(f"WARNING: {len(orphans)} issue files are not in the catalog (limit {MAX_PRUNE}); "
+              f"not pruning. Check data/catalog.json before rerunning.", file=sys.stderr)
+        return False
+    for path in orphans:
+        print(f"Removing {path.stem}: no longer linked from the Newsletters page")
+        path.unlink()
+    return True
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, help="process at most N new issues")
@@ -98,6 +131,7 @@ def main():
         return
 
     catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+    synced = sync_with_catalog(catalog)
     todo = [i for i in catalog
             if args.all or i["id"] in args.force
             or not (ISSUES_DIR / f"{i['id']}.json").exists()]
@@ -152,7 +186,7 @@ def main():
     print(f"\nThis run: {totals}")
     print(f"Corpus now: {len(list(ISSUES_DIR.glob('*.json')))} issues, "
           f"{text_bytes / 1e6:.1f} MB of extracted text")
-    if totals["failed"]:
+    if totals["failed"] or not synced:
         sys.exit(1)
 
 
