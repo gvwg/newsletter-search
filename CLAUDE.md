@@ -97,22 +97,34 @@ was judged unlikely to help.
   `GITHUB_TOKEN` do not trigger `push` workflows), on pushes to site code, or
   by hand. The deploy step is skipped with a warning until the
   `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets exist.
-  `wrangler deploy --dry-run` passes locally; a real deploy is not yet tested.
+- Live since 2026-09-25 (deploy run 36123916982): https://search.gvwg.ca serves
+  4,612 assets; JS as text/javascript; `_headers` applied (frame-ancestors
+  gvwg.ca and www.gvwg.ca, nosniff); scripted search against the live site
+  matches local counts. The .pagefind WASM file has no Content-Type; harmless
+  (fetched as data). Not yet tested: the page inside the CE iframe.
+- Deploy token: account-owned ("Account API tokens"), named
+  `github-deploy-newsletter-search`, "Edit Cloudflare Workers" template, zone
+  policy narrowed to gvwg.ca, no expiry, no IP filter. It was enough for the
+  custom domain (no DNS permission needed). Its account policy is broader than
+  needed (KV, R2, Pages, Containers, etc.); trim later, one permission at a
+  time with a test deploy after each.
+- The Cloudflare account is still named "Dongamble.ca@gmail.com's Account";
+  renaming it to GVWG is cosmetic but helps a successor.
 - `extract.yml` runs daily (11:17 UTC). The repo is public, so GitHub pauses the
   schedule after 60 days without repository activity; re-enable in Actions.
 - Cloudflare ownership (decided 2026-09-25): the account currently uses Don's
   personal email. Chosen fix (option 2): a second GVWG officer is added as a
   Super Administrator with their own login and 2FA; no shared login (a shared
-  M365 mailbox login was tried; shared 2FA was the obstacle). Deploy token:
-  account-owned if Cloudflare offers it, stored only in GitHub secrets.
+  M365 mailbox login was tried; shared 2FA was the obstacle). No second
+  officer yet: Don is the only admin until he trains someone.
   Open question: who is the registrant contact for gvwg.ca at the registrar.
 
 ## Next steps
-1. Cloudflare (Don): invite the second officer as Super Administrator; create
-   the Workers API token; add both GitHub secrets.
-2. First real deploy; then verify on https://search.gvwg.ca: JS content types,
-   `_headers` (frame-ancestors), search works, iframe refused on other sites.
-3. CE custom page with iframe; link from the Newsletters page.
+1. CE custom page with an iframe of https://search.gvwg.ca; link it from the
+   Newsletters page. Test inside CE: search works, results open in a new tab.
+2. Don: train and add a second Cloudflare Super Administrator.
+3. Later: trim the deploy token's account permissions; rename the Cloudflare
+   account; check the gvwg.ca registrant contact.
 
 ## Working with the maintainer (Don)
 - Retired IT Director, 40+ years in development, architecture and infrastructure.
