@@ -91,15 +91,27 @@ was judged unlikely to help.
   `C:\Program Files (x86)\nodejs`). Python's http.server on this PC serves .js
   as text/plain (registry), which breaks Pagefind; use `npm run serve`.
 
+- Deploy: `.github/workflows/deploy.yml` builds and runs `wrangler deploy`
+  (`wrangler.jsonc`: assets-only Worker, custom domain `search.gvwg.ca`). It
+  runs after every extraction run (`workflow_run`, because commits pushed with
+  `GITHUB_TOKEN` do not trigger `push` workflows), on pushes to site code, or
+  by hand. The deploy step is skipped with a warning until the
+  `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets exist.
+  `wrangler deploy --dry-run` passes locally; a real deploy is not yet tested.
+- `extract.yml` runs daily (11:17 UTC). The repo is public, so GitHub pauses the
+  schedule after 60 days without repository activity; re-enable in Actions.
+- Cloudflare ownership (decided 2026-09-25): the account currently uses Don's
+  personal email. Chosen fix (option 2): a second GVWG officer is added as a
+  Super Administrator with their own login and 2FA; no shared login (a shared
+  M365 mailbox login was tried; shared 2FA was the obstacle). Deploy token:
+  account-owned if Cloudflare offers it, stored only in GitHub secrets.
+  Open question: who is the registrant contact for gvwg.ca at the registrar.
+
 ## Next steps
-1. Cloudflare (Don): confirm the account holding gvwg.ca DNS is GVWG-owned;
-   create a Workers API token; add token and account ID as GitHub secrets.
-2. Deploy workflow: build + wrangler deploy to Workers static assets, custom
-   domain `search.gvwg.ca`. Commits pushed with the default `GITHUB_TOKEN` do
-   not trigger `push` workflows (documented GitHub behaviour), so run the build
-   from the extraction workflow (`workflow_run` or a job in it). Add a daily
-   schedule to `extract.yml`. After deploy, verify content types and
-   `_headers` on the live site.
+1. Cloudflare (Don): invite the second officer as Super Administrator; create
+   the Workers API token; add both GitHub secrets.
+2. First real deploy; then verify on https://search.gvwg.ca: JS content types,
+   `_headers` (frame-ancestors), search works, iframe refused on other sites.
 3. CE custom page with iframe; link from the Newsletters page.
 
 ## Working with the maintainer (Don)

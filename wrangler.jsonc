@@ -1,0 +1,12 @@
+// Cloudflare Worker serving the search site as static assets (no Worker code).
+// Deployed by .github/workflows/deploy.yml; dist/ is built by `npm run build`.
+{
+  "name": "gvwg-newsletter-search",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist"
+  },
+  "routes": [
+    { "pattern": "search.gvwg.ca", "custom_domain": true }
+  ]
+}

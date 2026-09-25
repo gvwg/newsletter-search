@@ -1,6 +1,12 @@
 name: Extract newsletters
 
 on:
+  # Daily, so a new issue linked on the Newsletters page is searchable by the
+  # next morning. GitHub pauses schedules in public repos after 60 days with
+  # no repository activity (e.g. a summer with no new issues); re-enable it
+  # from the Actions tab.
+  schedule:
+    - cron: "17 11 * * *"   # 11:17 UTC = 3:17 or 4:17 Vancouver time
   workflow_dispatch:
     inputs:
       limit:

@@ -1,0 +1,64 @@
+name: Build and deploy search site
+
+# Runs after every extraction run (which may have committed new issues), when
+# the site code changes, or by hand. Commits pushed by the extraction workflow
+# use GITHUB_TOKEN and so do not trigger push events; workflow_run covers them.
+on:
+  workflow_run:
+    workflows: ["Extract newsletters"]
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "scripts/build.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - "wrangler.jsonc"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # An extraction run that fails on one issue still commits the others, so
+    # deploy unless it was cancelled.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'cancelled'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      # Secrets cannot be tested directly in `if:`; expose whether it is set.
+      HAS_CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main   # latest data, including the extraction run's commit
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build Pagefind index and search page
+        run: npm run build
+
+      - name: Skip deploy (Cloudflare secrets not set)
+        if: env.HAS_CF_TOKEN != 'true'
+        run: echo "::warning::CLOUDFLARE_API_TOKEN is not set; site built but not deployed."
+
+      - name: Deploy to Cloudflare Workers
+        if: env.HAS_CF_TOKEN == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.140.0"
+          command: deploy
