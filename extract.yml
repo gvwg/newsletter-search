@@ -1,0 +1,57 @@
+name: Extract newsletters
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Max new issues to process (blank = all)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write   # to commit extracted text back to the repo
+
+concurrency:
+  group: extract
+  cancel-in-progress: false
+
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Tesseract OCR
+        run: sudo apt-get update && sudo apt-get install -y tesseract-ocr
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Harvest catalog from the Newsletters page
+        run: python scripts/harvest.py
+
+      - name: Extract text from new issues
+        env:
+          LIMIT: ${{ inputs.limit }}
+        run: python scripts/extract.py ${LIMIT:+--limit "$LIMIT"}
+
+      # Runs even if extraction partly failed, so completed issues are kept
+      # and never re-OCR'd.
+      - name: Commit extracted text
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Extract newsletters (run ${{ github.run_number }})"
+            git push
+          fi
