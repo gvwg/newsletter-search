@@ -42,6 +42,9 @@ was judged unlikely to help.
   The local environment below is kept as a fallback.
 - Do not escalate further (proxies, browser automation, other header spoofing).
   If the hybrid User-Agent starts getting 403, stop and ask the maintainer.
+  This rule is about getting past CE's download block. It does not cover the
+  `publish-newsletter` skill, where Don, a CE admin, logs in himself and
+  supervises Claude doing admin work in his own browser.
 - Keep downloads throttled (REQUEST_DELAY_SECONDS = 2.0).
 - Never store or link the S3 URLs; they expire within hours. Always use `docs.ashx`.
 
@@ -130,7 +133,27 @@ was judged unlikely to help.
   form. The search page reads `?q=&from=&to=`, keeps the URL in step, and has
   a "Back to gvwg.ca Newsletters" link. Tested 2026-09-25 in a mock
   CE form via headless Edge (real Enter key and click; CE form not posted).
-  Not yet tested: whether CE's editor keeps the `onkeydown`/`onclick` handlers.
+  The banner is live, and the served Newsletters page still contains its
+  `onkeydown`/`onclick` handlers (checked 2026-09-25), so CE's editor keeps
+  them. Enter on the live page not yet tried.
+
+- Publishing help (2026-09-25, not yet used for a real issue). Goal: the
+  editor only uploads the PDF to CE; Don does the rest with Claude Code in
+  Chrome (`claude --chrome`) via the `publish-newsletter` skill
+  (`.claude/skills/`), approving each Publish. `scripts/publish_prep.py --id N`
+  reads the PDF's CONTENTS box (page 2, titles paired with page numbers by
+  position) and the month from the running headers (page 1 carries hidden
+  leftover text from an older issue), and writes the Newsletters page entry,
+  the News article body and a page-1 cover JPG to `out/publish/N/` (ignored by
+  git). `--verify` re-reads the live Newsletters page with harvest.py's parser.
+  Tested on the 12 newest issues: April, June and September 2026 match the
+  typed lists; May 2026 has one fuller title from the PDF; issues before April
+  2026 use older layouts and are rejected with a message. CE facts from Don:
+  the Newsletters page is edited as a new page version, then published; the
+  cover image is uploaded while creating the image link to the PDF; the
+  article's author line does not matter. Cowork was considered (2026-09-25):
+  its sandbox has no internet, and the docs list no Windows support or Pro
+  side panel yet; revisit by moving `publish_prep.py` into a GitHub Action.
 
 - Link-check alerts (2026-09-25): `check.py --github` (in `extract.yml`) calls
   `alerts.py`, which opens one GitHub issue per flagged doc ID (label
@@ -153,8 +176,10 @@ was judged unlikely to help.
 1. Don: check https://search.gvwg.ca on desktop and phone (headless Edge could
    not verify: its fast-forwarded time trips Pagefind's worker timeout). Then
    add a "Search the newsletters" link on the CE Newsletters page.
-2. Don: train and add a second Cloudflare Super Administrator.
-3. Later: trim the deploy token's account permissions; rename the Cloudflare
+2. First supervised `/publish-newsletter` run on the next issue; record the
+   CE admin clicks in the skill's "CE screen notes".
+3. Don: train and add a second Cloudflare Super Administrator.
+4. Later: trim the deploy token's account permissions; rename the Cloudflare
    account; check the gvwg.ca registrant contact.
 
 ## Working with the maintainer (Don)

@@ -5,3 +5,4 @@ dist/
 *.pdf
 !tests/*.pdf
 node_modules/
+out/
