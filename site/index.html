@@ -4,40 +4,69 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Search GVWG newsletters</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800&amp;display=swap">
   <style>
-    /* Colours and font follow gvwg.ca (Open Sans, accent #3a73b2). */
-    body { font-family: "Open Sans", Arial, sans-serif; font-size: 15px; margin: 0; color: #222; }
-    header { background: #3a73b2; color: #fff; padding: 0.6rem 1rem; display: flex;
-             align-items: center; gap: 0.75rem; flex-wrap: wrap; }
-    header img { width: 52px; height: auto; }
-    header .club { font-size: 1.1rem; font-weight: 600; flex: 1 1 auto; }
-    header a { color: #fff; font-size: 0.9rem; white-space: nowrap; }
-    main { padding: 1rem; max-width: 60rem; }
-    h1 { font-size: 1.3rem; margin: 0 0 0.25rem; }
-    .intro { margin: 0 0 1rem; font-size: 0.9rem; color: #555; }
+    /* Look and feel copied from gvwg.ca (ClubExpress theme, September 2026):
+       mountain header with the script title, blue menu box, #4298cc content,
+       forest footer. Images are copies of the club's own graphics. */
+    body { font-family: "Open Sans", Arial, sans-serif; font-size: 15px; margin: 0;
+           color: #000; background: #02385a; }
+    a { color: #0826ba; }
+
+    .top { background: url(/mountain-backdrop.png) center / 100% 100%,
+             linear-gradient(to top, transparent 0%, transparent 50%, hsl(211 53% 40%) 100%);
+           border-bottom: 10px solid #02385a; }
+    .title { padding: 20px 20px 10px; }
+    .title img { max-width: 100%; height: auto; }
+    nav { text-align: center; padding: 10px 1rem 20px; }
+    nav ul { display: inline-flex; flex-wrap: wrap; justify-content: center; list-style: none;
+             margin: 0; padding: 0; background: #4298cc; }
+    nav a { display: block; padding: 8px 10px; color: #fff; text-decoration: none;
+            font: bold 18px Arial, Helvetica, sans-serif; }
+    nav a:hover { text-decoration: underline; }
+
+    main { background: #4298cc; padding: 1rem 10px 2rem; min-height: 55vh; }
+    main > * { max-width: 60rem; }
+    h1 { font-size: 2rem; font-weight: 800; margin: 0 0 0.5rem; }
+    .intro { margin: 0 0 1rem; }
     form { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin-bottom: 1rem; }
-    #q { flex: 1 1 18rem; font: inherit; padding: 0.5rem 0.6rem; border: 1px solid #999; border-radius: 4px; }
+    #q { flex: 1 1 18rem; font: inherit; padding: 0.5rem 0.6rem; border: 1px solid #02385a; border-radius: 4px; }
     select, button { font: inherit; padding: 0.3rem 0.4rem; }
-    #status { color: #555; margin: 0 0 0.75rem; }
-    ol { list-style: none; padding: 0; margin: 0; }
-    li { margin: 0 0 1rem; }
-    li a { font-weight: 600; color: #1a4f8b; }
-    li p { margin: 0.2rem 0 0; }
+    #status { margin: 0 0 0.75rem; font-weight: 600; }
+    #results { list-style: none; padding: 0; margin: 0; }
+    #results li { margin: 0 0 1rem; }
+    #results a { font-weight: 600; }
+    #results p { margin: 0.2rem 0 0; }
     mark { background: #fde68a; padding: 0 1px; }
     #more { margin-top: 0.5rem; }
+
+    footer { margin-top: 10px; color: #fff;
+             background: url(/forest-background.png) center / 100% 100%,
+               linear-gradient(to top, transparent 0%, transparent 30%, #0D1B2A 98%, transparent 100%);
+             display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
+             gap: 1rem; padding: 20px; }
+    footer .credits { flex: 1 1 16rem; text-align: center; line-height: 1.4; }
+    footer a { color: #fff; font-weight: 600; }
   </style>
 </head>
 <body>
-  <header>
-    <img src="/gvwg-logo.png" alt="GVWG logo" width="104" height="97">
-    <span class="club">Greater Vancouver Woodturners Guild</span>
-    <a href="https://gvwg.ca/content.aspx?page_id=22&amp;club_id=182740&amp;module_id=717502">&larr; Back to Newsletters on gvwg.ca</a>
+  <header class="top">
+    <div class="title">
+      <a href="https://gvwg.ca/"><img src="/gvwg-title.png" alt="Greater Vancouver Woodturners Guild" width="525" height="36"></a>
+    </div>
+    <nav aria-label="gvwg.ca">
+      <ul>
+        <li><a href="https://gvwg.ca/">Home</a></li>
+        <li><a href="https://gvwg.ca/content.aspx?page_id=22&amp;club_id=182740&amp;module_id=717502">Newsletters</a></li>
+        <li><a href="https://gvwg.ca/content.aspx?page_id=4&amp;club_id=182740">Contact Us</a></li>
+      </ul>
+    </nav>
   </header>
   <main>
   <h1>Search the newsletter archive</h1>
-  <p class="intro">Every issue since October 1999. Each result opens the newsletter
-    (PDF) in a new tab at the matching page. If a newsletter opens on the wrong
-    page, go to the page number shown in the result.</p>
+  <p class="intro">Each result opens the newsletter (PDF) in a new tab at the
+    matching page. If a newsletter opens on the wrong page, go to the page number
+    shown in the result.</p>
 
   <form id="form" role="search" onsubmit="return false">
     <input id="q" type="search" autocomplete="off" aria-label="Search newsletters"
@@ -49,6 +78,16 @@
   <ol id="results"></ol>
   <button id="more" type="button" hidden>More results</button>
   </main>
+
+  <footer>
+    <a href="https://gvwg.ca/"><img src="/gvwg-logo.png" alt="GVWG home" width="104" height="97"></a>
+    <div class="credits">
+      Chapter 130 of American Association of Woodturners<br>
+      &copy; Greater Vancouver Woodturners Guild<br>
+      A British Columbia Registered Society
+    </div>
+    <a href="https://gvwg.ca/content.aspx?page_id=4&amp;club_id=182740">Contact Us</a>
+  </footer>
 
   <script type="module">
     // Uses the Pagefind JS API directly (not the default UI) so that a year
