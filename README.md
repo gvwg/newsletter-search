@@ -12,7 +12,13 @@ Full-text search of the Greater Vancouver Woodturners Guild newsletter archive
    page with PyMuPDF, OCRs pages that have no text layer (Tesseract), and writes
    `data/issues/<docid>.json`. These files are committed, so each issue is only
    ever processed once and the repo holds a plain-text archive of the newsletters.
-3. (Next stage) A Pagefind index is built from `data/issues/` and deployed to
+3. `scripts/check.py` compares each link's title and listed contents with the
+   text of the PDF it points to, and reports likely wrong links (duplicate PDF,
+   contents that match poorly or match another issue better, a different year,
+   or a page-1 header dated to a different month). Findings appear as warnings
+   on the Actions run; fix the link in CE and the next run picks it up.
+   Misprints confirmed by hand go in `KNOWN_OK` in `check.py`.
+4. (Next stage) A Pagefind index is built from `data/issues/` and deployed to
    Cloudflare at search.gvwg.ca, which is iframed into a CE custom page.
 
 ## Running
@@ -27,6 +33,7 @@ Locally:
     cd scripts
     python harvest.py
     python extract.py --limit 5
+    python check.py
 
 If a link on the Newsletters page is corrected, the next run picks it up: issue
 files whose title or date changed are relabelled (no re-download), newly linked

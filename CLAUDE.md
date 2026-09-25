@@ -65,6 +65,13 @@ was judged unlikely to help.
 - `extract.py` syncs existing issue files with the catalog each run (relabels
   moved IDs, prunes unlinked IDs, max 10). Needed after Don corrected three
   2014 links that were off by one doc ID.
+- `check.py` (runs after extraction, warnings only) flags likely wrong links:
+  duplicate text, IDF-weighted match of the CE page's contents list, year on
+  pages 1-2, month in the page-1 header. Tested 2026-09-25: no false positives
+  on the archive beyond 3 hand-checked header misprints in `KNOWN_OK`; catches
+  100/100 random wrong links and 217/237 simulated off-by-one links (misses are
+  issues with no dated header and generic contents). Open finding: May 2022
+  (1517877) links to a copy of the April 2021 PDF; Don to fix in CE.
 
 ## Next steps
 1. Build stage: Pagefind index + search page + Cloudflare deploy workflow.

@@ -67,3 +67,9 @@ jobs:
             git commit -m "Extract newsletters (run ${{ github.run_number }})"
             git push
           fi
+
+      # Reports likely wrong links on the Newsletters page as warnings on the
+      # run summary. Does not fail the run; see scripts/check.py.
+      - name: Check newsletter links
+        if: always()
+        run: python scripts/check.py

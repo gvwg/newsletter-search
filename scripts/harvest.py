@@ -1,7 +1,8 @@
 """Build data/catalog.json from the ClubExpress Newsletters page.
 
 The Newsletters page is the source of truth: every link to docs.ashx?id=N
-is treated as one issue. Nothing else needs to be maintained by hand.
+is treated as one issue, with the article list shown beside it kept as
+"contents" (used by check.py). Nothing else needs to be maintained by hand.
 
 Usage:
     python scripts/harvest.py            # fetch the live page
@@ -49,6 +50,25 @@ def extract_doc_id(href: str):
     return ids[0] if ids and ids[0].isdigit() else None
 
 
+def contents_for(a):
+    """The bullet list of articles shown beside an issue's link, or [].
+
+    Walks up from the link to the smallest enclosing element that holds a
+    list, stopping if that element also holds another issue's link. Works
+    for both layouts on the page (newer div rows, older table rows)."""
+    node = a
+    while node.parent is not None:
+        node = node.parent
+        ids = {extract_doc_id(x["href"]) for x in node.find_all("a", href=True)
+               if "docs.ashx" in x["href"].lower()}
+        if len(ids) > 1:
+            return []
+        ul = node.find("ul")
+        if ul:
+            return [" ".join(li.get_text(" ", strip=True).split()) for li in ul.find_all("li")]
+    return []
+
+
 def parse_listing(html: str):
     soup = BeautifulSoup(html, "html.parser")
     issues, seen = [], set()
@@ -73,6 +93,7 @@ def parse_listing(html: str):
             "year": year,
             "month": month,
             "url": DOC_URL.format(id=doc_id),
+            "contents": contents_for(a),
         })
     return issues
 
