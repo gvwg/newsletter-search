@@ -124,6 +124,13 @@ was judged unlikely to help.
   phones). The search page carries a GVWG header (logo copied into `site/`,
   colours/font from gvwg.ca) and a link back to the Newsletters page. The
   `frame-ancestors` header stays, so an iframe on gvwg.ca remains possible.
+- Search banner for the CE Newsletters page: `ce/search-banner.html` (paste
+  into a CE HTML widget). CE wraps every page in one ASP.NET `<form>`, so the
+  banner uses inline handlers to go to `search.gvwg.ca/?q=...`, not a nested
+  form. The search page reads `?q=&from=&to=`, keeps the URL in step, and has
+  a "Back to gvwg.ca Newsletters" link. Tested 2026-09-25 in a mock
+  CE form via headless Edge (real Enter key and click; CE form not posted).
+  Not yet tested: whether CE's editor keeps the `onkeydown`/`onclick` handlers.
 
 - Link-check alerts (2026-09-25): `check.py --github` (in `extract.yml`) calls
   `alerts.py`, which opens one GitHub issue per flagged doc ID (label

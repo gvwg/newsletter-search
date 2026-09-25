@@ -14,6 +14,8 @@ import * as pagefind from "pagefind";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist");
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July",
+  "August", "September", "October", "November", "December"];
 
 const catalog = JSON.parse(await readFile(path.join(ROOT, "data", "catalog.json"), "utf8"));
 
@@ -37,13 +39,16 @@ for (const issue of catalog) {
   issues++;
   // Sort key: YYYY-MM, so newer issues can be listed first.
   const date = `${issue.year}-${String(issue.month ?? 1).padStart(2, "0")}`;
+  // Short heading for result cards ("October 2013"); CE titles vary in wording.
+  const label = issue.month ? `${MONTHS[issue.month - 1]} ${issue.year}` : issue.title;
   for (const page of data.pages) {
     if (!page.text.trim()) continue;
     const res = await index.addCustomRecord({
       url: `${issue.url}#page=${page.n}`,
       content: page.text,
       language: "en",
-      meta: { title: `${issue.title}, page ${page.n}` },
+      meta: { title: `${issue.title}, page ${page.n}`, issue: label,
+              page: String(page.n), pages: String(data.pages.length) },
       filters: { year: [String(issue.year)] },
       sort: { date },
     });

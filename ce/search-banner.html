@@ -1,0 +1,42 @@
+<!-- GVWG newsletter search banner for the ClubExpress Newsletters page
+     (HTML widget between the header image and the newsletter list).
+     Paste in the widget's HTML/source view.
+
+     CE wraps the whole page in one ASP.NET <form>, so this cannot use its own
+     <form> (browsers ignore nested forms and would post back to CE). Instead,
+     small inline handlers send the reader to https://search.gvwg.ca/?q=...
+     If CE ever strips the handlers, the Search button still opens the search
+     page (it is a plain link), but Enter in the box would post the CE page.
+     Styles are inline because CE's editor may drop <style> blocks.
+     Colours match gvwg.ca and the search page (site/index.html). -->
+<div role="search" style="margin: 12px 0 18px 0; clear: both; background: #02385a; border-radius: 6px;
+     padding: 14px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+     font-family: 'Open Sans', Arial, Helvetica, sans-serif;">
+  <label for="gvwg-search-q" style="display: block; color: #ffffff; font-size: 20px; font-weight: 800; line-height: 1.2;">
+    Search the Newsletters
+  </label>
+  <div style="color: #cfe6f5; font-size: 14px; line-height: 1.4; margin: 4px 0 10px 0;">
+    Full-text search of every issue since October 1999: turners, techniques, demos, and more.
+  </div>
+  <div style="display: flex; align-items: center; background: #ffffff; border: 2px solid #4298cc;
+       border-radius: 4px; overflow: hidden; max-width: 560px;">
+    <span aria-hidden="true" style="position: relative; display: inline-block; width: 18px; height: 18px;
+          margin: 0 10px 0 12px; flex: 0 0 auto;">
+      <span style="position: absolute; top: 0; left: 0; width: 10px; height: 10px;
+            border: 3px solid #02385a; border-radius: 50%;"></span>
+      <span style="position: absolute; top: 13px; left: 11px; width: 8px; height: 3px;
+            background: #02385a; border-radius: 2px; transform: rotate(45deg);"></span>
+    </span>
+    <input id="gvwg-search-q" type="search" autocomplete="off" enterkeyhint="search"
+           placeholder="e.g. hollowing, Stuart Batty, pepper mill"
+           onkeydown="if (event.key === 'Enter') { event.preventDefault(); var q = this.value.trim(); window.location.href = 'https://search.gvwg.ca/' + (q ? '?q=' + encodeURIComponent(q) : ''); }"
+           style="flex: 1 1 auto; min-width: 0; border: 0; outline: 0; background: transparent; color: #000000;
+                  font-family: 'Open Sans', Arial, Helvetica, sans-serif; font-size: 15px; padding: 9px 0; margin: 0;">
+    <a href="https://search.gvwg.ca/"
+       onclick="var q = document.getElementById('gvwg-search-q').value.trim(); if (q) { this.href = 'https://search.gvwg.ca/?q=' + encodeURIComponent(q); }"
+       style="flex: 0 0 auto; align-self: stretch; display: flex; align-items: center; background: #4298cc;
+              color: #ffffff; font-size: 15px; font-weight: 700; padding: 9px 18px; text-decoration: none;">
+      Search &rsaquo;
+    </a>
+  </div>
+</div>
