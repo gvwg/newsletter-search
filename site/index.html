@@ -5,7 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Search GVWG newsletters</title>
   <style>
-    body { font-family: "Open Sans", Arial, sans-serif; font-size: 15px; margin: 0; padding: 1rem; color: #222; }
+    /* Colours and font follow gvwg.ca (Open Sans, accent #3a73b2). */
+    body { font-family: "Open Sans", Arial, sans-serif; font-size: 15px; margin: 0; color: #222; }
+    header { background: #3a73b2; color: #fff; padding: 0.6rem 1rem; display: flex;
+             align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+    header img { width: 52px; height: auto; }
+    header .club { font-size: 1.1rem; font-weight: 600; flex: 1 1 auto; }
+    header a { color: #fff; font-size: 0.9rem; white-space: nowrap; }
+    main { padding: 1rem; max-width: 60rem; }
     h1 { font-size: 1.3rem; margin: 0 0 0.25rem; }
     .intro { margin: 0 0 1rem; font-size: 0.9rem; color: #555; }
     form { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin-bottom: 1rem; }
@@ -21,7 +28,13 @@
   </style>
 </head>
 <body>
-  <h1>Search the GVWG newsletter archive</h1>
+  <header>
+    <img src="/gvwg-logo.png" alt="GVWG logo" width="104" height="97">
+    <span class="club">Greater Vancouver Woodturners Guild</span>
+    <a href="https://gvwg.ca/content.aspx?page_id=22&amp;club_id=182740&amp;module_id=717502">&larr; Back to Newsletters on gvwg.ca</a>
+  </header>
+  <main>
+  <h1>Search the newsletter archive</h1>
   <p class="intro">Every issue since October 1999. Each result opens the newsletter
     (PDF) in a new tab at the matching page. If a newsletter opens on the wrong
     page, go to the page number shown in the result.</p>
@@ -35,6 +48,7 @@
   <p id="status" aria-live="polite"></p>
   <ol id="results"></ol>
   <button id="more" type="button" hidden>More results</button>
+  </main>
 
   <script type="module">
     // Uses the Pagefind JS API directly (not the default UI) so that a year
