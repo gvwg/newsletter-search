@@ -1,0 +1,16 @@
+{
+  "name": "gvwg-newsletter-search",
+  "private": true,
+  "type": "module",
+  "description": "Builds the GVWG newsletter search site (Pagefind index + search page) into dist/",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "pagefind": "1.5.2"
+  }
+}

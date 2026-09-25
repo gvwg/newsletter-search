@@ -18,8 +18,14 @@ Full-text search of the Greater Vancouver Woodturners Guild newsletter archive
    or a page-1 header dated to a different month). Findings appear as warnings
    on the Actions run; fix the link in CE and the next run picks it up.
    Misprints confirmed by hand go in `KNOWN_OK` in `check.py`.
-4. (Next stage) A Pagefind index is built from `data/issues/` and deployed to
-   Cloudflare at search.gvwg.ca, which is iframed into a CE custom page.
+4. `scripts/build.mjs` builds the search site into `dist/`: a Pagefind index
+   with one record per newsletter page (linking to the PDF at that page, with a
+   year filter) plus the search page from `site/`. (Next stage: deploy `dist/`
+   to Cloudflare at search.gvwg.ca, iframed into a CE custom page.)
+
+Some PDFs open at the wrong page in Edge and Chrome despite the `#page=N` link
+(a browser PDF viewer quirk with certain files, not fixable here); the search
+page tells readers to use the page number shown in the result.
 
 ## Running
 
@@ -39,6 +45,16 @@ If a link on the Newsletters page is corrected, the next run picks it up: issue
 files whose title or date changed are relabelled (no re-download), newly linked
 documents are extracted, and files for documents no longer linked are removed
 (at most 10 per run; more than that stops the run as a likely harvest problem).
+
+Search site (Node 20 or later):
+
+    npm install
+    npm run build        # writes dist/
+    npm run serve        # preview at http://localhost:8765
+
+Use `npm run serve` rather than `python -m http.server`: on some Windows PCs
+Python serves .js files as text/plain, and the browser then refuses to run
+Pagefind, so searches never return.
 
 Useful options: `extract.py --force <docid>` re-extracts one issue (e.g. after a
 corrected PDF is uploaded to CE); `--all` rebuilds everything.

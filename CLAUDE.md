@@ -72,15 +72,34 @@ was judged unlikely to help.
   100/100 random wrong links and 217/237 simulated off-by-one links (misses are
   issues with no dated header and generic contents). Open finding: May 2022
   (1517877) links to a copy of the April 2021 PDF; Don to fix in CE.
+- Search site built and tested locally (2026-09-25): `npm run build` indexes
+  4,476 pages into `dist/` (about 4,600 files, 19 MB, none over 1 MB);
+  `npm run serve` previews it at http://localhost:8765. `site/index.html` is a
+  custom page on the Pagefind JS API (not the default UI), because the default
+  UI ANDs selected filter values and each page has one year; the page sends a
+  From/To year range as `{ year: { any: [...] } }` (Don's choice). Pagefind
+  excerpts are not HTML-escaped, so the page rebuilds them keeping only text
+  and `<mark>`.
+- Letter-spaced headers ("T H E C I R C U L A R") left as is: collapsing them
+  would make every recent page match "circular".
+- Known viewer quirk: Edge and Chrome ignore `#page=N` for some PDFs (e.g.
+  February 2023, 1517884: always lands partway down page 2). Tested with local
+  variants: caused by the combination of pages 1 and 2 of that file; not page
+  labels, tags, linearization, links, CE/S3 or new-tab. Not fixable on our side
+  (the PDFs are CE's); the search page tells readers to use the page number shown.
+- Local Node is 24 LTS (installed over an old Node 10 in
+  `C:\Program Files (x86)\nodejs`). Python's http.server on this PC serves .js
+  as text/plain (registry), which breaks Pagefind; use `npm run serve`.
 
 ## Next steps
-1. Build stage: Pagefind index + search page + Cloudflare deploy workflow.
-   Note: commits pushed with the default `GITHUB_TOKEN` do not trigger `push`
-   workflows (documented GitHub behaviour), so chain the build from extraction
-   (`workflow_run`, or a job in the same workflow) rather than relying on a push
-   trigger for `data/`. Headers/titles are letter-spaced in newer issues
-   ("T H E C I R C U L A R"); decide whether to collapse these in `clean_text`.
-2. Consider a monthly schedule for `extract.yml`.
+1. Cloudflare (Don): confirm the account holding gvwg.ca DNS is GVWG-owned;
+   create a Workers API token; add token and account ID as GitHub secrets.
+2. Deploy workflow: build + wrangler deploy to Workers static assets, custom
+   domain `search.gvwg.ca`. Commits pushed with the default `GITHUB_TOKEN` do
+   not trigger `push` workflows (documented GitHub behaviour), so run the build
+   from the extraction workflow (`workflow_run` or a job in it). Add a daily
+   schedule to `extract.yml`. After deploy, verify content types and
+   `_headers` on the live site.
 3. CE custom page with iframe; link from the Newsletters page.
 
 ## Working with the maintainer (Don)

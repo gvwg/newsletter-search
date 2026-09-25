@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search GVWG newsletters</title>
+  <style>
+    body { font-family: "Open Sans", Arial, sans-serif; font-size: 15px; margin: 0; padding: 1rem; color: #222; }
+    h1 { font-size: 1.3rem; margin: 0 0 0.25rem; }
+    .intro { margin: 0 0 1rem; font-size: 0.9rem; color: #555; }
+    form { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin-bottom: 1rem; }
+    #q { flex: 1 1 18rem; font: inherit; padding: 0.5rem 0.6rem; border: 1px solid #999; border-radius: 4px; }
+    select, button { font: inherit; padding: 0.3rem 0.4rem; }
+    #status { color: #555; margin: 0 0 0.75rem; }
+    ol { list-style: none; padding: 0; margin: 0; }
+    li { margin: 0 0 1rem; }
+    li a { font-weight: 600; color: #1a4f8b; }
+    li p { margin: 0.2rem 0 0; }
+    mark { background: #fde68a; padding: 0 1px; }
+    #more { margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>Search the GVWG newsletter archive</h1>
+  <p class="intro">Every issue since October 1999. Each result opens the newsletter
+    (PDF) in a new tab at the matching page. If a newsletter opens on the wrong
+    page, go to the page number shown in the result.</p>
+
+  <form id="form" role="search" onsubmit="return false">
+    <input id="q" type="search" autocomplete="off" aria-label="Search newsletters"
+           placeholder="e.g. hollowing, Stuart Batty, pepper mill">
+    <label>Years <select id="from" aria-label="From year"></select></label>
+    <label>to <select id="to" aria-label="To year"></select></label>
+  </form>
+  <p id="status" aria-live="polite"></p>
+  <ol id="results"></ol>
+  <button id="more" type="button" hidden>More results</button>
+
+  <script type="module">
+    // Uses the Pagefind JS API directly (not the default UI) so that a year
+    // range is sent as an "any of these years" filter.
+    const PAGE_SIZE = 10;
+    const $ = (id) => document.getElementById(id);
+    const pagefind = await import("/pagefind/pagefind.js");
+    await pagefind.options({ excerptLength: 30 });
+
+    // Year choices come from the index, so new years appear automatically.
+    const years = Object.keys((await pagefind.filters()).year ?? {}).sort();
+    for (const sel of [$("from"), $("to")]) {
+      for (const y of years) sel.add(new Option(y, y));
+    }
+    $("from").value = years[0];
+    $("to").value = years[years.length - 1];
+
+    let results = [], shown = 0;
+
+    // Rebuild Pagefind's excerpt keeping only text and <mark> highlights.
+    function excerptNode(html) {
+      const p = document.createElement("p");
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      for (const node of doc.body.childNodes) {
+        if (node.nodeName === "MARK") {
+          const m = document.createElement("mark");
+          m.textContent = node.textContent;
+          p.append(m);
+        } else {
+          p.append(node.textContent);
+        }
+      }
+      return p;
+    }
+
+    async function showMore() {
+      const batch = await Promise.all(results.slice(shown, shown + PAGE_SIZE).map((r) => r.data()));
+      for (const d of batch) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = d.url;
+        a.target = "_blank";   // the page is iframed on gvwg.ca; keep it in place
+        a.rel = "noopener";
+        a.textContent = d.meta.title;
+        li.append(a, excerptNode(d.excerpt));
+        $("results").append(li);
+      }
+      shown += batch.length;
+      $("more").hidden = shown >= results.length;
+    }
+
+    async function search() {
+      const term = $("q").value.trim();
+      let from = $("from").value, to = $("to").value;
+      if (from > to) [from, to] = [to, from];
+      if (!term) {
+        results = []; shown = 0;
+        $("results").replaceChildren(); $("status").textContent = ""; $("more").hidden = true;
+        return;
+      }
+      const range = years.filter((y) => y >= from && y <= to);
+      const filters = range.length === years.length ? {} : { year: { any: range } };
+      $("status").textContent = "Searching…";
+      const res = await pagefind.debouncedSearch(term, { filters }, 300);
+      if (res === null) return;   // superseded by a newer keystroke
+      results = res.results; shown = 0;
+      $("results").replaceChildren();
+      const where = range.length === years.length ? "" : from === to ? ` in ${from}` : ` in ${from} to ${to}`;
+      $("status").textContent = results.length
+        ? `${results.length} page${results.length === 1 ? "" : "s"} found${where}`
+        : `No pages found${where}.`;
+      await showMore();
+    }
+
+    $("q").addEventListener("input", search);
+    $("from").addEventListener("change", search);
+    $("to").addEventListener("change", search);
+    $("more").addEventListener("click", showMore);
+    $("q").focus();
+  </script>
+</body>
+</html>

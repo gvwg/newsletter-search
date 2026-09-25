@@ -4,3 +4,4 @@ __pycache__/
 dist/
 *.pdf
 !tests/*.pdf
+node_modules/
