@@ -35,8 +35,8 @@ corrected PDF is uploaded to CE); `--all` rebuilds everything.
 
 CE's load balancer returns HTTP 403 on document downloads unless the User-Agent
 looks like a browser. `common.py` therefore sends a Chrome-style User-Agent with
-our own identifier appended (a maintainer decision; see CLAUDE.md). Extraction
-currently runs locally and `data/` is committed. If the scripts stop with an HTTP
+our own identifier appended (a maintainer decision; see CLAUDE.md). This works
+from GitHub runners as well as locally. If the scripts stop with an HTTP
 403/429 message, CE has tightened its rules: stop and consult the maintainer
 rather than working around it further.
 

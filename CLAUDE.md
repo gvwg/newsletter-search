@@ -36,16 +36,16 @@ Newsletters page accepts any client. Tested 2026-09-25 from the maintainer's hom
 Decision (maintainer, 2026-09-25): send that hybrid User-Agent (see `common.py`)
 for the club's own public documents, keeping our identifier on the end. CE support
 was judged unlikely to help.
-- Not tested: whether GitHub runners also pass with the hybrid User-Agent (their
-  403 may have been the same User-Agent rule, an IP rule, or both). Until tested,
-  extraction runs locally on the maintainer's Windows 11 machine and `data/` is
-  committed and pushed. GitHub Actions is used for build and deploy only.
+- GitHub runners also pass with the hybrid User-Agent (run 3, 2026-09-25), so the
+  earlier runner 403 was the User-Agent rule, not an IP rule. Extraction runs in
+  GitHub Actions (`extract.yml`, manual dispatch), which commits `data/` itself.
+  The local environment below is kept as a fallback.
 - Do not escalate further (proxies, browser automation, other header spoofing).
   If the hybrid User-Agent starts getting 403, stop and ask the maintainer.
 - Keep downloads throttled (REQUEST_DELAY_SECONDS = 2.0).
 - Never store or link the S3 URLs; they expire within hours. Always use `docs.ashx`.
 
-## Local environment (Windows 11)
+## Local environment (Windows 11, fallback)
 - Git for Windows, Python 3.12, Tesseract (UB Mannheim build), VS Code.
 - `TESSDATA_PREFIX=C:\Program Files\Tesseract-OCR\tessdata` (PyMuPDF needs the
   language data; OCR silently yields 0 OCR pages if this is wrong).
@@ -57,16 +57,21 @@ was judged unlikely to help.
 
 ## Status
 - Repo created under the GVWG GitHub organization; harvest works (248 issues).
-- Extraction not yet run successfully (blocked on runners; local run is next).
-- `.github/workflows/extract.yml` is the old runner-based extraction; retire or
-  keep for manual retries once the local flow is confirmed.
+- Extraction works locally and on runners; 6 recent issues done (no OCR needed).
+- `extract.yml` runs an OCR self-test (`tests/sample.pdf`) before extracting;
+  it passes on ubuntu-24.04 with apt Tesseract and no `TESSDATA_PREFIX`.
+- OCR on real scanned (older) issues not yet verified.
 
 ## Next steps
-1. Local trial: `harvest.py`, then `extract.py --limit 5`. Report issues, pages,
-   OCR pages and MB of text.
-2. Full local extraction, commit and push `data/`.
-3. Build stage: Pagefind index + search page + Cloudflare deploy workflow
-   triggered on push to `data/`.
+1. Full extraction via Actions (limit blank); check OCR page counts and text
+   quality on older issues.
+2. Build stage: Pagefind index + search page + Cloudflare deploy workflow.
+   Note: commits pushed with the default `GITHUB_TOKEN` do not trigger `push`
+   workflows (documented GitHub behaviour), so chain the build from extraction
+   (`workflow_run`, or a job in the same workflow) rather than relying on a push
+   trigger for `data/`. Headers/titles are letter-spaced in newer issues
+   ("T H E C I R C U L A R"); decide whether to collapse these in `clean_text`.
+3. Consider a monthly schedule for `extract.yml`.
 4. CE custom page with iframe; link from the Newsletters page.
 
 ## Working with the maintainer (Don)
