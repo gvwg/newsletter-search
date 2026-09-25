@@ -22,8 +22,10 @@ from datetime import datetime, timezone
 
 import pymupdf
 
-from common import (CATALOG_PATH, ISSUES_DIR, REQUEST_DELAY_SECONDS,
+from common import (CATALOG_PATH, ISSUES_DIR, LISTING_URL, REQUEST_DELAY_SECONDS,
                     BlockedError, http_get, new_session)
+
+MAX_CONSECUTIVE_NON_PDF = 3   # this many HTML responses in a row => treat as blocked
 
 OCR_THRESHOLD_CHARS = 40   # fewer real characters than this on a page => OCR it
 OCR_DPI = 300
@@ -103,14 +105,32 @@ def main():
         todo = todo[: args.limit]
     print(f"{len(catalog)} issues in catalog, {len(todo)} to process")
 
+    # Visit the Newsletters page first, as a browser would, so any session
+    # cookies ClubExpress sets are sent with the document requests, and send
+    # it as the Referer.
     session = new_session()
+    try:
+        http_get(LISTING_URL, session)
+        session.headers["Referer"] = LISTING_URL
+    except Exception as exc:
+        print(f"Warning: could not load listing page first: {exc}", file=sys.stderr)
+
+    consecutive_non_pdf = 0
     totals = {"issues": 0, "pages": 0, "ocr_pages": 0, "failed": 0}
     for n, meta in enumerate(todo, 1):
         print(f"[{n}/{len(todo)}] {meta['title']} (id {meta['id']})")
         try:
             resp = http_get(meta["url"], session)
             if not resp.content.startswith(b"%PDF"):
-                raise ValueError(f"not a PDF (Content-Type {resp.headers.get('Content-Type')})")
+                consecutive_non_pdf += 1
+                snippet = " ".join(resp.content[:300].decode("utf-8", "replace").split())
+                msg = (f"not a PDF: HTTP {resp.status_code}, "
+                       f"Content-Type {resp.headers.get('Content-Type')}, "
+                       f"final URL {resp.url}, starts: {snippet!r}")
+                if consecutive_non_pdf >= MAX_CONSECUTIVE_NON_PDF:
+                    raise BlockedError(f"{MAX_CONSECUTIVE_NON_PDF} non-PDF responses in a row. Last: {msg}")
+                raise ValueError(msg)
+            consecutive_non_pdf = 0
             pages, stats = extract_pdf(resp.content)
             write_issue(meta, pages)
             totals["issues"] += 1

@@ -62,6 +62,11 @@ def parse_listing(html: str):
         seen.add(doc_id)
         title = " ".join(a.get_text(" ", strip=True).split())
         year, month = parse_date(title)
+        if year is None:
+            # Every newsletter title carries a year. Links without one are
+            # other documents, e.g. site-menu items such as "Gallery Tags".
+            print(f"Skipping non-newsletter link '{title}' (id {doc_id})", file=sys.stderr)
+            continue
         issues.append({
             "id": doc_id,
             "title": title,
@@ -82,8 +87,6 @@ def sanity_warnings(issues):
     for i in issues:
         if len(i["id"]) != common_len:
             warnings.append(f"Unusual doc ID {i['id']} for '{i['title']}' (possible broken link)")
-        if i["year"] is None:
-            warnings.append(f"No year found in title '{i['title']}' (id {i['id']})")
     return warnings
 
 

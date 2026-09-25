@@ -38,9 +38,10 @@ def http_get(url: str, session: requests.Session) -> requests.Response:
             time.sleep(5 * attempt)
             continue
         if resp.status_code in (403, 429):
+            snippet = " ".join(resp.text[:300].split())
             raise BlockedError(
                 f"{url} returned HTTP {resp.status_code}. The site may be blocking "
-                "automated requests; run the pipeline locally instead."
+                f"automated requests; run the pipeline locally instead. Body starts: {snippet!r}"
             )
         if resp.status_code >= 500:
             last_exc = RuntimeError(f"HTTP {resp.status_code} for {url}")
