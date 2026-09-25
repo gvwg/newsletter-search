@@ -125,6 +125,23 @@ was judged unlikely to help.
   colours/font from gvwg.ca) and a link back to the Newsletters page. The
   `frame-ancestors` header stays, so an iframe on gvwg.ca remains possible.
 
+- Link-check alerts (2026-09-25): `check.py --github` (in `extract.yml`) calls
+  `alerts.py`, which opens one GitHub issue per flagged doc ID (label
+  `link-check`, hidden marker `<!-- link-check-id: N -->`). Never repeats: any
+  existing issue for the ID, open or closed, suppresses a new one. Closes open
+  issues whose ID is no longer flagged (skipped if under 90% of the catalog was
+  checked). Duplicate twins fold into the partner's issue. Tested with a fake
+  gh for all rules; `--dry-run` previews.
+- Pricing checked 2026-09-25 against vendor docs: GitHub Actions is free for
+  public repos on standard runners (private: 2,000 min/month on the org Free
+  plan). Cloudflare Workers static-asset requests are "free and unlimited" with
+  no storage charge; limits 20,000 files and 25 MiB per file (we use about
+  4,600 files, none over 1 MB). A Workers Custom Domain generates an "Advanced
+  Certificate"; Cloudflare's docs do not state its price. Evidence suggests no
+  charge, but confirm in Cloudflare Billing (no subscriptions, $0).
+- GitHub org `gvwg` has one member and owner (flyfisher604): same single-person
+  risk as Cloudflare; add the second officer as an org owner too.
+
 ## Next steps
 1. Don: check https://search.gvwg.ca on desktop and phone (headless Edge could
    not verify: its fast-forwarded time trips Pagefind's worker timeout). Then

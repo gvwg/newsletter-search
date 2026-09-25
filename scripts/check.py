@@ -15,13 +15,15 @@ so names and specific topics count and words like "president" barely do.
 Month mismatches are only checked in the page-1 header: body text routinely
 mentions the previous or next month's meeting.
 
-Findings are warnings for a human; the data is still published. Confirmed
-false positives (e.g. misprinted headers) go in KNOWN_OK. Exit status is 0
-unless --strict is given.
+Findings are warnings for a human; the data is still published. With
+--github each flagged link is also recorded as a GitHub issue, once (see
+alerts.py). Confirmed false positives (e.g. misprinted headers) go in
+KNOWN_OK. Exit status is 0 unless --strict is given.
 
 Usage:
-    python scripts/check.py            # report
-    python scripts/check.py --strict   # exit 1 if anything is reported
+    python scripts/check.py                      # report
+    python scripts/check.py --github --dry-run   # preview GitHub issue changes
+    python scripts/check.py --strict             # exit 1 if anything is reported
 """
 
 import argparse
@@ -123,6 +125,10 @@ def check(catalog: list, issues: dict) -> list:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--strict", action="store_true", help="exit 1 if anything is reported")
+    ap.add_argument("--github", action="store_true",
+                    help="record findings as GitHub issues, once each (see alerts.py)")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="with --github: show what would be opened or closed, change nothing")
     args = ap.parse_args()
 
     catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
@@ -136,6 +142,10 @@ def main():
     flagged = len({f[0] for f in findings})
     print(f"Checked {len(catalog)} catalog entries: {flagged} flagged, "
           f"{len(KNOWN_OK)} known exceptions in KNOWN_OK")
+    if args.github:
+        import alerts
+        checked = sum(1 for c in catalog if c["id"] in issues)
+        alerts.sync(findings, catalog, checked, dry_run=args.dry_run)
     if args.strict and findings:
         raise SystemExit(1)
 

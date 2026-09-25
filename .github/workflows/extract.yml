@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: write   # to commit extracted text back to the repo
+  issues: write     # link check records findings as GitHub issues
 
 env:
   PYTHONUNBUFFERED: "1"   # show per-issue progress live in the Actions log
@@ -75,7 +76,11 @@ jobs:
           fi
 
       # Reports likely wrong links on the Newsletters page as warnings on the
-      # run summary. Does not fail the run; see scripts/check.py.
+      # run summary and as GitHub issues (label link-check), one per link,
+      # never repeated; closes them once fixed. Does not fail the run; see
+      # scripts/check.py and scripts/alerts.py.
       - name: Check newsletter links
         if: always()
-        run: python scripts/check.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/check.py --github

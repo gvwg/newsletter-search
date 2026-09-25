@@ -16,8 +16,11 @@ Full-text search of the Greater Vancouver Woodturners Guild newsletter archive
    text of the PDF it points to, and reports likely wrong links (duplicate PDF,
    contents that match poorly or match another issue better, a different year,
    or a page-1 header dated to a different month). Findings appear as warnings
-   on the Actions run; fix the link in CE and the next run picks it up.
-   Misprints confirmed by hand go in `KNOWN_OK` in `check.py`.
+   on the Actions run and as a GitHub issue labelled `link-check`, one per
+   link and never repeated (`scripts/alerts.py`); repo watchers get an email.
+   Fix the link in CE and the next run picks it up and closes the issue.
+   Misprints confirmed by hand go in `KNOWN_OK` in `check.py`; closing an
+   issue by hand is also final.
 4. `scripts/build.mjs` builds the search site into `dist/`: a Pagefind index
    with one record per newsletter page (linking to the PDF at that page, with a
    year filter) plus the search page from `site/`. (Next stage: deploy `dist/`
