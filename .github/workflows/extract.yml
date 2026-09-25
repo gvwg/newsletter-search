@@ -33,6 +33,15 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
+      # Fail fast if OCR is not working (a wrong tessdata path silently yields
+      # 0 OCR pages). sample.pdf has one text page and one scanned page.
+      - name: OCR self-test
+        run: |
+          out=$(python scripts/extract.py --pdf tests/sample.pdf --id 999)
+          rm -f data/issues/999.json
+          echo "$out"
+          echo "$out" | grep -q "'ocr_pages': 1" || { echo "OCR self-test failed"; exit 1; }
+
       - name: Harvest catalog from the Newsletters page
         run: python scripts/harvest.py
 

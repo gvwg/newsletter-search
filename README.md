@@ -33,8 +33,12 @@ corrected PDF is uploaded to CE); `--all` rebuilds everything.
 
 ## If ClubExpress blocks the GitHub runner
 
-CE has bot protection. If the workflow stops with an HTTP 403/429 message, run
-the two scripts locally and commit `data/`. Do not disguise the client.
+CE's load balancer returns HTTP 403 on document downloads unless the User-Agent
+looks like a browser. `common.py` therefore sends a Chrome-style User-Agent with
+our own identifier appended (a maintainer decision; see CLAUDE.md). Extraction
+currently runs locally and `data/` is committed. If the scripts stop with an HTTP
+403/429 message, CE has tightened its rules: stop and consult the maintainer
+rather than working around it further.
 
 ## Tests
 

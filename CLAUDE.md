@@ -26,15 +26,24 @@ https://gvwg.ca/content.aspx?page_id=22&club_id=182740&module_id=717502
    links from other websites).
 
 ## Key constraint discovered
-CE returns HTTP 403 (bare AWS-style "403 Forbidden" page) for `docs.ashx` requests
-from GitHub Actions runners, while the Newsletters page itself loads fine. Inference:
-a firewall rule blocks datacenter IPs or non-browser clients on the document endpoint.
-Therefore extraction runs locally on the maintainer's Windows 11 machine, and `data/`
-is committed and pushed. GitHub Actions is used for build and deploy only.
-- Do not use proxies or other means to evade CE's controls.
-- If local requests also get 403, stop and ask the maintainer. Whether to send a
-  browser User-Agent for the club's own public documents is his decision, not ours.
+CE's AWS load balancer (`Server: awselb/2.0`) returns HTTP 403 (bare "403 Forbidden"
+page) for `docs.ashx` requests whose User-Agent does not look like a browser. The
+Newsletters page accepts any client. Tested 2026-09-25 from the maintainer's home IP:
+- `GVWG-newsletter-search/1.0 (+github URL)` alone: 403, same as on GitHub runners.
+- The same identifier appended to a Chrome User-Agent string: 302 to a short-lived
+  presigned S3 URL, then 200 PDF.
+
+Decision (maintainer, 2026-09-25): send that hybrid User-Agent (see `common.py`)
+for the club's own public documents, keeping our identifier on the end. CE support
+was judged unlikely to help.
+- Not tested: whether GitHub runners also pass with the hybrid User-Agent (their
+  403 may have been the same User-Agent rule, an IP rule, or both). Until tested,
+  extraction runs locally on the maintainer's Windows 11 machine and `data/` is
+  committed and pushed. GitHub Actions is used for build and deploy only.
+- Do not escalate further (proxies, browser automation, other header spoofing).
+  If the hybrid User-Agent starts getting 403, stop and ask the maintainer.
 - Keep downloads throttled (REQUEST_DELAY_SECONDS = 2.0).
+- Never store or link the S3 URLs; they expire within hours. Always use `docs.ashx`.
 
 ## Local environment (Windows 11)
 - Git for Windows, Python 3.12, Tesseract (UB Mannheim build), VS Code.
