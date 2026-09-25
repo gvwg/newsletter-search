@@ -119,9 +119,16 @@ was judged unlikely to help.
   officer yet: Don is the only admin until he trains someone.
   Open question: who is the registrant contact for gvwg.ca at the registrar.
 
+- Decided 2026-09-25: link to https://search.gvwg.ca from gvwg.ca rather than
+  iframe it (simpler, no dependence on CE's editor allowing iframes, better on
+  phones). The search page carries a GVWG header (logo copied into `site/`,
+  colours/font from gvwg.ca) and a link back to the Newsletters page. The
+  `frame-ancestors` header stays, so an iframe on gvwg.ca remains possible.
+
 ## Next steps
-1. CE custom page with an iframe of https://search.gvwg.ca; link it from the
-   Newsletters page. Test inside CE: search works, results open in a new tab.
+1. Don: check https://search.gvwg.ca on desktop and phone (headless Edge could
+   not verify: its fast-forwarded time trips Pagefind's worker timeout). Then
+   add a "Search the newsletters" link on the CE Newsletters page.
 2. Don: train and add a second Cloudflare Super Administrator.
 3. Later: trim the deploy token's account permissions; rename the Cloudflare
    account; check the gvwg.ca registrant contact.
