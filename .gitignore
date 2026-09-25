@@ -1,6 +1,6 @@
-  __pycache__/
-  *.pyc
-  .venv/
-  dist/
-  *.pdf
-  !tests/*.pdf
+__pycache__/
+*.pyc
+.venv/
+dist/
+*.pdf
+!tests/*.pdf
