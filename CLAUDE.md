@@ -57,22 +57,24 @@ was judged unlikely to help.
 
 ## Status
 - Repo created under the GVWG GitHub organization; harvest works (248 issues).
-- Extraction works locally and on runners; 6 recent issues done (no OCR needed).
+- Full extraction done (runs 4-5, 2026-09-25): all 248 issues, about 4,300 pages,
+  7.4 MB of text. Even the 1999-2012 issues have text layers; only 50 pages in
+  34 issues needed OCR (pasted-in images: letters, ads; quality varies).
 - `extract.yml` runs an OCR self-test (`tests/sample.pdf`) before extracting;
   it passes on ubuntu-24.04 with apt Tesseract and no `TESSDATA_PREFIX`.
-- OCR on real scanned (older) issues not yet verified.
+- `extract.py` syncs existing issue files with the catalog each run (relabels
+  moved IDs, prunes unlinked IDs, max 10). Needed after Don corrected three
+  2014 links that were off by one doc ID.
 
 ## Next steps
-1. Full extraction via Actions (limit blank); check OCR page counts and text
-   quality on older issues.
-2. Build stage: Pagefind index + search page + Cloudflare deploy workflow.
+1. Build stage: Pagefind index + search page + Cloudflare deploy workflow.
    Note: commits pushed with the default `GITHUB_TOKEN` do not trigger `push`
    workflows (documented GitHub behaviour), so chain the build from extraction
    (`workflow_run`, or a job in the same workflow) rather than relying on a push
    trigger for `data/`. Headers/titles are letter-spaced in newer issues
    ("T H E C I R C U L A R"); decide whether to collapse these in `clean_text`.
-3. Consider a monthly schedule for `extract.yml`.
-4. CE custom page with iframe; link from the Newsletters page.
+2. Consider a monthly schedule for `extract.yml`.
+3. CE custom page with iframe; link from the Newsletters page.
 
 ## Working with the maintainer (Don)
 - Retired IT Director, 40+ years in development, architecture and infrastructure.
