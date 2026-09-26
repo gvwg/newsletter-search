@@ -239,14 +239,19 @@ Planned build (to refine with Don, see open questions):
 7. `publish-newsletter` skill cut back to the News post (step 4), or
    replaced by a copy-and-paste kit from `publish_prep.py`.
 
+Answered by Don (2026-09-25):
+- search.gvwg.ca is retired, not redirected (it had been public only a few
+  hours). Cut over in this order so nothing points at a dead address: deploy
+  newsletters.gvwg.ca, update the CE banner (live now, pointing at
+  search.gvwg.ca) and README, then remove the search.gvwg.ca custom domain
+  from the Worker.
+- Landing list grouped by year, with year jump links at the top and recent
+  years expanded.
+- Title rule: the CE title wins only if it has a month and year and is not
+  a bare filename; otherwise keep the catalog title. (Changes 3 today, e.g.
+  "October 2025 GVWG Newsletter" becomes CE's "October 2025".)
+
 Open questions for Don (validate before building):
-1. search.gvwg.ca: redirect to newsletters.gvwg.ca/search keeping `?q=`
-   (Cloudflare Redirect Rule), or retire it?
-2. Landing list layout: all ~250 issues on one page with contents bullets,
-   or grouped by year (collapsible, with year jump links)?
-3. Title rule when CE and catalog differ: CE title wins only if it has a
-   month and year and is not a bare filename? (3 differ today, e.g. CE
-   "October 2025" vs page "October 2025 GVWG Newsletter".)
 4. January 2026 (1685423): publish. 1518566: exclude. Dummy (1821788):
    move out of the folder (cleaner; it is public today) or exclude list?
 5. Update frequency: every 3 hours?
