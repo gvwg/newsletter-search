@@ -275,8 +275,12 @@ All design questions answered; ready to build.
   `ce/search-banner.html` points at `newsletters.gvwg.ca/search?q=`. Tested
   locally in headless Edge via CDP (no virtual time, so Pagefind works):
   `/search?q=hollowing` 729 pages, with 2020-2022 range 86, `/?q=` same.
-  Remaining: deploy, repaste the banner in CE and check Enter/click, then
-  remove `search.gvwg.ca` from `wrangler.jsonc`.
+  Deployed 2026-09-26 (run 36266489211): Wrangler created the
+  newsletters.gvwg.ca custom domain; live `/search` and `/` 200,
+  `/search.html` 307 to `/search`, `_headers` applied, live searches match
+  the local counts; search.gvwg.ca still serves. Remaining: Don repastes
+  the banner in CE and checks Enter/click, then remove `search.gvwg.ca`
+  from `wrangler.jsonc`.
 
 ## Next steps
 1. Build the newsletters.gvwg.ca redesign on a branch, test locally against
