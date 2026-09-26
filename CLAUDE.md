@@ -250,6 +250,9 @@ Answered by Don (2026-09-25):
 - Title rule: the CE title wins only if it has a month and year and is not
   a bare filename; otherwise keep the catalog title. (Changes 3 today, e.g.
   "October 2025 GVWG Newsletter" becomes CE's "October 2025".)
+- CE Newsletters menu item points straight at newsletters.gvwg.ca, if CE
+  menus allow external links (not yet checked). Fallback: keep the CE page
+  as the banner plus a link.
 
 Open questions for Don (validate before building):
 4. January 2026 (1685423): publish. 1518566: exclude. Dummy (1821788):
@@ -257,8 +260,6 @@ Open questions for Don (validate before building):
 5. Update frequency: every 3 hours?
 6. A document removed from the folder is removed from the site (existing
    prune guard: max 10 per run)?
-7. CE Newsletters menu item: keep the CE page (banner + link), or point the
-   menu straight at newsletters.gvwg.ca if CE menus allow external links?
 
 ## Next steps
 1. Don: answer the open questions above; then build the redesign on a
