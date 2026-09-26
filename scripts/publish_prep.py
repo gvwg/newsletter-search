@@ -110,21 +110,32 @@ def contents_html(entries) -> str:
 
 
 def news_html(doc_url: str, image_name: str, ul: str) -> str:
-    """The News article body, matching the September 2026 article's layout:
-    cover image (linked to the PDF) on the left, contents on the right.
-    IMAGE_URL is replaced once the image has been uploaded to CE."""
+    """The News article body, byte-for-byte the shape CE's own editor produces
+    for a 40/60 page row (verified against the September 2026 article and a
+    rehearsal run on 2026-09-25): cover image (linked to the PDF) on the left,
+    contents on the right. The contenteditable attributes and the leading and
+    trailing <br> are CE's, not ours; keep them so the markup round-trips
+    through the editor unchanged.
+
+    IMAGE_URL is replaced once the image has been uploaded to CE. The upload
+    yields an absolute ClubExpressClubFiles graphics URL, e.g.
+    //s3.amazonaws.com/ClubExpressClubFiles/182740/graphics/<name>_<digits>.jpg
+    - that one is permanent, unlike the presigned URL docs.ashx redirects to."""
     return (
+        '<br>\n'
         '<div class="resp-row">\n'
-        ' <div class="column forty"><div class="inner-column">\n'
-        f'  <a href="{doc_url}" target="_blank"><img alt="Newsletter cover" border="0" '
-        f'src="IMAGE_URL" data-file="{image_name}"></a>\n'
-        ' </div></div>\n'
-        ' <div class="column sixty">\n'
-        '  <h3 class="inner-column">Articles Include:</h3>\n'
-        + ul +
-        ' </div>\n'
-        ' <div class="clear"></div>\n'
+        '<div contenteditable="false" class="column forty">\n'
+        '<div contenteditable="true" class="inner-column">'
+        f'<a href="{doc_url}" target="_blank"><img alt="Newsletter cover" border="0" '
+        f'src="IMAGE_URL" data-file="{image_name}"></a></div>\n'
         '</div>\n'
+        '<div contenteditable="false" class="column sixty">\n'
+        '<h3 class="inner-column">Articles Include:</h3>\n'
+        + ul +
+        '</div>\n'
+        '<div class="clear"></div>\n'
+        '</div>\n'
+        '<br>\n'
     )
 
 
@@ -211,8 +222,11 @@ def main():
         "pages": doc.page_count,
         "newsletters_page": {"link_title": link_title, "link_url": doc_url,
                              "contents_html": "contents.html"},
-        "news_article": {"title": f"{link_title} Available", "body_html": "news-body.html",
-                         "cover_image": image_name},
+        # CE's Add Article form requires a Summary (max 1000 chars). The club's
+        # convention is just the issue name, e.g. "September 2026 Newsletter".
+        "news_article": {"title": f"{link_title} Available", "summary": link_title,
+                         "body_html": "news-body.html", "cover_image": image_name,
+                         "share_image": image_name},
         "contents": [{"title": t, "byline": b, "page": p} for t, b, p in entries],
     }
     (out / "summary.json").write_text(json.dumps(summary, indent=1, ensure_ascii=False) + "\n",

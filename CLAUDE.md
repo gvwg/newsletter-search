@@ -137,6 +137,23 @@ was judged unlikely to help.
   `onkeydown`/`onclick` handlers (checked 2026-09-25), so CE's editor keeps
   them. Enter on the live page not yet tried.
 
+- Publish rehearsal (2026-09-25). A dummy December 2026 issue (doc 1821788,
+  `tests/make_dummy_issue.py`) was taken through the whole `publish-newsletter`
+  skill to live and then undone: Newsletters page version 47 published and
+  reverted to 46, News article created and deleted, uploaded cover graphic
+  deleted from Web Graphics. `--verify` passed while it was live and the
+  cover link returned a 200 PDF. The skill's "CE screen notes" now record the
+  real click paths. Three gaps it exposed, all fixed in `publish_prep.py`:
+  CE requires a Summary (club convention is just the issue name);
+  `news-body.html` was missing CE's `contenteditable` attributes and the
+  leading/trailing `<br>`; and the home-page feed card's thumbnail comes from
+  the article's separate **Share Image** field, not the body image. Two things
+  the skill cannot do unaided: the image upload's Browse control sits in an
+  iframe (the maintainer picks the file), and the News article record must be
+  saved before its body editor exists, so it is briefly live and empty.
+  Open question: the feed crops to landscape, so a portrait page-1 render is
+  centre-cropped; real issues use a photo from inside the issue instead.
+
 - Publishing help (2026-09-25, not yet used for a real issue). Goal: the
   editor only uploads the PDF to CE; Don does the rest with Claude Code in
   Chrome (`claude --chrome`) via the `publish-newsletter` skill
@@ -176,8 +193,9 @@ was judged unlikely to help.
 1. Don: check https://search.gvwg.ca on desktop and phone (headless Edge could
    not verify: its fast-forwarded time trips Pagefind's worker timeout). Then
    add a "Search the newsletters" link on the CE Newsletters page.
-2. First supervised `/publish-newsletter` run on the next issue; record the
-   CE admin clicks in the skill's "CE screen notes".
+2. First `/publish-newsletter` run on a real issue. The CE click paths are
+   recorded from the 2026-09-25 rehearsal; what is still untested is a real
+   issue's PDF and Don's choice of Share Image.
 3. Don: train and add a second Cloudflare Super Administrator.
 4. Later: trim the deploy token's account permissions; rename the Cloudflare
    account; check the gvwg.ca registrant contact.
