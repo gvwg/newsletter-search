@@ -29,18 +29,25 @@ that content, not to write or edit it.
 
 ## Steps
 
-1. **Get the document ID.** Ask the maintainer for it, or open the CE Documents
-   library (admin view), find the newest newsletter PDF, and confirm its name
-   and ID with the maintainer before continuing.
+1. **Get the document ID and title.** Ask the maintainer for the ID, or open
+   the CE Documents library (admin view) and find the newest newsletter PDF.
+   Read the document's **title exactly as CE shows it** (e.g. "September 2026
+   Newsletter"); the editor sets it when uploading, and it becomes the link
+   text and headline. The public side cannot supply it: `docs.ashx` only
+   reveals the uploaded filename. If the library does not show it, the
+   Document list in step 3's "Build a Link" dialog does. Confirm the ID and
+   title with the maintainer before continuing. If the document has no title
+   (CE then shows a bare filename such as `2023.01.January.pdf`), say so and
+   ask the maintainer what title to use.
 
 2. **Prepare the content.** From the repo root:
-   `.venv\Scripts\python scripts\publish_prep.py --id N`
+   `.venv\Scripts\python scripts\publish_prep.py --id N --title "<CE document title>"`
    If it stops with an error, report the message and stop; the issue then
-   needs publishing by hand. If it warns that the ID is already on the
-   Newsletters page, stop and ask.
+   needs publishing by hand. It also stops if the title has no month and
+   year. If it warns that the ID is already on the Newsletters page, or that
+   the title's month differs from the PDF's page headers, stop and ask.
    Show the maintainer the link title, the contents list and the cover image
-   (`out/publish/N/`), and wait for their OK. They may correct the title with
-   `--title`.
+   (`out/publish/N/`), and wait for their OK.
 
 3. **Newsletters page** (https://gvwg.ca/content.aspx?page_id=22&club_id=182740&module_id=717502).
    CE keeps page versions: create a new version of the page and edit that.
@@ -116,7 +123,8 @@ carried through to live and then undone. Update after each real run.
    (Insert Link/Button, Copy, Change Element Type), then
    **Insert Link/Button**. In "Build a Link": Link Type **Document** ->
    Folder **Newsletters** -> Document (picks the PDF) -> Link Text
-   (auto-fills with the CE document name; overwrite it with the link title)
+   (auto-fills with the CE document title; it should already equal
+   `newsletters_page.link_title` - if not, stop and ask)
    -> Target Window **New Window** -> Save. It replaces the cell's existing
    link rather than appending.
 7. Right cell: click its "Advanced Editor" header -> Cell Tools ->

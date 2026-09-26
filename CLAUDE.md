@@ -163,6 +163,10 @@ was judged unlikely to help.
   leftover text from an older issue), and writes the Newsletters page entry,
   the News article body and a page-1 cover JPG to `out/publish/N/` (ignored by
   git). `--verify` re-reads the live Newsletters page with harvest.py's parser.
+  The skill passes the CE document title (read in the admin screens; the
+  public `docs.ashx` only reveals the uploaded filename) as `--title`, so the
+  editor's title becomes the link text and headline; the script rejects a
+  title with no month and year, and warns if its month differs from the PDF.
   Tested on the 12 newest issues: April, June and September 2026 match the
   typed lists; May 2026 has one fuller title from the PDF; issues before April
   2026 use older layouts and are rejected with a message. CE facts from Don:
