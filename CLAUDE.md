@@ -253,11 +253,12 @@ Answered by Don (2026-09-25):
 - CE Newsletters menu item points straight at newsletters.gvwg.ca, if CE
   menus allow external links (not yet checked). Fallback: keep the CE page
   as the banner plus a link.
+- Publish January 2026 (1685423). Exclude 1518566 (earlier version of
+  March/April 2020). The Dummy issue (1821788) stays in the Newsletters
+  folder for now, so it goes on the exclusion list until Don moves it.
+- `extract.yml` runs every 3 hours.
 
 Open questions for Don (validate before building):
-4. January 2026 (1685423): publish. 1518566: exclude. Dummy (1821788):
-   move out of the folder (cleaner; it is public today) or exclude list?
-5. Update frequency: every 3 hours?
 6. A document removed from the folder is removed from the site (existing
    prune guard: max 10 per run)?
 
