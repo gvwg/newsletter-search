@@ -284,6 +284,9 @@ All design questions answered; ready to build.
   and no search.gvwg.ca references. `search.gvwg.ca` removed from
   `wrangler.jsonc` and README. Don tested Enter and the Search button
   on the live page: both open newsletters.gvwg.ca/search with results.
+  Deploy run 36267061778: Wrangler removed the search.gvwg.ca custom domain
+  and its DNS record (NXDOMAIN at 1.1.1.1); newsletters.gvwg.ca / and
+  /search still 200.
 
 ## Next steps
 1. Build the newsletters.gvwg.ca redesign on a branch, test locally against
