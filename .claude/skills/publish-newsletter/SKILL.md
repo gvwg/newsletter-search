@@ -95,6 +95,15 @@ that content, not to write or edit it.
 Recorded 2026-09-25 from a full rehearsal with a dummy issue (doc 1821788),
 carried through to live and then undone. Update after each real run.
 
+### Finding the document and its title (step 1)
+
+0. Control Panel -> **Website** tab -> Document Library **edit** -> Document
+   Library Manager -> click the **Newsletters** folder -> menu
+   (View Documents / Edit Folder / Add Sub-Folder) -> **View Documents**.
+   The list shows Title, Create Date, Visibility, Downloads, newest first.
+   Each row's markup contains its doc ID (`docs.ashx?id=N`), so read the
+   title and ID from the same row.
+
 ### Getting into the Newsletters page editor (step 3)
 
 1. On the live Newsletters page, click the small `<` tab on the right edge.
@@ -170,10 +179,15 @@ carried through to live and then undone. Update after each real run.
 
 - Clicking a link inside either editor *follows* it and opens a new tab. Use
   the cell header or the toolbar, never the link text.
-- The Link Type / Folder / Document pickers in "Build a Link" are native
-  `<select>` elements. Clicking an option in the open list does nothing -
-  focus the select and use arrow keys or type-ahead (typing "Dummy" jumps
-  straight to that document).
+- In "Build a Link", Link Type and Document are native `<select>` elements.
+  Clicking an option in the open list does nothing - focus the select and
+  use type-ahead + Enter (typing "Dummy" jumps straight to that document).
+  **Folder is not a select**: it is a tree that opens on click; click
+  "Newsletters" in it.
+- The dialog lives in an iframe. Reading its fields through the iframe's
+  document (ids `ctl00_link_type_list`, `ctl00_item_list`, `link_text`,
+  `new_window`, `track_link_click_checkbox`) is the reliable way to confirm
+  what is set.
 - The document list is sorted by CE document *title*, and shows bare
   filenames (`2023.01.January.pdf`) for older documents that have no title.
 - The upload dialog's Browse control sits in an iframe the automation cannot
