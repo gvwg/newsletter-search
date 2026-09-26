@@ -7,6 +7,10 @@ the file), or --all to rebuild everything.
 Pages with too little extractable text are treated as scanned and OCR'd with
 Tesseract via PyMuPDF. Tesseract must be installed (apt: tesseract-ocr).
 
+Each issue also gets a small JPEG of page 1 (data/thumbs/<id>.jpg) for the
+issue list. An issue already extracted but missing its thumbnail is
+downloaded again for the thumbnail only, so a run fills in any gaps.
+
 Issues with no contents list in the catalog (new documents in the folder)
 get one read from the PDF by toc.py and written back to data/catalog.json
 (contents_source "pdf"). If none can be read, the list stays empty and
@@ -28,7 +32,7 @@ from datetime import datetime, timezone
 import pymupdf
 
 from common import (CATALOG_PATH, ISSUES_DIR, LISTING_URL, REQUEST_DELAY_SECONDS,
-                    BlockedError, http_get, new_session)
+                    THUMBS_DIR, BlockedError, http_get, new_session)
 from toc import as_strings, read_contents
 
 MAX_CONSECUTIVE_NON_PDF = 3   # this many HTML responses in a row => treat as blocked
@@ -36,6 +40,9 @@ MAX_CONSECUTIVE_NON_PDF = 3   # this many HTML responses in a row => treat as bl
 OCR_THRESHOLD_CHARS = 40   # fewer real characters than this on a page => OCR it
 OCR_DPI = 300
 OCR_LANGUAGE = "eng"
+
+THUMB_WIDTH = 240          # px; shown at 120 CSS px, sharp on high-density screens
+THUMB_QUALITY = 70         # JPEG; 240 px covers come to about 9-18 KB
 
 META_KEYS = ("id", "title", "year", "month", "url")
 MAX_PRUNE = 10   # more orphans than this suggests a bad harvest; prune nothing
@@ -54,9 +61,24 @@ def meaningful_chars(text: str) -> int:
     return len(re.findall(r"[A-Za-z0-9]", text))
 
 
-def extract_pdf(pdf_bytes: bytes):
+def write_thumbnail(doc, doc_id: str):
+    """Save page 1 of an open PDF as data/thumbs/<id>.jpg."""
+    page = doc[0]
+    zoom = THUMB_WIDTH / page.rect.width
+    pix = page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom))
+    THUMBS_DIR.mkdir(parents=True, exist_ok=True)
+    (THUMBS_DIR / f"{doc_id}.jpg").write_bytes(pix.tobytes("jpeg", jpg_quality=THUMB_QUALITY))
+
+
+def thumbnail_only(pdf_bytes: bytes, doc_id: str):
+    with pymupdf.open(stream=pdf_bytes, filetype="pdf") as doc:
+        write_thumbnail(doc, doc_id)
+
+
+def extract_pdf(pdf_bytes: bytes, doc_id: str = None):
     """Return (pages, stats, contents). pages = [{'n': 1, 'text': ..., 'ocr': bool}];
-    contents is the table of contents read by toc.py, or None."""
+    contents is the table of contents read by toc.py, or None. With doc_id,
+    also writes the page-1 thumbnail."""
     pages, ocr_count = [], 0
     with pymupdf.open(stream=pdf_bytes, filetype="pdf") as doc:
         for page in doc:
@@ -73,6 +95,8 @@ def extract_pdf(pdf_bytes: bytes):
                     print(f"  OCR failed on page {page.number + 1}: {exc}", file=sys.stderr)
             pages.append({"n": page.number + 1, "text": clean_text(text), "ocr": used_ocr})
         contents, _ = read_contents(doc, [p["text"] for p in pages])
+        if doc_id:
+            write_thumbnail(doc, doc_id)
     return pages, {"pages": len(pages), "ocr_pages": ocr_count}, contents
 
 
@@ -116,6 +140,9 @@ def sync_with_catalog(catalog: list) -> bool:
     for path in orphans:
         print(f"Removing {path.stem}: no longer in the catalog (removed from the folder or excluded)")
         path.unlink()
+    for path in THUMBS_DIR.glob("*.jpg"):
+        if path.stem not in by_id:
+            path.unlink()
     return True
 
 
@@ -162,7 +189,8 @@ def main():
     synced = sync_with_catalog(catalog)
     todo = [i for i in catalog
             if args.all or i["id"] in args.force
-            or not (ISSUES_DIR / f"{i['id']}.json").exists()]
+            or not (ISSUES_DIR / f"{i['id']}.json").exists()
+            or not (THUMBS_DIR / f"{i['id']}.jpg").exists()]
     if args.limit:
         todo = todo[: args.limit]
     print(f"{len(catalog)} issues in catalog, {len(todo)} to process")
@@ -179,7 +207,7 @@ def main():
 
     catalog_changed = fill_contents_from_cache(catalog)
     consecutive_non_pdf = 0
-    totals = {"issues": 0, "pages": 0, "ocr_pages": 0, "failed": 0}
+    totals = {"issues": 0, "pages": 0, "ocr_pages": 0, "thumbnails_only": 0, "failed": 0}
     for n, meta in enumerate(todo, 1):
         print(f"[{n}/{len(todo)}] {meta['title']} (id {meta['id']})")
         try:
@@ -194,7 +222,14 @@ def main():
                     raise BlockedError(f"{MAX_CONSECUTIVE_NON_PDF} non-PDF responses in a row. Last: {msg}")
                 raise ValueError(msg)
             consecutive_non_pdf = 0
-            pages, stats, contents = extract_pdf(resp.content)
+            if (ISSUES_DIR / f"{meta['id']}.json").exists() and not args.all \
+                    and meta["id"] not in args.force:
+                thumbnail_only(resp.content, meta["id"])
+                totals["thumbnails_only"] += 1
+                print("  thumbnail added")
+                time.sleep(REQUEST_DELAY_SECONDS)
+                continue
+            pages, stats, contents = extract_pdf(resp.content, meta["id"])
             write_issue(meta, pages)
             if not meta.get("contents") and contents:
                 meta.update(contents=as_strings(contents), contents_source="pdf")

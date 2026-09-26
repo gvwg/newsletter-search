@@ -5,65 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Search GVWG newsletters</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800&amp;display=swap">
+  <link rel="stylesheet" href="/site.css">
   <style>
-    /* Look and feel copied from gvwg.ca (ClubExpress theme, September 2026):
-       mountain header with the script title, blue menu box, #4298cc content,
-       forest footer. Images are copies of the club's own graphics. */
-    body { font-family: "Open Sans", Arial, sans-serif; font-size: 15px; margin: 0;
-           color: #000; background: #02385a; }
-    a { color: #0826ba; }
-
-    .top { background: url(/mountain-backdrop.png) center / 100% 100%,
-             linear-gradient(to top, transparent 0%, transparent 50%, hsl(211 53% 40%) 100%);
-           border-bottom: 10px solid #02385a; }
-    .title { padding: 20px 20px 10px; }
-    .title img { max-width: 100%; height: auto; }
-    nav { text-align: center; padding: 10px 1rem 20px; }
-    nav ul { display: inline-flex; flex-wrap: wrap; justify-content: center; list-style: none;
-             margin: 0; padding: 0; background: #4298cc; }
-    nav a { display: block; padding: 8px 10px; color: #fff; text-decoration: none;
-            font: bold 18px Arial, Helvetica, sans-serif; }
-    nav a:hover { text-decoration: underline; }
-
-    main { background: #4298cc; padding: 1rem 20px 2rem; min-height: 55vh; }
-    main > :not(.panel, #results) { max-width: 60rem; }
-    .back { display: inline-block; margin: 0 0 0.75rem; padding: 6px 12px; border-radius: 4px;
-            background: #02385a; color: #fff; font-weight: 600; text-decoration: none; }
-    .back:hover { text-decoration: underline; }
-    .intro { margin: 0 0 1rem; }
-    /* Search panel: same look as the search banner on the gvwg.ca Newsletters page. */
-    .panel { background: #02385a; color: #fff; border-radius: 6px; padding: 14px 16px;
-             box-shadow: 0 2px 6px rgba(0,0,0,0.25); margin-bottom: 1rem; }
-    .panel h1 { font-size: 20px; font-weight: 800; line-height: 1.2; margin: 0; }
-    .panel .sub { color: #cfe6f5; font-size: 14px; font-weight: 600; line-height: 1.4; margin: 4px 0 10px; }
-    form { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; align-items: center; margin: 0; }
-    .bar { flex: 1 1 22rem; max-width: 560px; display: flex; align-items: center; background: #fff;
-           border: 2px solid #4298cc; border-radius: 4px; overflow: hidden; }
-    .bar:focus-within { box-shadow: 0 0 0 3px #fde68a; }
-    .icon { position: relative; flex: none; width: 18px; height: 18px; margin: 0 10px 0 12px; }
-    .icon::before { content: ""; position: absolute; top: 0; left: 0; width: 10px; height: 10px;
-                    border: 3px solid #02385a; border-radius: 50%; }
-    .icon::after { content: ""; position: absolute; top: 13px; left: 11px; width: 8px; height: 3px;
-                   background: #02385a; border-radius: 2px; transform: rotate(45deg); }
-    #q { flex: 1 1 auto; min-width: 0; border: 0; outline: 0; background: transparent; color: #000;
-         font: 15px "Open Sans", Arial, sans-serif; padding: 9px 0; }
-    #q::placeholder { color: #6b7a86; }
-    .go, #more { border: 0; background: #4298cc; color: #fff; cursor: pointer;
-                 font: 700 15px "Open Sans", Arial, sans-serif; padding: 9px 18px; }
-    .go { flex: none; align-self: stretch; }
-    .go:hover, #more:hover { background: #2f7fb3; }
-    .years { font-weight: 600; }
-    .years select { font: inherit; font-weight: 400; padding: 0.35rem 0.4rem; margin-left: 0.25rem;
-                    border: 2px solid #4298cc; border-radius: 4px; background: #fff; color: #000; }
+    /* Search page only; the shared look is in site.css. */
+    #more { border: 0; color: #fff; cursor: pointer; font: 700 15px "Open Sans", Arial, sans-serif;
+            padding: 9px 18px; }
+    #more:hover { background: #2f7fb3; }
     #status { margin: 0 0 0.75rem; font-weight: 600; }
     /* Result cards: one per newsletter page; the whole card is the link. */
     #results { list-style: none; padding: 0; margin: 0; }
     #results li { margin: 0 0 12px; }
-    .card { display: block; background: #fff; color: #222; text-decoration: none;
+    .card { display: flex; gap: 14px; align-items: flex-start; background: #fff; color: #222; text-decoration: none;
             border-left: 5px solid #02385a; border-radius: 6px; padding: 12px 16px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
     .card:hover, .card:focus-visible { border-left-color: #fde68a; box-shadow: 0 3px 10px rgba(0,0,0,0.3); }
     .card:focus-visible { outline: 3px solid #fde68a; outline-offset: 2px; }
+    .cover { flex: none; width: 64px; height: auto; border: 1px solid #c9d6df; }
+    .text { flex: 1 1 auto; min-width: 0; }
+    @media (max-width: 36rem) { .cover { width: 48px; } .card { gap: 10px; padding: 10px 12px; } }
     .head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
     .issue { color: #02385a; font-size: 17px; font-weight: 800; }
     .pageno { background: #02385a; color: #fff; font-size: 12px; font-weight: 600;
@@ -74,13 +33,6 @@
     mark { background: #fde68a; color: inherit; padding: 0 1px; border-radius: 2px; }
     #more { display: block; margin: 16px 0 0; border-radius: 4px; background: #02385a; }
 
-    footer { margin-top: 10px; color: #fff;
-             background: url(/forest-background.png) center / 100% 100%,
-               linear-gradient(to top, transparent 0%, transparent 30%, #0D1B2A 98%, transparent 100%);
-             display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
-             gap: 1rem; padding: 20px; }
-    footer .credits { flex: 1 1 16rem; text-align: center; line-height: 1.4; }
-    footer a { color: #fff; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -91,13 +43,13 @@
     <nav aria-label="gvwg.ca">
       <ul>
         <li><a href="https://gvwg.ca/">Home</a></li>
-        <li><a href="https://gvwg.ca/content.aspx?page_id=22&amp;club_id=182740&amp;module_id=717502">Newsletters</a></li>
+        <li><a href="/">Newsletters</a></li>
         <li><a href="https://gvwg.ca/content.aspx?page_id=4&amp;club_id=182740">Contact Us</a></li>
       </ul>
     </nav>
   </header>
-  <main>
-  <a class="back" href="https://gvwg.ca/content.aspx?page_id=22&amp;club_id=182740&amp;module_id=717502">&lsaquo; Back to gvwg.ca Newsletters</a>
+  <main tabindex="-1">
+  <a class="back" href="/">&lsaquo; All newsletters</a>
 
   <!-- Without JavaScript the form reloads the page with ?q=, which the script reads. -->
   <section class="panel">
@@ -197,7 +149,20 @@
         const open = document.createElement("span");
         open.className = "open";
         open.textContent = "Open newsletter (PDF) ↗";
-        a.append(head, excerptNode(d.excerpt), open);
+        const text = document.createElement("span");
+        text.className = "text";
+        text.append(head, excerptNode(d.excerpt), open);
+        if (d.meta.image) {
+          const img = document.createElement("img");
+          img.className = "cover";
+          img.src = d.meta.image;
+          img.alt = "";          // decorative: the card text names the issue
+          img.width = 64;
+          img.height = 83;
+          img.loading = "lazy";
+          a.append(img);
+        }
+        a.append(text);
         li.append(a);
         $("results").append(li);
       }
@@ -246,5 +211,6 @@
     $("q").focus();
     if ($("q").value) search();
   </script>
+  <script src="/to-top.js" defer></script>
 </body>
 </html>

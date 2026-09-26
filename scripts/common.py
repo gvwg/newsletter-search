@@ -9,6 +9,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = REPO_ROOT / "data"
 CATALOG_PATH = DATA_DIR / "catalog.json"
 ISSUES_DIR = DATA_DIR / "issues"
+THUMBS_DIR = DATA_DIR / "thumbs"               # page-1 thumbnails, <id>.jpg
 FOLDER_PATH = DATA_DIR / "folder.json"         # raw CE folder listing, for the record
 OVERRIDES_PATH = DATA_DIR / "overrides.json"   # hand-kept exclusions, titles, contents
 

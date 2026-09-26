@@ -306,10 +306,25 @@ All design questions answered; ready to build.
   calls `deploy.yml` (now `workflow_call`, no `workflow_run`) only when it
   committed. Not yet tested: the workflows on GitHub (YAML parses locally).
 
+- Step 3 (same branch, 2026-09-26): issue list at `/`. `site/index.html` is a
+  template; `build.mjs` fills its `build:` markers. Don's choices: one card
+  per issue (page-1 thumbnail left, contents right, long lists in two
+  columns on wide screens), years as fold-out sections (two newest open,
+  Expand/Collapse all), year jump links, and one From/To year range in the
+  search panel that filters the list and is passed to `/search`. Not
+  chosen: sort toggle, filter-as-you-type box, page counts. Shared CSS in
+  `site/site.css`; search page's back link now goes to `/`. Thumbnails:
+  `extract.py` writes `data/thumbs/<id>.jpg` (240 px, JPEG q70, about 14 KB,
+  about 3.5 MB for the archive) and backfills missing ones by downloading
+  the PDF again. Checked in headless Edge at 1200 px and, via CDP device
+  emulation, at 390 px (no horizontal scroll).
+  Backfill done locally: 249 thumbnails, 3.9 MB. Search result cards show
+  the issue cover too (Pagefind meta.image). Back-to-top button on both
+  pages (site/to-top.js), tested at 390 px via CDP.
+
 ## Next steps
 1. Continue the newsletters.gvwg.ca redesign: review and merge branch
-   `newsletters-list`, then the landing page (issue list by year) in
-   `build.mjs`, then deploy and cut over (order above).
+   `newsletters-list`, then deploy and cut over (order above).
 2. Don: check the search site on desktop and phone (headless Edge could not
    verify: its fast-forwarded time trips Pagefind's worker timeout).
 3. Don: train and add a second Cloudflare Super Administrator.

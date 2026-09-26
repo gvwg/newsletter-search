@@ -1,7 +1,9 @@
 # GVWG newsletter search
 
-Full-text search of the Greater Vancouver Woodturners Guild newsletter archive
-(October 1999 onward) at **https://newsletters.gvwg.ca/search**. The newsletters themselves
+The Greater Vancouver Woodturners Guild newsletter archive (October 1999
+onward) at **https://newsletters.gvwg.ca**: every issue listed by year with
+its cover and contents, and full-text search at
+**https://newsletters.gvwg.ca/search**. The newsletters themselves
 stay where they are: PDFs in the Newsletters folder of the ClubExpress (CE)
 [Document Library](https://gvwg.ca/content.aspx?page_id=86&club_id=182740)
 on gvwg.ca. This project reads that folder, extracts the text of each PDF, and
@@ -130,13 +132,14 @@ readers to `https://newsletters.gvwg.ca/search?q=<their words>`.
  Newsletters folder --- harvest.py -> data/catalog.json, data/folder.json
                                        (+ data/overrides.json, kept by hand)
  docs.ashx?id=N    --- extract.py -->  data/issues/<id>.json  (committed text cache)
+                                       data/thumbs/<id>.jpg   (page-1 thumbnails)
                                        + contents of new issues (toc.py) -> catalog.json
                                        check.py / alerts.py -> GitHub issues
-                                       build.mjs -> dist/ (Pagefind index + site/)
+                                       build.mjs -> dist/ (issue list, Pagefind index, site/)
                                        wrangler deploy  ----------------------------->  Worker "gvwg-newsletter-search"
                                                                                         static assets at newsletters.gvwg.ca
- Reader's browser: loads newsletters.gvwg.ca/search, runs the search locally (Pagefind JS + WASM),
- and opens results at https://gvwg.ca/docs.ashx?id=N#page=P in a new tab.
+ Reader's browser: newsletters.gvwg.ca/ is a static issue list; /search runs the search locally
+ (Pagefind JS + WASM) and opens results at https://gvwg.ca/docs.ashx?id=N#page=P in a new tab.
 ```
 
 There is no server-side code and no database. The search index is a set of
@@ -150,7 +153,9 @@ static files; the browser downloads only the index fragments a query needs.
 | `.github/workflows/deploy.yml` ("Build and deploy search site") | GitHub Actions, Node 24 | Called by an extraction run that committed data (`workflow_call`), pushes to `main` touching site or build files, or by hand | `npm ci`, `npm run build`, `wrangler deploy` (skipped with a warning if the Cloudflare secrets are absent) |
 | `wrangler.jsonc` | Cloudflare Workers | Deploy | Assets-only Worker serving `dist/`, custom domain `newsletters.gvwg.ca` |
 | `site/_headers` | Cloudflare | Every request | `frame-ancestors https://gvwg.ca https://www.gvwg.ca` (so the page may be iframed on gvwg.ca only) and `nosniff` |
-| `site/search.html` | Reader's browser | Page load | Search page, served at `/search` (and, until the issue list is built, at `/`) on the Pagefind JS API; reads `?q=&from=&to=` |
+| `site/index.html` | Reader's browser | Page load | Template for the issue list at `/`; `build.mjs` writes the list into it. Search box (submits to `/search`) and a From/To year range that also filters the list; reads `?from=&to=` |
+| `site/search.html` | Reader's browser | Page load | Search page, served at `/search`, on the Pagefind JS API; reads `?q=&from=&to=` |
+| `site/site.css` | Reader's browser | Page load | Look shared by both pages (header, search panel, footer) |
 | `ce/search-banner.html` | gvwg.ca (CE HTML widget) | Pasted by hand | Search box that opens newsletters.gvwg.ca/search with the reader's words |
 
 The extraction workflow calls `deploy.yml` itself because its commits, pushed
@@ -182,7 +187,10 @@ commit avoids eight identical deploys a day.
    title or date changed are relabelled without re-downloading, and files for
    documents no longer in the catalog are removed (at most 10 per run; more
    stops the run as a likely harvest problem). Downloads are throttled to one
-   every two seconds. For an issue with no contents list, it reads one from the
+   every two seconds. Each issue also gets a 240 px JPEG of page 1 in
+   `data/thumbs/` (about 14 KB each); an issue already extracted but missing
+   its thumbnail is downloaded again for the thumbnail only. For an issue with
+   no contents list, it reads one from the
    PDF with **`scripts/toc.py`** and writes it to the catalog (`pdf`).
    `toc.py` tries a position-based reader for the CONTENTS box of the April
    2026 template, then a layout-independent reader that finds the longest run
@@ -203,15 +211,22 @@ commit avoids eight identical deploys a day.
    with any issue of that kind, open or closed, never gets another, and open
    issues are closed once their ID is no longer flagged (link-check: not if
    under 90% of the catalog was checked). `--dry-run` previews.
-4. **`scripts/build.mjs`** builds `dist/`: a Pagefind index with one custom
-   record per PDF page (URL `docs.ashx?id=N#page=P`, a `year` filter, meta for
-   issue label, page and page count), plus the files in `site/`.
+4. **`scripts/build.mjs`** builds `dist/`: the files in `site/`; the issue
+   list, written into the `<!-- build:... -->` markers of `site/index.html`
+   (years newest first, the two most recent open, one card per issue with its
+   thumbnail and contents); `data/thumbs/` as `/thumbs/`; and a Pagefind index
+   with one custom record per PDF page (URL `docs.ashx?id=N#page=P`, a `year`
+   filter, meta for issue label, page and page count).
 
 ### Search page notes
 
 - `site/search.html` uses the Pagefind JS API rather than the default UI,
   because the default UI ANDs selected filter values and each page has one
   year. The From/To range is sent as `{ year: { any: [...] } }`.
+- Each result card shows the issue's cover (`meta.image` in the Pagefind
+  record, `/thumbs/<id>.jpg`), not the matching page.
+- A back-to-top button (`site/to-top.js`, shared with the issue list) appears
+  once the reader has scrolled a screen down.
 - Pagefind excerpts are not HTML-escaped, so the page rebuilds each excerpt
   keeping only text and `<mark>`.
 - Some PDFs open at the wrong page in Edge and Chrome despite `#page=N` (a
@@ -277,11 +292,12 @@ page and one scanned page. Afterwards delete `data/issues/999.json`, and run
 
     .github/workflows/   extract.yml, deploy.yml
     ce/                  HTML pasted into ClubExpress (search banner)
-    data/                catalog.json, folder.json, overrides.json (hand-kept) and
-                         issues/<id>.json (committed; the text cache)
+    data/                catalog.json, folder.json, overrides.json (hand-kept),
+                         issues/<id>.json (the text cache) and thumbs/<id>.jpg (committed)
     scripts/             harvest, extract, toc, check, alerts, publish_prep, common (Python);
                          build, serve (Node)
-    site/                search page, _headers, images copied from gvwg.ca
+    site/                issue list template, search page, shared CSS, _headers,
+                         images copied from gvwg.ca
     tests/               offline samples
     wrangler.jsonc       Cloudflare Worker config
     CLAUDE.md            project history and decisions

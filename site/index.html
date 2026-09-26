@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GVWG newsletters</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800&amp;display=swap">
+  <link rel="stylesheet" href="/site.css">
+  <style>
+    /* Issue list only; the shared look is in site.css. The list itself is
+       written into this template by scripts/build.mjs (the build: markers). */
+    .listhead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+                gap: 0.5rem 1rem; margin: 0 0 0.5rem; }
+    .listhead h2 { font-size: 20px; font-weight: 800; margin: 0; color: #02385a; }
+    .toggles button { font: 600 14px "Open Sans", Arial, sans-serif; cursor: pointer; border: 0;
+                      border-radius: 4px; padding: 5px 10px; background: #02385a; color: #fff; }
+    .toggles button:hover { background: #2f7fb3; }
+    #status { margin: 0 0 0.75rem; font-weight: 600; }
+    /* Year jump links */
+    .jump { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0 0 1rem; }
+    .jump a { display: block; min-width: 3.2em; text-align: center; padding: 3px 6px; border-radius: 4px;
+              background: #fff; color: #02385a; font-weight: 600; text-decoration: none; }
+    .jump a:hover, .jump a:focus-visible { background: #fde68a; }
+    /* One fold-out section per year: a header card, then one card per issue. */
+    details.year { margin: 0 0 10px; scroll-margin-top: 10px; }
+    details.year > summary { cursor: pointer; padding: 10px 16px; display: flex; align-items: baseline;
+                             gap: 10px; background: #fff; border-left: 5px solid #02385a;
+                             border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.2); list-style: none; }
+    details.year > summary::-webkit-details-marker { display: none; }
+    details.year > summary::before { content: "\25B8"; color: #02385a; transition: transform 0.15s; }
+    details.year[open] > summary::before { transform: rotate(90deg); }
+    details.year > summary:hover, details.year > summary:focus-visible { border-left-color: #fde68a; }
+    details.year h3 { display: inline; font-size: 18px; font-weight: 800; color: #02385a; margin: 0; }
+    .count { color: #4b5b67; font-size: 14px; font-weight: 600; }
+    .issues { list-style: none; margin: 0; padding: 10px 0 6px 24px; }
+    .issue { background: #fff; border-radius: 6px; padding: 12px 16px; margin: 0 0 10px;
+             box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+    .body { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: start;
+            margin-top: 8px; }
+    .thumb img { display: block; width: 120px; height: auto; border: 1px solid #c9d6df; }
+    .thumb:hover img { border-color: #02385a; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+    .name { font-size: 17px; font-weight: 800; }
+    .contents { margin: 0; padding-left: 1.2em; color: #222; line-height: 1.45; }
+    .contents li { break-inside: avoid; }
+    /* Long lists in two columns on wide screens, about the height of the cover. */
+    @media (min-width: 48rem) { .contents.long { columns: 2; column-gap: 2rem; } }
+    @media (max-width: 36rem) {
+      .issues { padding-left: 0; }
+      .issue { padding: 10px 12px; }
+      .body { grid-template-columns: 72px 1fr; gap: 12px; }
+      .thumb img { width: 72px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="title">
+      <a href="https://gvwg.ca/"><img src="/gvwg-title.png" alt="Greater Vancouver Woodturners Guild" width="525" height="36"></a>
+    </div>
+    <nav aria-label="gvwg.ca">
+      <ul>
+        <li><a href="https://gvwg.ca/">Home</a></li>
+        <li><a href="/">Newsletters</a></li>
+        <li><a href="https://gvwg.ca/content.aspx?page_id=4&amp;club_id=182740">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main tabindex="-1">
+  <a class="back" href="https://gvwg.ca/">&lsaquo; Back to gvwg.ca</a>
+
+  <!-- Without JavaScript this is a plain form that opens /search?q=&from=&to=.
+       With JavaScript the year range also filters the list below. -->
+  <section class="panel">
+  <h1>Search the Newsletters</h1>
+  <p class="sub">Full-text search of every issue since October 1999: turners, techniques, demos, and more.</p>
+  <form id="form" role="search" action="/search" method="get">
+    <div class="bar">
+      <span class="icon" aria-hidden="true"></span>
+      <input id="q" name="q" type="search" autocomplete="off" enterkeyhint="search"
+             aria-label="Search newsletters" placeholder="e.g. hollowing, Stuart Batty, pepper mill">
+      <button class="go" type="submit">Search &rsaquo;</button>
+    </div>
+    <span class="years">
+      <label>Years <select id="from" name="from" aria-label="From year"><!-- build:from-options --></select></label>
+      <label>to <select id="to" name="to" aria-label="To year"><!-- build:to-options --></select></label>
+    </span>
+  </form>
+  </section>
+
+  <div class="listhead">
+    <h2>All newsletters</h2>
+    <span class="toggles" hidden>
+      <button type="button" id="expand">Expand all</button>
+      <button type="button" id="collapse">Collapse all</button>
+    </span>
+  </div>
+  <p class="intro"><!-- build:count --> issues, newest first. Each opens the newsletter (PDF) in a new tab.</p>
+  <p id="status" aria-live="polite"></p>
+  <nav aria-label="Years"><ul class="jump"><!-- build:year-links --></ul></nav>
+  <!-- build:issue-list -->
+  </main>
+
+  <footer>
+    <a href="https://gvwg.ca/"><img src="/gvwg-logo.png" alt="GVWG home" width="104" height="97"></a>
+    <div class="credits">
+      Chapter 130 of American Association of Woodturners<br>
+      &copy; Greater Vancouver Woodturners Guild<br>
+      A British Columbia Registered Society
+    </div>
+    <a href="https://gvwg.ca/content.aspx?page_id=4&amp;club_id=182740">Contact Us</a>
+  </footer>
+
+  <script>
+    // Everything here is an enhancement: without it the page is a complete,
+    // static list, and the form still searches.
+    const $ = (id) => document.getElementById(id);
+    const sections = [...document.querySelectorAll("details.year")];
+    const years = sections.map((d) => d.dataset.year).sort();
+    const first = years[0], last = years[years.length - 1];
+
+    // The From/To range filters the list, and is passed on to a search.
+    function applyRange(updateUrl) {
+      let from = $("from").value, to = $("to").value;
+      if (from > to) [from, to] = [to, from];
+      let issues = 0;
+      for (const d of sections) {
+        const inRange = d.dataset.year >= from && d.dataset.year <= to;
+        d.hidden = !inRange;
+        document.querySelector(`.jump a[href="#y${d.dataset.year}"]`).parentElement.hidden = !inRange;
+        if (inRange) issues += Number(d.dataset.count);
+      }
+      const all = from === first && to === last;
+      $("status").textContent = all ? "" :
+        `Showing ${from === to ? from : `${from} to ${to}`}: ${issues} issue${issues === 1 ? "" : "s"}.`;
+      if (updateUrl) {
+        const url = new URLSearchParams();
+        if (from !== first) url.set("from", from);
+        if (to !== last) url.set("to", to);
+        history.replaceState(null, "", (String(url) ? `?${url}` : location.pathname) + location.hash);
+      }
+    }
+
+    const params = new URLSearchParams(location.search);
+    if (years.includes(params.get("from"))) $("from").value = params.get("from");
+    if (years.includes(params.get("to"))) $("to").value = params.get("to");
+    applyRange(false);
+    $("from").addEventListener("change", () => applyRange(true));
+    $("to").addEventListener("change", () => applyRange(true));
+
+    // Leave the full range out of the search URL, as the search page does.
+    $("form").addEventListener("submit", () => {
+      if ($("from").value === first && $("to").value === last) {
+        $("from").disabled = $("to").disabled = true;   // disabled fields are not submitted
+        setTimeout(() => { $("from").disabled = $("to").disabled = false; });
+      }
+    });
+
+    // Expand all / Collapse all act on the years currently shown.
+    document.querySelector(".toggles").hidden = false;
+    $("expand").addEventListener("click", () => sections.forEach((d) => { if (!d.hidden) d.open = true; }));
+    $("collapse").addEventListener("click", () => sections.forEach((d) => { d.open = false; }));
+
+    // A year link, or arriving at a #yYYYY address, opens that year.
+    document.querySelector(".jump").addEventListener("click", (e) => {
+      const a = e.target.closest("a");
+      if (a) document.getElementById(a.hash.slice(1)).open = true;
+    });
+    const target = location.hash && document.getElementById(location.hash.slice(1));
+    if (target && target.matches("details.year")) target.open = true;
+  </script>
+  <script src="/to-top.js" defer></script>
+</body>
+</html>
