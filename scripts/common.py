@@ -9,10 +9,18 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = REPO_ROOT / "data"
 CATALOG_PATH = DATA_DIR / "catalog.json"
 ISSUES_DIR = DATA_DIR / "issues"
+FOLDER_PATH = DATA_DIR / "folder.json"         # raw CE folder listing, for the record
+OVERRIDES_PATH = DATA_DIR / "overrides.json"   # hand-kept exclusions, titles, contents
 
 SITE = "https://gvwg.ca"
 LISTING_URL = f"{SITE}/content.aspx?page_id=22&club_id=182740&module_id=717502"
 DOC_URL = SITE + "/docs.ashx?id={id}"
+# The Newsletters folder of the public Document Library. The list handler
+# returns 404 unless the library page has been loaded first in the same
+# session (it sets the cookie the handler needs).
+LIBRARY_URL = f"{SITE}/content.aspx?page_id=86&club_id=182740"
+FOLDER_ID = "216109"
+FOLDER_LIST_URL = f"{SITE}/handlers/documenthandler.ashx?cat_id={FOLDER_ID}"
 
 # ClubExpress's load balancer returns 403 on docs.ashx unless the User-Agent
 # looks like a browser (the Newsletters page itself accepts anything). The

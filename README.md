@@ -2,9 +2,9 @@
 
 Full-text search of the Greater Vancouver Woodturners Guild newsletter archive
 (October 1999 onward) at **https://newsletters.gvwg.ca/search**. The newsletters themselves
-stay where they are: PDFs in the ClubExpress (CE) Documents library, linked from
-the [Newsletters page](https://gvwg.ca/content.aspx?page_id=22&club_id=182740&module_id=717502)
-on gvwg.ca. This project reads that page, extracts the text of each PDF, and
+stay where they are: PDFs in the Newsletters folder of the ClubExpress (CE)
+[Document Library](https://gvwg.ca/content.aspx?page_id=86&club_id=182740)
+on gvwg.ca. This project reads that folder, extracts the text of each PDF, and
 publishes a search site that links back to the PDFs.
 
 The first part of this README is for the club volunteer looking after the
@@ -16,32 +16,50 @@ search. The second part is for a developer changing it.
 
 ### What happens on its own
 
-- **Every day at 11:17 UTC** (3:17 or 4:17 am Vancouver time) GitHub checks the
-  Newsletters page. Any newly linked issue is downloaded, its text extracted,
-  and the search site republished. A newsletter linked on CE today is
-  searchable tomorrow.
-- **Nothing needs to be done here when a newsletter is published.** Add it to
-  the Newsletters page in CE as usual. The CE page is the only list; if an
-  issue is not linked there, it is not in the search.
-- **Wrong links are reported.** Each run compares every link on the Newsletters
-  page with the PDF it opens and opens a GitHub issue for any that look wrong
-  (see "Seeing problems" below).
+- **Every 3 hours** GitHub checks the Newsletters folder in the CE Document
+  Library. Any new document is downloaded, its text and table of contents
+  extracted, and the site republished. A newsletter uploaded to the folder is
+  searchable within a few hours. Runs that find nothing new change nothing.
+- **Nothing needs to be done here when a newsletter is published.** Upload the
+  PDF to the Newsletters folder in CE, with a title that includes the month
+  and year (for example "October 2026"). The folder is the only list: every
+  document in it is published, except those excluded in `data/overrides.json`.
+  Removing a document from the folder removes it from the site.
+- **Problems are reported** as GitHub issues (see "Seeing problems" below):
+  a document whose title may not match its PDF, an issue whose contents list
+  could not be read, or a document left out because its title has no year.
 
 ### Seeing problems
 
 | Where to look | What it tells you |
 |---|---|
-| [Issues labelled `link-check`](https://github.com/gvwg/newsletter-search/issues?q=label%3Alink-check) | A link on the Newsletters page probably opens the wrong PDF (a duplicate, the wrong month, or the wrong year). One issue per link. People watching the repository get an email when one opens. |
-| [Actions tab](https://github.com/gvwg/newsletter-search/actions) | Every run of "Extract newsletters" and "Build and deploy search site". A red X is a failed run. GitHub emails failures of the daily run to the account that last edited its schedule. |
-| https://newsletters.gvwg.ca/search | Search for a word from the newest issue. If it is not found a day or two after the issue went up, check the Actions tab. |
+| [Issues labelled `link-check`](https://github.com/gvwg/newsletter-search/issues?q=label%3Alink-check) | A newsletter's title probably does not match its PDF (a duplicate, the wrong month, or the wrong year). One issue per document. People watching the repository get an email when one opens. |
+| [Issues labelled `contents`](https://github.com/gvwg/newsletter-search/issues?q=label%3Acontents) | No contents list could be read from a new issue (its layout may have changed). It is still searchable; add the list by hand (see below). |
+| [Issues labelled `untitled`](https://github.com/gvwg/newsletter-search/issues?q=label%3Auntitled) | A document in the Newsletters folder was left out because its title has no year. |
+| [Actions tab](https://github.com/gvwg/newsletter-search/actions) | Every run of "Extract newsletters" and "Build and deploy search site". A red X is a failed run. GitHub emails failures of the scheduled run to the account that last edited its schedule. |
+| https://newsletters.gvwg.ca/search | Search for a word from the newest issue. If it is not found a few hours after the issue went up, check the Actions tab. |
 
-**When a `link-check` issue appears:** open the link on the Newsletters page
-and look at the PDF. If the link is wrong, fix it in CE; the next daily run
-notices and closes the issue by itself. If the link is right (for example a
-misprinted date in the newsletter header), close the issue by hand with a
-comment. A closed issue is never reopened or repeated for that document.
+Each issue says what to do. In short: fix a wrong title in CE (or set one in
+`data/overrides.json`); add a missing contents list to `data/overrides.json`;
+or, if nothing is wrong (for example a misprinted date in the newsletter
+header), close the issue by hand with a comment. The next run closes an issue
+once its cause is fixed. A closed issue is never reopened or repeated for that
+document.
 
-### Restarting the daily run
+### Hand corrections: `data/overrides.json`
+
+Edit it on GitHub (pencil icon) and commit; the next run applies it. All
+entries are keyed by the CE doc ID, the number in `docs.ashx?id=N`.
+
+- `exclude`: documents in the Newsletters folder not to publish, each with a
+  reason. Currently an earlier version of March/April 2020 and the dummy issue
+  from the publishing rehearsal.
+- `titles`: a title to use instead of the CE title.
+- `contents`: a contents list to use instead of the one read from the PDF,
+  one string per article, for example
+  `"1830001": ["Presidential Ramblings", "Tech Talk"]`.
+
+### Restarting the scheduled run
 
 The repository is public, so GitHub Actions costs nothing. The catch is that
 **GitHub pauses scheduled workflows in public repositories after 60 days with
@@ -54,12 +72,12 @@ To restart it:
    and click **Extract newsletters** in the left-hand list.
 2. If a banner says the workflow is disabled, click **Enable workflow**.
 3. Click **Run workflow**, leave the box blank, and click the green
-   **Run workflow** button. This catches up now instead of waiting a day.
-4. When it finishes, "Build and deploy search site" runs by itself. Check that
-   it has a green tick, then search for a word from the newest issue.
+   **Run workflow** button. This catches up now instead of waiting.
+4. If it found anything new, its "deploy" job republishes the site. Check that
+   the run has a green tick, then search for a word from the newest issue.
 
 The same **Run workflow** button is the way to force an update at any time, for
-example straight after linking a new issue. "Build and deploy search site" also
+example straight after uploading a new issue. "Build and deploy search site" also
 has a **Run workflow** button, which republishes the site without checking CE.
 
 ### When a run fails
@@ -79,9 +97,9 @@ has a **Run workflow** button, which republishes the site without checking CE.
 
 | Service | Used for | Cost |
 |---|---|---|
-| GitHub organization `gvwg` | This repository and the daily and deploy runs | Free (public repository, standard runners) |
+| GitHub organization `gvwg` | This repository and the scheduled and deploy runs | Free (public repository, standard runners) |
 | Cloudflare account (holds the gvwg.ca DNS) | Hosting newsletters.gvwg.ca as a Worker with static assets | Free: static-asset requests are free and unlimited, no storage charge |
-| ClubExpress | The newsletters and the Newsletters page | The club's existing subscription |
+| ClubExpress | The newsletters (Document Library) | The club's existing subscription |
 
 The deploy uses a Cloudflare account API token named
 `github-deploy-newsletter-search` (Cloudflare dashboard, Manage account,
@@ -109,8 +127,10 @@ readers to `https://newsletters.gvwg.ca/search?q=<their words>`.
 ```
  ClubExpress (gvwg.ca)                 GitHub (gvwg/newsletter-search)                 Cloudflare
  ---------------------                 -------------------------------                 ----------
- Newsletters page  --- harvest.py -->  data/catalog.json
+ Newsletters folder --- harvest.py -> data/catalog.json, data/folder.json
+                                       (+ data/overrides.json, kept by hand)
  docs.ashx?id=N    --- extract.py -->  data/issues/<id>.json  (committed text cache)
+                                       + contents of new issues (toc.py) -> catalog.json
                                        check.py / alerts.py -> GitHub issues
                                        build.mjs -> dist/ (Pagefind index + site/)
                                        wrangler deploy  ----------------------------->  Worker "gvwg-newsletter-search"
@@ -126,39 +146,62 @@ static files; the browser downloads only the index fragments a query needs.
 
 | Component | Runs on | Trigger | Does |
 |---|---|---|---|
-| `.github/workflows/extract.yml` ("Extract newsletters") | GitHub Actions, ubuntu-24.04, Python 3.12, apt Tesseract | Daily cron `17 11 * * *`, or by hand (optional `limit`) | OCR self-test on `tests/sample.pdf`; `harvest.py`; `extract.py`; commits `data/`; `check.py --github` |
-| `.github/workflows/deploy.yml` ("Build and deploy search site") | GitHub Actions, Node 24 | After every extraction run (`workflow_run`, unless cancelled), pushes to `main` touching site or build files, or by hand | `npm ci`, `npm run build`, `wrangler deploy` (skipped with a warning if the Cloudflare secrets are absent) |
+| `.github/workflows/extract.yml` ("Extract newsletters") | GitHub Actions, ubuntu-24.04, Python 3.12, apt Tesseract | Cron `17 */3 * * *`, or by hand (optional `limit`) | OCR self-test on `tests/sample.pdf`; `harvest.py`; `extract.py`; commits `data/`; `check.py --github`; calls `deploy.yml` if it committed anything |
+| `.github/workflows/deploy.yml` ("Build and deploy search site") | GitHub Actions, Node 24 | Called by an extraction run that committed data (`workflow_call`), pushes to `main` touching site or build files, or by hand | `npm ci`, `npm run build`, `wrangler deploy` (skipped with a warning if the Cloudflare secrets are absent) |
 | `wrangler.jsonc` | Cloudflare Workers | Deploy | Assets-only Worker serving `dist/`, custom domain `newsletters.gvwg.ca` |
 | `site/_headers` | Cloudflare | Every request | `frame-ancestors https://gvwg.ca https://www.gvwg.ca` (so the page may be iframed on gvwg.ca only) and `nosniff` |
 | `site/search.html` | Reader's browser | Page load | Search page, served at `/search` (and, until the issue list is built, at `/`) on the Pagefind JS API; reads `?q=&from=&to=` |
 | `ce/search-banner.html` | gvwg.ca (CE HTML widget) | Pasted by hand | Search box that opens newsletters.gvwg.ca/search with the reader's words |
 
-`deploy.yml` uses `workflow_run` because commits pushed by the extraction
-workflow with `GITHUB_TOKEN` do not trigger `push` workflows.
+The extraction workflow calls `deploy.yml` itself because its commits, pushed
+with `GITHUB_TOKEN`, do not trigger `push` workflows; calling it only after a
+commit avoids eight identical deploys a day.
 
 ### Pipeline in detail
 
-1. **`scripts/harvest.py`** parses the Newsletters page into
-   `data/catalog.json` (doc ID, title, year, month, listed contents). The CE
-   page is the source of truth. Links without a year in the title (site-menu
-   items such as "Gallery Tags") are skipped.
+1. **`scripts/harvest.py`** reads the Newsletters folder (id `216109`) of the
+   public Document Library. Its list comes from
+   `/handlers/documenthandler.ashx?cat_id=216109`, which returns 404 unless the
+   library page has been loaded first in the same session (cookie). The raw
+   listing goes to `data/folder.json`; the merged result to `data/catalog.json`
+   (doc ID, title, year, month, contents, `contents_source`), which is the
+   committed record. Documents under `exclude` in `data/overrides.json` are
+   skipped, as are documents whose title has no year (reported). Title rule:
+   the CE title wins if it has a month and year and is not a bare filename;
+   otherwise the catalog title is kept, or for a new document one is made from
+   the filename. A run that would remove more than 10 issues stops without
+   writing. Contents: the 248 issues on the old CE Newsletters page keep the
+   lists typed there (`ce`; `--bootstrap` copies them again from the live page,
+   and is harmless once that page no longer lists issues); an override list
+   always wins (`override`).
 2. **`scripts/extract.py`** downloads each issue not yet extracted from
    `https://gvwg.ca/docs.ashx?id=N`, extracts text per page with PyMuPDF, OCRs
    pages with no text layer (Tesseract via PyMuPDF), and writes
    `data/issues/<id>.json`. These files are committed, so OCR runs once per
    issue. Each run also syncs existing files with the catalog: files whose
    title or date changed are relabelled without re-downloading, and files for
-   documents no longer linked are removed (at most 10 per run; more stops the
-   run as a likely harvest problem). Downloads are throttled to one every two
-   seconds.
-3. **`scripts/check.py`** flags likely wrong links: duplicate text, contents
-   list matching poorly (IDF-weighted) or matching another issue better, a
-   different year on pages 1-2, or a different month in the page-1 header.
-   Warnings only; it never fails the run. Hand-confirmed misprints go in
-   `KNOWN_OK`. With `--github` it calls **`scripts/alerts.py`**, which opens one
-   issue per flagged doc ID (label `link-check`, hidden marker
-   `<!-- link-check-id: N -->`), never repeats an ID that has any issue open or
-   closed, and closes open issues whose ID is no longer flagged (skipped if
+   documents no longer in the catalog are removed (at most 10 per run; more
+   stops the run as a likely harvest problem). Downloads are throttled to one
+   every two seconds. For an issue with no contents list, it reads one from the
+   PDF with **`scripts/toc.py`** and writes it to the catalog (`pdf`).
+   `toc.py` tries a position-based reader for the CONTENTS box of the April
+   2026 template, then a layout-independent reader that finds the longest run
+   of title and page-number pairs on pages 1-3. A result needs at least 3
+   entries with ascending page numbers within the issue, or the list stays
+   empty and is reported. `python toc.py --score` scores the text reader
+   against the 248 hand-typed CE lists (0.74 of entries found, 2026-09-26);
+   a change to either reader should not lower it.
+3. **`scripts/check.py`** flags newsletters whose title may not match the PDF:
+   duplicate text, contents list matching poorly (IDF-weighted) or matching
+   another issue better, a different year on pages 1-2, or a different month
+   in the page-1 header. Warnings only; it never fails the run. Hand-confirmed
+   misprints go in `KNOWN_OK`. With `--github` it calls
+   **`scripts/alerts.py`**, which keeps three kinds of GitHub issue, one per
+   doc ID each: `link-check` (the findings above), `contents` (an extracted
+   issue with no contents list) and `untitled` (a folder document left out for
+   want of a year). Each carries a hidden marker `<!-- kind-id: N -->`; an ID
+   with any issue of that kind, open or closed, never gets another, and open
+   issues are closed once their ID is no longer flagged (link-check: not if
    under 90% of the catalog was checked). `--dry-run` previews.
 4. **`scripts/build.mjs`** builds `dist/`: a Pagefind index with one custom
    record per PDF page (URL `docs.ashx?id=N#page=P`, a `year` filter, meta for
@@ -218,24 +261,26 @@ Python serves .js as text/plain, and the browser then refuses to run Pagefind.
 
 ### Tests
 
-`tests/listing_sample.html` and `tests/sample.pdf` (one text page, one scanned
-page) exercise the parser and the OCR path without network access:
+Offline checks, from `scripts/`:
 
-    cd scripts
-    python harvest.py --html ../tests/listing_sample.html
+    python harvest.py --html ../tests/folder_sample.html   # folder as of 2026-09-26: expect no changes
     python extract.py --pdf ../tests/sample.pdf --id 999   # expect {'pages': 2, 'ocr_pages': 1}
+    python toc.py --score                                  # contents reader vs the CE lists
 
-Afterwards delete `data/issues/999.json` and restore the real catalog with
-`git checkout data/catalog.json`: `harvest.py --html` overwrites it with the
-sample's few issues, and an extraction run on that catalog would stop rather
-than remove the other issue files (it refuses to remove more than 10).
+`tests/folder_sample.html` is the live folder listing saved on 2026-09-26;
+`tests/listing_sample.html` is a small copy of the old Newsletters page
+(for `harvest.py --bootstrap --page-html`). `tests/sample.pdf` has one text
+page and one scanned page. Afterwards delete `data/issues/999.json`, and run
+`git checkout data` if a harvest changed anything.
 
 ### Repository layout
 
     .github/workflows/   extract.yml, deploy.yml
     ce/                  HTML pasted into ClubExpress (search banner)
-    data/                catalog.json and issues/<id>.json (committed; the text cache)
-    scripts/             harvest, extract, check, alerts, common (Python); build, serve (Node)
+    data/                catalog.json, folder.json, overrides.json (hand-kept) and
+                         issues/<id>.json (committed; the text cache)
+    scripts/             harvest, extract, toc, check, alerts, publish_prep, common (Python);
+                         build, serve (Node)
     site/                search page, _headers, images copied from gvwg.ca
     tests/               offline samples
     wrangler.jsonc       Cloudflare Worker config

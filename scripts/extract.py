@@ -7,6 +7,11 @@ the file), or --all to rebuild everything.
 Pages with too little extractable text are treated as scanned and OCR'd with
 Tesseract via PyMuPDF. Tesseract must be installed (apt: tesseract-ocr).
 
+Issues with no contents list in the catalog (new documents in the folder)
+get one read from the PDF by toc.py and written back to data/catalog.json
+(contents_source "pdf"). If none can be read, the list stays empty and
+check.py opens a GitHub issue asking for one in data/overrides.json.
+
 Usage:
     python scripts/extract.py                 # process new issues
     python scripts/extract.py --limit 5       # trial run on 5 issues
@@ -24,6 +29,7 @@ import pymupdf
 
 from common import (CATALOG_PATH, ISSUES_DIR, LISTING_URL, REQUEST_DELAY_SECONDS,
                     BlockedError, http_get, new_session)
+from toc import as_strings, read_contents
 
 MAX_CONSECUTIVE_NON_PDF = 3   # this many HTML responses in a row => treat as blocked
 
@@ -49,7 +55,8 @@ def meaningful_chars(text: str) -> int:
 
 
 def extract_pdf(pdf_bytes: bytes):
-    """Return (pages, stats). pages = [{'n': 1, 'text': ..., 'ocr': bool}]."""
+    """Return (pages, stats, contents). pages = [{'n': 1, 'text': ..., 'ocr': bool}];
+    contents is the table of contents read by toc.py, or None."""
     pages, ocr_count = [], 0
     with pymupdf.open(stream=pdf_bytes, filetype="pdf") as doc:
         for page in doc:
@@ -65,12 +72,13 @@ def extract_pdf(pdf_bytes: bytes):
                 except Exception as exc:  # Tesseract missing or failed on this page
                     print(f"  OCR failed on page {page.number + 1}: {exc}", file=sys.stderr)
             pages.append({"n": page.number + 1, "text": clean_text(text), "ocr": used_ocr})
-    return pages, {"pages": len(pages), "ocr_pages": ocr_count}
+        contents, _ = read_contents(doc, [p["text"] for p in pages])
+    return pages, {"pages": len(pages), "ocr_pages": ocr_count}, contents
 
 
 def write_issue(meta: dict, pages: list):
     record = {
-        **meta,
+        **{k: meta.get(k) for k in META_KEYS},
         "pages": pages,
         "extracted_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "extractor": f"pymupdf {pymupdf.VersionBind}",
@@ -84,10 +92,10 @@ def write_issue(meta: dict, pages: list):
 def sync_with_catalog(catalog: list) -> bool:
     """Bring existing issue files in line with the catalog without downloading.
 
-    When a link on the CE page is corrected, a doc ID can move to a different
-    title (its text is still right, its title/month are not), and an ID can
-    drop out of the catalog entirely. Refresh metadata for the former and
-    delete the latter. Returns False if pruning was refused.
+    A document's title can change in CE (its text is still right, its
+    title/month are not), and a document can leave the catalog (removed from
+    the folder, or excluded). Refresh metadata for the former and delete the
+    latter. Returns False if pruning was refused.
     """
     by_id = {i["id"]: i for i in catalog}
     orphans = []
@@ -106,9 +114,29 @@ def sync_with_catalog(catalog: list) -> bool:
               f"not pruning. Check data/catalog.json before rerunning.", file=sys.stderr)
         return False
     for path in orphans:
-        print(f"Removing {path.stem}: no longer linked from the Newsletters page")
+        print(f"Removing {path.stem}: no longer in the catalog (removed from the folder or excluded)")
         path.unlink()
     return True
+
+
+def fill_contents_from_cache(catalog: list) -> bool:
+    """Read contents lists from already-extracted text for catalog entries
+    that have none, e.g. after an override was removed or the reader was
+    improved. The layout reader needs the PDF, so only the text reader runs
+    here. Returns True if the catalog changed."""
+    changed = False
+    for meta in catalog:
+        path = ISSUES_DIR / f"{meta['id']}.json"
+        if meta.get("contents") or not path.exists():
+            continue
+        texts = [p["text"] for p in json.loads(path.read_text(encoding="utf-8"))["pages"]]
+        contents, _ = read_contents(None, texts)
+        if contents:
+            meta.update(contents=as_strings(contents), contents_source="pdf")
+            print(f"Contents for {meta['title']} (id {meta['id']}): "
+                  f"{len(contents)} entries read from the extracted text")
+            changed = True
+    return changed
 
 
 def main():
@@ -124,7 +152,7 @@ def main():
         if not args.id:
             ap.error("--pdf requires --id")
         with open(args.pdf, "rb") as f:
-            pages, stats = extract_pdf(f.read())
+            pages, stats, _ = extract_pdf(f.read())
         path = write_issue({"id": args.id, "title": args.pdf, "year": None,
                             "month": None, "url": None}, pages)
         print(f"{path}: {stats}")
@@ -149,6 +177,7 @@ def main():
     except Exception as exc:
         print(f"Warning: could not load listing page first: {exc}", file=sys.stderr)
 
+    catalog_changed = fill_contents_from_cache(catalog)
     consecutive_non_pdf = 0
     totals = {"issues": 0, "pages": 0, "ocr_pages": 0, "failed": 0}
     for n, meta in enumerate(todo, 1):
@@ -165,8 +194,12 @@ def main():
                     raise BlockedError(f"{MAX_CONSECUTIVE_NON_PDF} non-PDF responses in a row. Last: {msg}")
                 raise ValueError(msg)
             consecutive_non_pdf = 0
-            pages, stats = extract_pdf(resp.content)
+            pages, stats, contents = extract_pdf(resp.content)
             write_issue(meta, pages)
+            if not meta.get("contents") and contents:
+                meta.update(contents=as_strings(contents), contents_source="pdf")
+                catalog_changed = True
+                print(f"  contents: {len(contents)} entries read from the PDF")
             totals["issues"] += 1
             totals["pages"] += stats["pages"]
             totals["ocr_pages"] += stats["ocr_pages"]
@@ -179,6 +212,13 @@ def main():
             print(f"  FAILED: {exc}", file=sys.stderr)
             totals["failed"] += 1
         time.sleep(REQUEST_DELAY_SECONDS)
+
+    if catalog_changed:
+        CATALOG_PATH.write_text(json.dumps(catalog, indent=1, ensure_ascii=False) + "\n",
+                                encoding="utf-8")
+    missing = [i["id"] for i in catalog if not i.get("contents")]
+    if missing:
+        print(f"No contents list yet for: {', '.join(missing)} (check.py --github opens an issue)")
 
     text_bytes = sum(len(p["text"].encode("utf-8"))
                      for f in ISSUES_DIR.glob("*.json")

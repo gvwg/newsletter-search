@@ -1,12 +1,13 @@
 name: Extract newsletters
 
 on:
-  # Daily, so a new issue linked on the Newsletters page is searchable by the
-  # next morning. GitHub pauses schedules in public repos after 60 days with
-  # no repository activity (e.g. a summer with no new issues); re-enable it
-  # from the Actions tab.
+  # Every 3 hours, so an issue uploaded to the CE Newsletters folder appears
+  # the same day. A run with nothing new commits nothing and does not deploy.
+  # GitHub pauses schedules in public repos after 60 days with no repository
+  # activity (e.g. a summer with no new issues); re-enable it from the
+  # Actions tab.
   schedule:
-    - cron: "17 11 * * *"   # 11:17 UTC = 3:17 or 4:17 Vancouver time
+    - cron: "17 */3 * * *"
   workflow_dispatch:
     inputs:
       limit:
@@ -29,6 +30,8 @@ jobs:
   extract:
     runs-on: ubuntu-24.04
     timeout-minutes: 300
+    outputs:
+      committed: ${{ steps.commit.outputs.committed }}
     steps:
       - uses: actions/checkout@v5
 
@@ -52,7 +55,7 @@ jobs:
           echo "$out"
           echo "$out" | grep -q "'ocr_pages': 1" || { echo "OCR self-test failed"; exit 1; }
 
-      - name: Harvest catalog from the Newsletters page
+      - name: Harvest catalog from the Newsletters folder
         run: python scripts/harvest.py
 
       - name: Extract text from new issues
@@ -63,6 +66,7 @@ jobs:
       # Runs even if extraction partly failed, so completed issues are kept
       # and never re-OCR'd.
       - name: Commit extracted text
+        id: commit
         if: always()
         run: |
           git config user.name "github-actions[bot]"
@@ -73,14 +77,26 @@ jobs:
           else
             git commit -m "Extract newsletters (run ${{ github.run_number }})"
             git push
+            echo "committed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      # Reports likely wrong links on the Newsletters page as warnings on the
-      # run summary and as GitHub issues (label link-check), one per link,
-      # never repeated; closes them once fixed. Does not fail the run; see
+      # Reports newsletters whose title may not match the PDF (label
+      # link-check), newsletters with no contents list (contents) and folder
+      # documents left out for want of a dated title (untitled), as warnings
+      # on the run summary and as GitHub issues, one per document, never
+      # repeated; closes them once fixed. Does not fail the run; see
       # scripts/check.py and scripts/alerts.py.
-      - name: Check newsletter links
+      - name: Check newsletters
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
         run: python scripts/check.py --github
+
+  # Deploy only when this run committed something. An extraction run that
+  # fails on one issue still commits the others, so this ignores the extract
+  # job's own result.
+  deploy:
+    needs: extract
+    if: always() && needs.extract.outputs.committed == 'true'
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit

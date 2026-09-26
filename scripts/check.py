@@ -1,7 +1,9 @@
-"""Check that each link on the Newsletters page points at the right PDF.
+"""Check that each newsletter's title matches its PDF.
 
-Compares every catalog entry (title, contents list from the CE page) with the
-text extracted from the PDF it links to, and reports likely link errors:
+Compares every catalog entry (title, contents list) with the text extracted
+from its PDF, and reports likely errors (a wrong title in CE, a wrong link
+on the old Newsletters page, or a document that is not the issue it claims
+to be):
 
   duplicate  the PDF text is identical to another issue's PDF
   contents   the PDF matches the listed contents poorly, or another issue's
@@ -16,8 +18,9 @@ Month mismatches are only checked in the page-1 header: body text routinely
 mentions the previous or next month's meeting.
 
 Findings are warnings for a human; the data is still published. With
---github each flagged link is also recorded as a GitHub issue, once (see
-alerts.py). Confirmed false positives (e.g. misprinted headers) go in
+--github each flagged document is also recorded as a GitHub issue, once (see
+alerts.py), as are newsletters with no contents list and folder documents
+left out for want of a year in the title. Confirmed false positives (e.g. misprinted headers) go in
 KNOWN_OK. Exit status is 0 unless --strict is given.
 
 Usage:
@@ -33,7 +36,7 @@ import os
 import re
 from collections import Counter
 
-from common import CATALOG_PATH, ISSUES_DIR
+from common import CATALOG_PATH, FOLDER_PATH, ISSUES_DIR, OVERRIDES_PATH
 
 MIN_CONTENTS_SCORE = 0.4   # weighted share of listed-contents words found in the PDF
 BETTER_MATCH_MARGIN = 0.15  # another PDF scoring this much higher is suspicious
@@ -139,6 +142,10 @@ def main():
     for doc_id, title, name, msg in findings:
         line = f"{title} (id {doc_id}) [{name}]: {msg}"
         print(f"::warning title=Newsletter link check::{line}" if in_actions else "WARNING: " + line)
+    for c in catalog:
+        if c["id"] in issues and not c.get("contents"):
+            line = f"{c['title']} (id {c['id']}): no contents list"
+            print(f"::warning title=Newsletter contents::{line}" if in_actions else "WARNING: " + line)
     flagged = len({f[0] for f in findings})
     print(f"Checked {len(catalog)} catalog entries: {flagged} flagged, "
           f"{len(KNOWN_OK)} known exceptions in KNOWN_OK")
@@ -146,6 +153,9 @@ def main():
         import alerts
         checked = sum(1 for c in catalog if c["id"] in issues)
         alerts.sync(findings, catalog, checked, dry_run=args.dry_run)
+        folder = json.loads(FOLDER_PATH.read_text(encoding="utf-8")) if FOLDER_PATH.exists() else []
+        excluded = set(json.loads(OVERRIDES_PATH.read_text(encoding="utf-8")).get("exclude", {}))
+        alerts.sync_catalog(catalog, set(issues), folder, excluded, dry_run=args.dry_run)
     if args.strict and findings:
         raise SystemExit(1)
 

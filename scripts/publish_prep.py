@@ -33,19 +33,13 @@ import pymupdf
 
 from common import CATALOG_PATH, DOC_URL, REPO_ROOT, http_get, new_session
 from harvest import parse_date
+from toc import read_layout, squash
 
 MONTHS = ("january february march april may june july august "
           "september october november december").split()
 MONTH_RE = re.compile(r"(" + "|".join(MONTHS) + r")((?:19|20)\d\d)")
-PAGE_NUM_RE = re.compile(r"^\d{1,3}$")
 COVER_DPI = 90          # 612 pt wide page -> 765 px, the size of past CE previews
 OUT_DIR = REPO_ROOT / "out" / "publish"
-
-
-def squash(text: str) -> str:
-    """Lower-case with all whitespace removed, so letter-spaced headings
-    such as 'CO N T E N TS' or 'S E P T E M B E R 2 0 2 6' can be matched."""
-    return re.sub(r"\s+", "", text).lower()
 
 
 def issue_month(doc):
@@ -63,38 +57,12 @@ def issue_month(doc):
 
 def read_contents(doc):
     """[(title, byline or None, page number)] in page-layout order, from the
-    CONTENTS box. Exits with an explanation if the box cannot be read."""
-    for page in list(doc)[:4]:
-        blocks = [(b[0], b[1], b[2], b[3], b[4].strip()) for b in page.get_text("blocks")]
-        heads = [b for b in blocks if squash(b[4]) == "contents"]
-        if heads:
-            break
-    else:
-        sys.exit("No CONTENTS heading found on pages 1-4. Has the template changed?")
-
-    hx0, _, _, hy1, _ = heads[0]
-    column = [b for b in blocks if b[0] >= hx0 - 20 and b[1] > hy1 and b[4]]
-    numbers = [b for b in column if PAGE_NUM_RE.match(b[4])]
-    titles = sorted((b for b in column if not PAGE_NUM_RE.match(b[4])), key=lambda b: b[1])
-
-    entries, used = [], set()
-    for x0, y0, x1, y1, text in titles:
-        # The page number sits level with the first line of its title.
-        near = [n for n in numbers if abs(n[1] - y0) < 6 and id(n) not in used]
-        if len(near) != 1:
-            sys.exit(f"CONTENTS box: no single page number beside '{text}'. "
-                     "Check the layout before publishing by hand.")
-        used.add(id(near[0]))
-        lines = [" ".join(line.split()) for line in text.splitlines() if line.strip()]
-        byline = None
-        if len(lines) > 1 and lines[-1].lower().startswith("by "):
-            byline = lines.pop()
-        entries.append((" ".join(lines), byline, int(near[0][4])))
-
-    if len(used) != len(numbers):
-        sys.exit(f"CONTENTS box: {len(numbers)} page numbers but {len(entries)} titles.")
+    CONTENTS box (toc.read_layout). Exits with an explanation if the box
+    cannot be read."""
+    entries = read_layout(doc)
     if not entries:
-        sys.exit("CONTENTS box found but empty.")
+        sys.exit("No readable CONTENTS box on pages 1-4 (titles and page numbers must "
+                 "pair up one to one). Has the template changed? Publish by hand.")
     return entries
 
 

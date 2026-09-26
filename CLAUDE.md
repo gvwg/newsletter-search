@@ -288,9 +288,28 @@ All design questions answered; ready to build.
   and its DNS record (NXDOMAIN at 1.1.1.1); newsletters.gvwg.ca / and
   /search still 200.
 
+- Step 2 (branch `newsletters-list`, 2026-09-26, not yet merged): the folder
+  is the source of truth. `harvest.py` reads it (raw listing in
+  `data/folder.json`), merges into `catalog.json` (title rule, prune guard of
+  10) and keeps the 248 CE-page contents lists (`contents_source: ce`;
+  `--bootstrap` re-copies from the live page and copied 0: page and catalog
+  agreed). `data/overrides.json`: exclude (1518566, 1821788), titles,
+  contents. New issues get contents from the PDF via `scripts/toc.py`
+  (layout reader for the April 2026 CONTENTS box, then a layout-independent
+  text reader; >= 3 entries, ascending pages). `toc.py --score` vs the CE
+  lists: 0.74 of entries found overall, 0.74-0.98 per year 2011-2025, weak
+  before 2009 (text reader only; hand-edited CE lists cap it below 1.0).
+  January 2026 (1685423) extracted locally: 13 entries, exact match with
+  page 2. `alerts.py` generalised: labels `link-check`, `contents` (extracted
+  issue with no list), `untitled` (folder document with no year), same
+  once-only rules; tested with a fake gh. `extract.yml` every 3 hours and
+  calls `deploy.yml` (now `workflow_call`, no `workflow_run`) only when it
+  committed. Not yet tested: the workflows on GitHub (YAML parses locally).
+
 ## Next steps
-1. Build the newsletters.gvwg.ca redesign on a branch, test locally against
-   the live folder, review with Don, then deploy and cut over (order above).
+1. Continue the newsletters.gvwg.ca redesign: review and merge branch
+   `newsletters-list`, then the landing page (issue list by year) in
+   `build.mjs`, then deploy and cut over (order above).
 2. Don: check the search site on desktop and phone (headless Edge could not
    verify: its fast-forwarded time trips Pagefind's worker timeout).
 3. Don: train and add a second Cloudflare Super Administrator.

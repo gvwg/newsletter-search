@@ -20,7 +20,8 @@
    "Tools, Tech & Tips",
    "Books & Publications",
    "GVWG Officers, Appointees and Volunteers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1778856",
@@ -42,7 +43,8 @@
    "Know Your Species ~ LABURNUM by Mike Moult",
    "GVWG Skills Classes ~ Spring Intro to Spindle Turning Class by Ed Pretty",
    "GVWG Officers, Appointees and Volunteers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1763341",
@@ -63,7 +65,8 @@
    "Spring Intro to Bowl Turning",
    "Bulk Order Offer ~ Sanding Discs",
    "GVWG Officers, Appointees and Volunteers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1743162",
@@ -83,7 +86,8 @@
    "Visitor Presentation & Classes with Matt Monaco",
    "Guild Member Article ~ The Vessel of Hephaestus | Fire, Carbon and a New Way of Working by Don Gamble",
    "GVWG Officers, Appointees and Volunteers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1727786",
@@ -103,7 +107,8 @@
    "Safety Guidelines for Woodturning",
    "Calendar of Events",
    "GVWG Officers, Appointees & Volunteers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1709794",
@@ -124,7 +129,31 @@
    "Safety Guidelines for Woodturning",
    "Calendar of Events",
    "GVWG Officers, Appointees & Volunteers"
-  ]
+  ],
+  "contents_source": "ce"
+ },
+ {
+  "id": "1685423",
+  "title": "January 2026 GVWG Newsletter",
+  "year": 2026,
+  "month": 1,
+  "url": "https://gvwg.ca/docs.ashx?id=1685423",
+  "contents": [
+   "Presidential Ramblings",
+   "Editor’s Note",
+   "Organic Fantasy",
+   "PAPRs in Woodturning - My Personal Path to a Decision",
+   "Kiss the Baby -Thoughts on Critique",
+   "KMS Class Lathe Repair",
+   "Cell Phone Holder Drill Press Hack",
+   "Guild Member Profile - Don Gamble",
+   "Instant Gallery",
+   "President’s Challenge Gallery",
+   "Safety Guidelines for Woodturning",
+   "Calendar of Events",
+   "GVWG Officers, Appointees & Volunteers"
+  ],
+  "contents_source": "pdf"
  },
  {
   "id": "1657886",
@@ -147,11 +176,12 @@
    "Safety Guidelines for Woodturning",
    "Calendar of Events",
    "GVWG Officers, Appointees & Volunteers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1639376",
-  "title": "October 2025 GVWG Newsletter",
+  "title": "October 2025",
   "year": 2025,
   "month": 10,
   "url": "https://gvwg.ca/docs.ashx?id=1639376",
@@ -165,11 +195,12 @@
    "Safety Guidelines for Woodturning",
    "Calendar of Events",
    "GVWG Officers, Appointees & Volunteers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1623970",
-  "title": "September 2025 GVWG Newsletter",
+  "title": "September 2025",
   "year": 2025,
   "month": 9,
   "url": "https://gvwg.ca/docs.ashx?id=1623970",
@@ -189,11 +220,12 @@
    "Safety Guidelines for Woodturning",
    "Calendar of Events",
    "GVWG Officers, Appointees & Volunteers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1560430",
-  "title": "May 2025 GVWG Newsletter",
+  "title": "May 2025",
   "year": 2025,
   "month": 5,
   "url": "https://gvwg.ca/docs.ashx?id=1560430",
@@ -208,7 +240,8 @@
    "Intro To Woodturning",
    "Images from the Mark Garner Class",
    "Highlights from the Tech Talk Forum"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1552821",
@@ -232,7 +265,8 @@
    "Safety Guidelines for Woodturning",
    "Calendar of Events",
    "GVWG Officers, Appointees & Volunteers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1527648",
@@ -251,7 +285,8 @@
    "Intro To Turning",
    "Steve Sinner on Choosing and Using Sandpaper for the Lathe",
    "Safety Guidelines for Woodturning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517903",
@@ -268,7 +303,8 @@
    "Member Profile - Dan Lemire",
    "How I Almost Lost My Finger",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517902",
@@ -283,7 +319,8 @@
    "Offcuts: My Origin Story",
    "Member Profile - Pippa Lattey",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517901",
@@ -303,7 +340,8 @@
    "Woodturning Tourist At Large",
    "Member Profile - Brian Andrews",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517899",
@@ -316,7 +354,8 @@
    "Letter to the Editor - reflection on Mike Hosaluk’s visit",
    "Top Ten “When Making Stuff” Guidelines",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517898",
@@ -333,7 +372,8 @@
    "Shop Tip: Note Pads",
    "Tom Wirsing Class",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517897",
@@ -350,7 +390,8 @@
    "Scenes From the PoMo Art Shuffle",
    "Guild Member Profile - Linda Halingten",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517896",
@@ -365,7 +406,8 @@
    "Sculptor’s Society of BC 50th Anniversary Exhibition",
    "Guild Member Profile - Steve Fairbairn",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517895",
@@ -381,7 +423,8 @@
    "Guild Member Profile - Phil Winch",
    "AAW Symposium Plea for Volunteers",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517894",
@@ -400,7 +443,8 @@
    "So What Do You Need?",
    "Guild Member Profile - Shawn Preus",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517893",
@@ -417,7 +461,8 @@
    "A Word From Our Sponsors",
    "GVWG New Year",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517891",
@@ -435,7 +480,8 @@
    "What is the AAW Symposium?",
    "Five demonstrators",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517890",
@@ -450,7 +496,8 @@
    "CA Glue Hazard Warning",
    "Another Baby Step or Two",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517889",
@@ -471,7 +518,8 @@
    "In Memoriam, Ed Job",
    "Guild Member Profile - Gary Burns",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517888",
@@ -488,7 +536,8 @@
    "2023 GVWG Shop Crawls",
    "Guild Member Profile - Dan Breck",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517887",
@@ -509,7 +558,8 @@
    "GVWG Insurance Coverage",
    "Guild Member Profile - Art Liestman",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517886",
@@ -525,7 +575,8 @@
    "Turning a Staved Cylinder",
    "Guild Member Profile - Donna Rhindress",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517885",
@@ -542,7 +593,8 @@
    "WIT Exchange",
    "Guild Member Profile - Allan Cusworth",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517884",
@@ -560,7 +612,8 @@
    "Turning 101 Class Report",
    "Planting Seeds Slow and Steady",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517883",
@@ -576,7 +629,8 @@
    "Guild Member Profile - Bruce Campbell",
    "Permission to Play",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517882",
@@ -595,7 +649,8 @@
    "Dust and collecting it - some options",
    "skew angle",
    "polishing on the lathe"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517881",
@@ -609,7 +664,8 @@
    "Women in Turning",
    "Thanks for Everything",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517880",
@@ -624,7 +680,8 @@
    "Wise Words",
    "Focus, Form, Fun and Flow",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517879",
@@ -640,7 +697,8 @@
    "Returning to the Lathe",
    "WIT Presents: 2022 Windgate Wood Arts Residency Fellows",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517878",
@@ -656,7 +714,8 @@
    "Turning 101 Returns to GVWG",
    "Women In Turning",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517877",
@@ -673,7 +732,8 @@
    "Turning 101 Returns to GVWG",
    "Women In Turning",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517876",
@@ -689,7 +749,8 @@
    "Demonstration Evaluation Program",
    "WIT Presents",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517875",
@@ -705,7 +766,8 @@
    "Magnifier In Your Pocket",
    "Cyanoacrylate (CA) Adhesives",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517874",
@@ -722,7 +784,8 @@
    "Magnetic Dust Collection Connectors",
    "Practise and Play",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517873",
@@ -740,7 +803,8 @@
    "Consumer Products Public Advisory - Lichtenberg Generators",
    "In Memoriam - Barry Wilkinson",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517872",
@@ -757,7 +821,8 @@
    "Tech Talk: chuck jaws fitting tenon / reeves drive failure / photo backdrop / UV, ultra violet setting glue / laquer, finish blushing / filling, obliterating wood grain / electric chainsaw / steady rest / tool rest clamping / diy led task lighting / indexer",
    "Ordering Custom-Made Turning Smocks",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517871",
@@ -773,7 +838,8 @@
    "Ordering Custom-Made Turning Smocks",
    "Journey to Complete the President’s Challenge",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517870",
@@ -791,7 +857,8 @@
    "Guild Member Profile - Claudia Hayward",
    "Tech Talk: on hiatus this month",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517869",
@@ -807,7 +874,8 @@
    "Guild Member Profile - Ed Pretty",
    "Tech Talk: hollowing tool sharpener + upgrade / wrap-around grinding platform / grinder angle jig / hollowing vacuum chip catcher / paint masking upgrade / work piece holding jig / random orbit sander update / shine on top of tung oil / chroma gilt",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517868",
@@ -822,7 +890,8 @@
    "Ah, Chemistry - Why Things Burn",
    "Tech Talk: DYI sanding pads / 3D printed soft jaws / bleaching wood / sharpening jig for hooked tools / wolverine platform mod / liquid masking agent / pepper mill groove cutter",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517867",
@@ -842,7 +911,8 @@
    "Peppermills—3 Sided, With a Twist",
    "Estate Sale",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517866",
@@ -861,7 +931,8 @@
    "Process vs. Product",
    "Becoming a Mudita Maker",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517865",
@@ -881,7 +952,8 @@
    "In Memoriam - Des Wilson",
    "In Memoriam - Sandy Dougal",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517864",
@@ -903,7 +975,8 @@
    "2021 WIT Virtual Exchange",
    "Jumbo Jaw Accessory",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517863",
@@ -921,7 +994,8 @@
    "Nick Agar - Viking Sunset Bowl",
    "Yet Another Sharpening System",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517862",
@@ -941,7 +1015,8 @@
    "Microwave Drying Revisited",
    "In Memoriam - Lance Rossington",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1518099",
@@ -960,7 +1035,8 @@
    "This Issue’s Cover - “The Watchman” / Jim Johnson",
    "Phil Irons - upcoming",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517861",
@@ -977,7 +1053,8 @@
    "This Issue’s Cover - Steve Hansen 2x4",
    "Letters - Bravo Zulu",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517860",
@@ -993,7 +1070,8 @@
    "Revamping Battery Packs",
    "A Closer Look",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517859",
@@ -1010,7 +1088,8 @@
    "It’s The Little Things",
    "Configure A Scroll Chuck Into An Eccentric Chuck",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517858",
@@ -1024,7 +1103,8 @@
    "Focus On Fundamentals - finger nail grind / jigs",
    "Butterfly inserts in curved surfaces with Ed Pretty",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517857",
@@ -1042,7 +1122,8 @@
    "Pandemic Project?",
    "Maintenance Day: An Isolation Tale",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517855",
@@ -1058,7 +1139,8 @@
    "Dale Larson Demonstration",
    "Wooden Jaws",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517854",
@@ -1074,7 +1156,8 @@
    "Building your own Spindle Steady Rest",
    "Upcoming Demo & Class",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517853",
@@ -1092,7 +1175,8 @@
    "Dale Larson Demonstration upcoming",
    "Workshop safety",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517852",
@@ -1112,7 +1196,8 @@
    "Saskatchewan Woodturners Symposium",
    "Estate Auction",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517851",
@@ -1127,7 +1212,8 @@
    "Outstanding Contribution Award - Larry Stevenson",
    "Wasn’t That A Party!",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517850",
@@ -1144,7 +1230,8 @@
    "Dale Larson is Coming!",
    "SAWS Fine Works in Wood Exhibition",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517849",
@@ -1159,7 +1246,8 @@
    "Thank you to All the GVWG Volunteers",
    "A woodturning Adventure in Ireland",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517848",
@@ -1176,7 +1264,8 @@
    "Wood Fridge Drier - Ed Pretty",
    "Acquiring wood",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517847",
@@ -1192,7 +1281,8 @@
    "Turning Handles for Turning Tools - Ed Pretty",
    "A Closer Look on Bruce Campbell’s Seeing Double",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517846",
@@ -1209,7 +1299,8 @@
    "AAW seeking board applications",
    "Meeting Woodturning Royalty - Richard Raffan meets Peter Hill",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517845",
@@ -1227,7 +1318,8 @@
    "Beads of Courage",
    "Lee Valley People’s Choice Awards Results",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517844",
@@ -1242,7 +1334,8 @@
    "Hawai’i Dreams - Dex Hallwood",
    "Recall Notice - Penn State Industries quick change jaw chuck system",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517842",
@@ -1261,7 +1354,8 @@
    "AAW scholarship time!",
    "Focus on Fundamentals – Lathe maintenance with Steve Hansen",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517841",
@@ -1276,7 +1370,8 @@
    "Mark Anderson: Spring Flowers Demo",
    "Focus on Fundamentals – Avoiding Catches with Allan Cusworth",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517840",
@@ -1290,7 +1385,8 @@
    "Keith Hudson: Turning a Pivot-Lidded Salt Cellar",
    "A Closer Look at Mori Kono",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517839",
@@ -1308,7 +1404,8 @@
    "Focus on Fundamentals – Getting the best out of your wood",
    "Portland Musings",
    "Safety Guidelines for Wood Turning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517838",
@@ -1321,7 +1418,8 @@
    "What is the AAW Symposium?",
    "Behind the Scenes & what happens at our meetings?",
    "Beyond the ABCs - demo by Ed Pretty"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517837",
@@ -1336,7 +1434,8 @@
    "Turning Bamboo - demo by Bruce Campbell",
    "Woodturning at the Tetra Shop",
    "Glenn Lucas Demo"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517836",
@@ -1351,7 +1450,8 @@
    "Mori Kono - journey of a carver",
    "Honouring Gerry Vickers",
    "Hash Tag #GVWG"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517835",
@@ -1364,7 +1464,8 @@
    "Tech Talk: salvaging bark / non-marring chuck/jaws / tri-point beading tool / storing finishes",
    "Focus On Fundamentals",
    "Making a Sea Urchin Box - Sally Ault"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517834",
@@ -1378,7 +1479,8 @@
    "Brian Lunt’s Butterfly Ring",
    "The 2018 Tool Swap",
    "SWEET bowl cut - with Ed Pretty"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517833",
@@ -1390,7 +1492,8 @@
    "President’s Column",
    "Tech Talk: band saw problems offset / drilling / band saw blades carbide",
    "Wall Thickness Measuring in Hollow Forms with Steve Hansen"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517832",
@@ -1403,7 +1506,8 @@
    "Making Turning Tool Handles with Ed Pretty",
    "Turning 101",
    "The GVWG Demonstrator Certification Process"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517831",
@@ -1419,7 +1523,8 @@
    "2017 Guild Picnic and Auction",
    "Turning 101",
    "Safety in the Workshop Special Section"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517830",
@@ -1432,7 +1537,8 @@
    "Focus On Fundamentals - Spindle Roughing - Lance Rossington",
    "Tech Talk: food safe finish / noxious woods toxicity / grinding fingernail",
    "Turning Faces - Steve Hansen"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517829",
@@ -1449,7 +1555,8 @@
    "Turning an Multi-Centre - Allan Cusworth",
    "Wood + Wood-Fired ExhibitionTurning",
    "Beads of Courage"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517828",
@@ -1464,7 +1571,8 @@
    "A Closer Look – Comic Book Pens by Robert Stewart",
    "Wrestling With Deep Bowls - Bruce Campbell",
    "Turning 101 – In Depth Learning"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517827",
@@ -1479,7 +1587,8 @@
    "Piercing Turned Objects – Kathleen Duncan",
    "Carving a Barley Twist",
    "Things I Wish I Knew Before – With Kristin LeVier Demonstration"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517826",
@@ -1492,7 +1601,8 @@
    "Tech Talk: butterfly joints / lacquer cloudy",
    "Michael Stave – Wonky",
    "Demonstrating at Lee Valley"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517825",
@@ -1508,7 +1618,8 @@
    "Carving a Barley Twist",
    "Kristin LeVier Demonstration",
    "Combloux Woodturning Symposium / a review"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517824",
@@ -1524,7 +1635,8 @@
    "Eric Lofstrom Demonstration",
    "Why Attend an All-day Demo?",
    "Accident Report – Fire in the Shop"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517823",
@@ -1540,7 +1652,8 @@
    "Demonstrate at Arts Alive",
    "Michael Blankenship Demonstration",
    "IOCO Days Demo"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517822",
@@ -1555,7 +1668,8 @@
    "Bruce Campbell on Metal Leafing",
    "Beads of Courage",
    "It’s Our Turn"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517821",
@@ -1571,7 +1685,8 @@
    "Claudia Hayward on Turning Pepper Mills",
    "Beads of Courage",
    "It’s Our Turn"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517820",
@@ -1586,7 +1701,8 @@
    "Finish hollow form bottoms... with a frog & girdle",
    "Beads of Courage",
    "It’s Our Turn"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517819",
@@ -1602,7 +1718,8 @@
    "Applying Images / photos to Wood with Bill Fowle",
    "A Closer Look: Jay and Lin Mapson",
    "Don Hoskins Woodturning Estate Sale"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517818",
@@ -1618,7 +1735,8 @@
    "A Day With Mike Hosaluk",
    "A Closer Look: Peter Blair",
    "Turning a Nutcracker with Bob Askew"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517817",
@@ -1633,7 +1751,8 @@
    "Tech Talk: jigs square stock / seals vacuum plastic dip / dust collection seperator cyclone",
    "Focus On Fundamentals",
    "A Square Bowl: Barry Wilkinson"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517816",
@@ -1647,7 +1766,8 @@
    "Tech Talk: drill wander / motor / thermo coupler / small drill bits chucking / friction burn",
    "The Value of a Good Critique",
    "Suspended Vessel with Keith Hudson"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517815",
@@ -1664,7 +1784,8 @@
    "Chainsaw Maintenance with Gary Burns",
    "Focus on Fundamentals",
    "Its Our Turn 10"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517814",
@@ -1681,7 +1802,8 @@
    "Quesnel Woodturning Symposium",
    "2016 AAW Educational Opportunity",
    "Tips and Ideas 14"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517808",
@@ -1698,7 +1820,8 @@
    "Arts Alive",
    "Turning 101 – Safety First",
    "Upcoming Demonstrators"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517807",
@@ -1713,7 +1836,8 @@
    "A closer Look: Phil Vetra",
    "Turning 101 – Safety First",
    "Upcoming Demonstrators"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517806",
@@ -1728,7 +1852,8 @@
    "A New Approach to Shop Crawls",
    "Holding Work on the Lathe – sans chuck",
    "A Closer Look - Jim Johnson’s Cherry Bowl"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517805",
@@ -1742,7 +1867,8 @@
    "Focus On Fundamentals",
    "An evolution in pre-meeting demos",
    "Piercing in the 1800’s"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517804",
@@ -1753,7 +1879,8 @@
   "contents": [
    "President’s Column - Bill Fowle",
    "Turning a sphere - Larry Stevenson"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517803",
@@ -1768,7 +1895,8 @@
    "Turning 101 - Cathy Friesen",
    "Focus on Fundamentals - Neva Hilliard",
    "Future Presentations"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517802",
@@ -1783,7 +1911,8 @@
    "Making a teapot with a twist - Art Liestman",
    "I SCREAM! Donation - David Sweet",
    "Focus on Fundamentals - Gerry Vickers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517801",
@@ -1797,7 +1926,8 @@
    "Shop Crawls - Larry Stevenson",
    "Langley Arts Studio Tour - Ed Pretty",
    "Langley Art Festival — Allan Cusworth"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517800",
@@ -1811,7 +1941,8 @@
    "Maple Ridge Demo 2014 — Anne Rostvig",
    "Making Bats — Bruce Campbell",
    "Langley Art Festival — Allan Cusworth"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517798",
@@ -1824,7 +1955,8 @@
    "Carvers 25th Annual Show - Merv Graham",
    "Focus on Fundamentals - Neva Hilliard",
    "April’s Turning 101 - Bob Askew"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517797",
@@ -1842,7 +1974,8 @@
    "Talk to the Hand / Lumberjack - Maarten Meerman",
    "Focus on Fundamentals - Neva Hilliard",
    "Turning 101"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517796",
@@ -1856,7 +1989,8 @@
    "Replicating on the lathe - Ed Pretty",
    "Brentwood Mall Show & Tell",
    "Focus on Fundamentals - Neva Hilliard"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517795",
@@ -1873,7 +2007,8 @@
    "Focus on Fundamentals - Neva Hilliard",
    "Turning 101 - Cathy Friesen",
    "Announcements & For Sale"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517794",
@@ -1888,7 +2023,8 @@
    "Collaboration Opportunity",
    "Turning 101 - November - Gerry Vickers",
    "For Sale"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517793",
@@ -1904,7 +2040,8 @@
    "Christmas Ornaments - Marco Berera",
    "Barbara Dill Demo - Kerry Deane-Cloutier",
    "Napkin Rings - Beverley Pears"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517777",
@@ -1923,7 +2060,8 @@
    "Barbara Dill Demonstration & Workshop - Ed Pretty",
    "John Beaver Demonstration & Workshop - Ed Pretty",
    "Chippy Bits from a Newbie - Brian Lunt"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517776",
@@ -1935,7 +2073,8 @@
    "President’s Column - Ed Pretty",
    "A Wooden Stone Wall - Art Liestman",
    "Turning 101– Gerry Vickers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517775",
@@ -1945,7 +2084,8 @@
   "url": "https://gvwg.ca/docs.ashx?id=1517775",
   "contents": [
    "Maple Ridge Demo - Anne Rostvig"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517774",
@@ -1957,7 +2097,8 @@
    "Lathe Safety from a Different Perspective - Geoff Whaling",
    "Tech Talk: sandblasting problems / cracking pith / colouring finish mixing / old finishing / tung oil",
    "Turning 101 - Cathy Friesen"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517773",
@@ -1969,7 +2110,8 @@
    "Look Who is Coming to Demonstrate - Peter McLaren",
    "Jimmy Clewes - Bulk Buy",
    "Turning 101 - Cathy Friesen"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517772",
@@ -1983,7 +2125,8 @@
    "Turning 101 - Cathy Friesen",
    "Jimmy Clewes",
    "Tech Talk/Focus on Fundamentals - Bruce Campbell"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517771",
@@ -1996,7 +2139,8 @@
    "Turning 101 - Cathy Friesen",
    "FOF Demonstration - Spindle/Detail Gouge Basics",
    "A Cautionary Tale - importing wood"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517770",
@@ -2013,7 +2157,8 @@
    "A Day with David Ellsworth",
    "Turning 101",
    "Brentwood Display & Demonstration"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517769",
@@ -2028,7 +2173,8 @@
    "Rocco Says “Thanks”",
    "Turning 101 November - Cathy Friesen",
    "AGM - Proposed amendments to the bylaws"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517767",
@@ -2046,7 +2192,8 @@
    "Look Who is Coming to Demonstrate - Peter McLaren",
    "Segmented Woodturners Symposium - Ross Pilgrim",
    "KMS Tool Show - Merv Graham"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517766",
@@ -2061,7 +2208,8 @@
    "Calling All Artists - Ed Pretty",
    "Safe Lathe Speeds - Dennis Cloutier",
    "Look Who is Coming to Demonstrate - Peter McLaren"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517765",
@@ -2075,7 +2223,8 @@
    "Look Who is Coming to Demonstrate - Peter McLaren",
    "AAW Newsletter on Fundamentals",
    "A Look at the Past Year"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517764",
@@ -2091,7 +2240,8 @@
    "FOF Notes - Pen making with Bill Fowle",
    "Oils and Oil finishes - Claudia Hayward",
    "A Sad Passing of Chris Gorton"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517763",
@@ -2105,7 +2255,8 @@
    "“Thank you” Email - Ed Pretty",
    "Tech Talk: Morse - Jacobs taper / band saw sharpening",
    "FOF Notes May 2012 - Kerry Deane-Cloutier"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517762",
@@ -2120,7 +2271,8 @@
    "Dixie Biggs Demonstration - Kerry Deane-Cloutier",
    "Dixie Biggs Workshop - Ed Pretty",
    "GVWG Tech Talk: Sanding pads - reverse sanding / calipers / stains - bleaching / scraper - tearout"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517761",
@@ -2135,7 +2287,8 @@
    "Turning 201 - Gerry & Kees",
    "Elliptic Turning - Bill Cobb",
    "GVWG Turning 101 sessions - Gerry Vickers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517760",
@@ -2152,7 +2305,8 @@
    "Peter McClaren on Angled Chucks - David Sweet",
    "GVWG Tech Talk: Vacuum chuck - hose - quick connect / hand drill rig - chuck",
    "Brentwood Mall Demonstration"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517759",
@@ -2170,7 +2324,8 @@
    "Five Gouges - Bruce Campbell",
    "FoF",
    "GVWG Tech Talk: Pen turning - reaming / threa cutting - grain alignment / tail stock quill / DC motor torque"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517758",
@@ -2187,7 +2342,8 @@
    "Turning Site of the Month - Peter McLaren",
    "Now THAT’S a gouge. - Ed Pretty",
    "Risky Business - An Overview of the Safety and Health Risks in Woodturning - Neva Hilliard"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517753",
@@ -2202,7 +2358,8 @@
    "John Nelson on Wood Structure - Ed Pretty",
    "KMS Woodshow - Merv Graham",
    "Look Who Is Coming to Demonstrate - Peter McLaren"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517752",
@@ -2218,7 +2375,8 @@
    "Metal Spinning Resource Guide & Thanks from Dennis Shinn",
    "Turning 101",
    "President’s Challenge “Step Out Of The Box” or “What I Did For My Summer Vacation”"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517751",
@@ -2235,7 +2393,8 @@
    "Summer BBQ - Allan Cusworth",
    "Arts Alive Festival in Langley - Allan Cusworth",
    "GVWG’s First Mini Symposium - Merv Graham"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517750",
@@ -2255,7 +2414,8 @@
    "FOF – Simple End Grain Hollow Form - Merv Graham",
    "Skew Chisel - Lance Rossington",
    "Woodturning 101 - Candle Holder - Lance Rossington"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517749",
@@ -2272,7 +2432,8 @@
    "Turning Site of the Month - Peter McLaren",
    "Tech Talk: varigrind jig / tool handles - DIY",
    "Turning 101 – Turning a Small bowl/Platter - Lance Rossington"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517748",
@@ -2289,7 +2450,8 @@
    "Turning 101 – Turning a Small bowl/Platter - Lorne Nelson",
    "Yes / But I Have No Talent - Bruce Campbell",
    "John Jordan visits the GVWG - Ed Pretty"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517747",
@@ -2304,7 +2466,8 @@
    "Turning 101 - Boxes 5 - Merv Graham",
    "Turning Site of the Month - Peter McLaren",
    "Yet Another Call for Volunteers - Dennis Cloutier"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517746",
@@ -2320,7 +2483,8 @@
    "It’s Time to Lime - Ed Pretty",
    "Turning Site of the Month",
    "Vacuum Chucking Setup for the Wood Lathe - Larry Stevenson"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517745",
@@ -2338,7 +2502,8 @@
    "Russ Fairfield - Bruce Campbell",
    "Brentwood Display & Demo - Peter McLaren",
    "FOF: Making a Coffee Scoop - Claudia Hayward"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517737",
@@ -2352,7 +2517,8 @@
    "Notes from FOF",
    "Woodturners’ Liability Insurance - Allan Cusworth",
    "Tech Talk: dust collector - cleaning - filter / fingernail gouge / bottom gouge / grinding safety / diamond wheels"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517736",
@@ -2367,7 +2533,8 @@
    "Swing in Focus On Fundamentals - Murray MacKinnon",
    "You Can Make The Difference - Mark Baker",
    "Turning 101 - Allan Cusworth"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517735",
@@ -2382,7 +2549,8 @@
    "West Coast Roundup - Ed Pretty",
    "Maple Ridge Demo - Anne Rostvig",
    "Circle Craft DEMO and display"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517734",
@@ -2394,7 +2562,8 @@
    "Salt Shakers - Dennis Cloutier",
    "Turning 101",
    "Symposium Workshops"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517733",
@@ -2410,7 +2579,8 @@
    "Malcolm Zander Demo & Class",
    "Turning 101",
    "Symposium Workshops"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517732",
@@ -2427,7 +2597,8 @@
    "Tech Talk: Scroll Chucks - cleaning",
    "Turning 101",
    "Symposium Workshops"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517731",
@@ -2443,7 +2614,8 @@
    "West Coast Round Up",
    "Cristian Burchard",
    "Turning 101"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517730",
@@ -2458,7 +2630,8 @@
    "Malcolm Zander",
    "Maple Miser Posse",
    "Why Do You Do That?"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517729",
@@ -2476,7 +2649,8 @@
    "Tech Talk: Green wood / steady rest",
    "Mall Display & Demo",
    "Christian Burchard"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517727",
@@ -2490,7 +2664,8 @@
    "Green Turner - Mike Stewart",
    "Abby Woodshow",
    "Turning a Platter"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517726",
@@ -2503,7 +2678,8 @@
    "Tania Radda`s Visit",
    "Art Liestman - Woodturning rock star",
    "Turner’s Gallery & President’s Challenge"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517725",
@@ -2520,7 +2696,8 @@
    "Turning a Pepper Mill - Dennis Coutier",
    "Turner’s Gallery",
    "President’s Challenge"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517724",
@@ -2537,7 +2714,8 @@
    "PICNIC",
    "Turner’s Gallery",
    "President’s Challenge"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517723",
@@ -2551,7 +2729,8 @@
    "Turner’s Gallery",
    "President’s Challenge",
    "Turning 101"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517722",
@@ -2566,7 +2745,8 @@
    "Turner’s Gallery",
    "President’s Challenge",
    "Turning 101"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517721",
@@ -2581,7 +2761,8 @@
    "Turner’s Gallery",
    "President’s Challenge",
    "Turning 101"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517720",
@@ -2599,7 +2780,8 @@
    "Turning 101",
    "Turner’s Gallery",
    "President’s Challenge"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517719",
@@ -2617,7 +2799,8 @@
    "Turner’s Gallery",
    "President’s Challenge",
    "Announcements"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517713",
@@ -2635,7 +2818,8 @@
    "Future Demonstrations - Donald Derry & Malcolm Tibbetts",
    "Turner’s Gallery",
    "Presidents Challenge"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517712",
@@ -2647,7 +2831,8 @@
    "Pen turning - Mitchell Visser",
    "Michael Mocho from Albuquerque / New Mexico - Allan Cusworth",
    "On Wear of Turning Tools - Bruce Campbell"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517711",
@@ -2659,7 +2844,8 @@
    "John Weir & Harry Taylor: Rose Engine Lathe Ornamental Turning - Allan Cusworth",
    "Graeme Priddle from Whangerei New Zealand - Allan Cusworth",
    "Taking Work to the Trees - Merv Graham"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517710",
@@ -2670,7 +2856,8 @@
   "contents": [
    "Ed Pretty: Fire Saftey Concerns For Woodturners - Allan Cusworth",
    "Peter McLaren: Creating Bowls With Handles - Peter McLaren"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517709",
@@ -2682,7 +2869,8 @@
    "Turning a Finial Box Project to Production - Bruce Campbell",
    "Todd Hoyer Demo: Turning Crotches & Vessel Orientation - Allan Cusworth",
    "Guild Supports WPGA Arts Week - Bruce Campbell"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517708",
@@ -2698,7 +2886,8 @@
    "Clay Foster Demo: Split / Offset Hollow Form - Bruce Campbell",
    "Turning 101: Heritage Candle Holder - Allan Cusworth",
    "Sandpaper Organizer - Ed Pretty"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517707",
@@ -2713,7 +2902,8 @@
    "Hayley Smith & Todd Hoyer Demo & Class - Art Liestman",
    "Don’t Be a Scrooge - Tom Byrom",
    "Clay Foster Demo Decorating Techniques - Bruce Campbell"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517706",
@@ -2728,7 +2918,8 @@
    "The Easy Ripper - Merv Graham",
    "El Ripperoff Drawing - Bob Doop",
    "Turning 101: A Basic Finial Box - Bruce Campbell"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517705",
@@ -2741,7 +2932,8 @@
    "West Coast Roundup Al Stirt - Kerry Deane-Cloutier",
    "Turning 101: Ring Stand - Allan Cusworth",
    "Harvesting a Walnut Tree - Ross Pilgrim"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517704",
@@ -2755,7 +2947,8 @@
    "David Nittmann Demo & Class - Art Liestman",
    "Binh Pho - The Master of Piercing & Colouring",
    "Westcoast Roundup: Molly Winton on Surface Enhancement"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517703",
@@ -2767,7 +2960,8 @@
    "Barrel Turned Pepper Mills - Dennis Cloutier",
    "West Coast Roundup: John Jordan’s Ideas Slide Show",
    "Turning a Multi-Axis Vase - Gary Miller"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517702",
@@ -2781,7 +2975,8 @@
    "Turning a Hollow Globe Ornament - Alan Leland",
    "Cloverdale Wood Show - Volunteers Needed",
    "Binh Pho Demo"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517701",
@@ -2795,7 +2990,8 @@
    "Coming Events - Alan Leland - June Meeting Demonstrator",
    "Bucking Box - A Safe Way to Trim Logs",
    "Marco Does the Eccentric Snake"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517700",
@@ -2810,7 +3006,8 @@
    "AAW Annual Symposium - Call for Volunteers",
    "A Week at CollaboratioNZ",
    "Merv’s Maxi Jaws"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517699",
@@ -2826,7 +3023,8 @@
    "Let’s Hear Your Concerns and Suggestions",
    "West Coast Round Up Demonstrator Profiles: Martin Thorne and Bonnie Klein",
    "Sandpaper Roll Organizer"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517698",
@@ -2842,7 +3040,8 @@
    "Shop Tip: Suffering is Optional",
    "West Coast Roundup Demonstrator Profiles",
    "March Demonstrations and Classes"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517697",
@@ -2855,7 +3054,8 @@
    "Art Liestman on Pyrography",
    "West Coast Roundup Demonstrator Profiles",
    "Desert Woodturning Roundup"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517696",
@@ -2875,7 +3075,8 @@
    "Another Way To Turn A Sphere",
    "Some Fun With Offset Turning",
    "Drat Those Power Failures"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517695",
@@ -2890,7 +3091,8 @@
    "Dale Larson Demo & Classes",
    "Circle Craft 2006",
    "7th Annual West Coast Woodturning Competition"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517694",
@@ -2906,7 +3108,8 @@
    "Ray Key Demonstration",
    "Dale Larson Demo & Class",
    "Ever-Ready Lathe Tool Holder"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517693",
@@ -2921,7 +3124,8 @@
    "FVWG Shop Crawl",
    "June Main Event I: Ann Rostvig On Enhancing Your Turnings With Paint",
    "June Main Event II: Al Koehn On Salt & Pepper Mills"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517692",
@@ -2936,7 +3140,8 @@
    "West Coast Roundup 2007 Update",
    "GVWG Not-Quite-Annual Picnic",
    "Tool Review - Powered Respirators For Woodturners"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517691",
@@ -2949,7 +3154,8 @@
    "Dave Martin: Stay Healthy - Dust Collection For Woodturners",
    "Turning 101 Report",
    "What a Difference a Day Makes - Just 6 Little Hours"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517690",
@@ -2962,7 +3168,8 @@
    "John Jordan Shear Scraper Review",
    "Desert Woodturning Roundup / Mesa / Arizona",
    "On Resonance"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517689",
@@ -2976,7 +3183,8 @@
    "Attend Those Demonstrations!",
    "Eli Avisera Demo & Classes",
    "Andre Martel Demo & Classes"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517688",
@@ -2990,7 +3198,8 @@
    "A Follow Up Session To Marilyn Campbell",
    "Eli Avisera Demo And Classes",
    "Trent Bosch Demo And Classes"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517687",
@@ -3006,7 +3215,8 @@
    "Trent Bosch Demo And Classes",
    "Wow’ed Them Again",
    "Sharp Bandsaw Blades Revisited"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517686",
@@ -3020,7 +3230,8 @@
    "Importance Of Vacuum Tank Revisited",
    "Hand Sharpening Band Saw Blades",
    "eBay Auction For The AAW Emergency Relief Fund"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517685",
@@ -3033,7 +3244,8 @@
    "Reminder - Marilyn Campbell Demo And Classes",
    "Woodturner Michael Hosaluk - 29th Recipient Of Saideye Bronfman Award",
    "Vacuum Chucking Setup For The Wood Lathe"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517684",
@@ -3048,7 +3260,8 @@
    "Russ Fairfield Demo",
    "Conover Steady",
    "Marilyn Campbell Demo And Classes"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517683",
@@ -3062,7 +3275,8 @@
    "Russ Fairfield Demo And Classes",
    "Tips / Trick And Problems",
    "Support Your Art/Craft - Collect"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517682",
@@ -3075,7 +3289,8 @@
    "Stone Inlay In Woodturnings",
    "Andi Wolfe Demo And Class",
    "Island Woodcraft - What’s It To Ya"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517681",
@@ -3090,7 +3305,8 @@
    "Troubleshooting A Jet Mini Lathe Motor",
    "Turning 101 - Skew Chisel & Spindle Gouge",
    "Stephen Hatcher Demo & Classes"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517680",
@@ -3103,7 +3319,8 @@
    "Alcohol Soaking Method For Drying Bowls - Part 1",
    "Tips / Tricks & Problems",
    "Ron Gerton Demo & Classes - Update"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517679",
@@ -3118,7 +3335,8 @@
    "The Drozda Point",
    "Ron Gerton Demo & Classes",
    "Turning 101 - Lidded Boxes"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517678",
@@ -3129,7 +3347,8 @@
   "contents": [
    "Cindy Drozda Visit",
    "Dust Collection & Risk Of Exposure"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1518095",
@@ -3143,7 +3362,8 @@
    "Maple Ridge Chainsaw Massacre",
    "2004 Woodturning Competition",
    "Woodshow 2004"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1518094",
@@ -3157,7 +3377,8 @@
    "Everything I Know About Life I Learned In Turning School",
    "AAW Initiative For Youth",
    "A Special Feeling"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1518093",
@@ -3171,7 +3392,8 @@
    "Message From AAW President",
    "Presidents Challenge - Join Up",
    "Symposium Classes"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1518092",
@@ -3183,7 +3405,8 @@
    "Ebonizing Rust Stain",
    "GVWG Annual Picnic",
    "Westcoast Woodturning Competition"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1518091",
@@ -3198,7 +3421,8 @@
    "Symposium Sessions",
    "Richmond Carvers Show",
    "A Skew Whiff Tale"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1518090",
@@ -3212,7 +3436,8 @@
    "What Kind Of Wood Is That?",
    "West Coast Round-Up",
    "Quick Tips"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1518089",
@@ -3226,7 +3451,8 @@
    "Sanding Advice",
    "More On Jimmy Clewes",
    "Racal AS200 Helmet Batteries"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1518088",
@@ -3239,7 +3465,8 @@
    "Jimmy Clewes Demo",
    "Improvement To Razortip Woodburning System",
    "Some Thoughts On Tools"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1518087",
@@ -3252,7 +3479,8 @@
    "Hollowing Tools",
    "Lathe Problems & Solutions",
    "AGM Announcement"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517674",
@@ -3265,7 +3493,8 @@
    "November Demo",
    "A Loving Spoonful",
    "Life Ain’t So Bad!"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517673",
@@ -3280,7 +3509,8 @@
    "Saga Of The Shop - Episode 1 - The Permit & The Pit",
    "Creative Woodturning",
    "J. Paul Fennell Demo"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517672",
@@ -3295,7 +3525,8 @@
    "CA Glue Hazard Warning",
    "Phil Brennion Demo",
    "J. Paul Fennell Demo"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517671",
@@ -3311,7 +3542,8 @@
    "Pasadena 2003",
    "Provo 2003 versus Pasadena 2003",
    "History Lesson"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517670",
@@ -3323,7 +3555,8 @@
    "Phil Laliberte Demo",
    "Fun Stuff For The Summer",
    "Shopcrawl 2003"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517669",
@@ -3339,7 +3572,8 @@
    "A Chance Of Fame?",
    "Collaborative Challenge",
    "Oneway Live Centre Rehab"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517668",
@@ -3353,7 +3587,8 @@
    "Floppy Tailstock Remedy",
    "Argentine Wood",
    "On Peppermill Grinder Mechanisms"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517667",
@@ -3367,7 +3602,8 @@
    "Why We Turn",
    "Spigot Or Internal Dovetail",
    "Demo by John Bese"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517666",
@@ -3378,7 +3614,8 @@
   "contents": [
    "Dale Larsen Demo",
    "Turning A Gavel"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517665",
@@ -3390,7 +3627,8 @@
    "Jim Christiansen - Demo & Class",
    "Meaningful Quotes",
    "Doughnut Chuck"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517664",
@@ -3401,7 +3639,8 @@
   "contents": [
    "Mike Mahony Demo",
    "David’s Dust Extractor - Part 2"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517663",
@@ -3413,7 +3652,8 @@
    "Report From Rhode Island",
    "Some Words On Perfection",
    "David’s Dust Extractor - Part 1"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517662",
@@ -3427,7 +3667,8 @@
    "Rubbing Out A Finish",
    "All Sandpapers Are Not Created Equal",
    "Provo Symposium Experience"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517661",
@@ -3438,7 +3679,8 @@
   "contents": [
    "Gerrit VanNess Demo",
    "Are You Learning Too Fast?"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517660",
@@ -3452,7 +3694,8 @@
    "Paper Thin",
    "Sandpaper And Sanding",
    "Pricing Your Work"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517659",
@@ -3465,7 +3708,8 @@
    "Another Chuck / Another Day",
    "Michael Hosaluk Demo",
    "Equipment Sources"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517658",
@@ -3477,7 +3721,8 @@
    "Ron Grant Demo",
    "Cleaning Up My Nova Chuck",
    "Vacuum Chuck"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517657",
@@ -3490,7 +3735,8 @@
    "Evolution Of The Foot",
    "Empty Bowl Project",
    "Guild Library"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517656",
@@ -3504,7 +3750,8 @@
    "In Memory Of Rude Osolnik",
    "Ben’s Wood",
    "Improve Your Standing In Competitions"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517654",
@@ -3516,7 +3763,8 @@
    "West Coast Woodturners Competition",
    "Circle Craft’s Christmas Market",
    "Fire Safety in the Shop"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517653",
@@ -3527,7 +3775,8 @@
   "contents": [
    "Images from the Woodturning Competition",
    "In Praise ofthe Sketch Book"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517652",
@@ -3537,7 +3786,8 @@
   "url": "https://gvwg.ca/docs.ashx?id=1517652",
   "contents": [
    "Ernie Newman Demo"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517651",
@@ -3547,7 +3797,8 @@
   "url": "https://gvwg.ca/docs.ashx?id=1517651",
   "contents": [
    "Why are we here ?"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517650",
@@ -3560,7 +3811,8 @@
    "Don Derry - Demo",
    "Summer shop crawl",
    "Bowl Gouges - The Story of the Superflute"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517649",
@@ -3573,7 +3825,8 @@
    "John Liestman - Making Bagpipes",
    "Decoding the Label on grinding wheels",
    "Stop the Slipping on your Jet Lathe"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517648",
@@ -3585,7 +3838,8 @@
    "Robert Prinse & Bill Headridge on Local Woods",
    "Grinder Wheels",
    "Racal Power Respirator"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517647",
@@ -3595,7 +3849,8 @@
   "url": "https://gvwg.ca/docs.ashx?id=1517647",
   "contents": [
    "Martin Thorne - Hollowing Demo"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517646",
@@ -3606,7 +3861,8 @@
   "contents": [
    "Guild Membership Continues to Grow",
    "Scott Belway - Bowl Demo using scrapers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517645",
@@ -3617,7 +3873,8 @@
   "contents": [
    "Beyond Technique – A Response",
    "Is it sharp when I cut myself?"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517644",
@@ -3631,7 +3888,8 @@
    "Vernon Leibrant - Demo",
    "Tool Handles and Holding Tools",
    "Thoughts on Design"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517643",
@@ -3643,7 +3901,8 @@
    "Four Presenters! A Pictorial Reminder",
    "Clay Foster is coming in February!",
    "Focus on Fundamentals - Update"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517642",
@@ -3656,7 +3915,8 @@
    "Judges’ Comments",
    "Electric Motors - Part 1",
    "Turning a Watch"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517641",
@@ -3670,7 +3930,8 @@
    "Our First Picnic",
    "Art Liestman’s Trip to Maine",
    "Drying by Boiling – An update"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517640",
@@ -3683,7 +3944,8 @@
    "The Art of Wood 2000",
    "Fast Ferry and the AAW Symposium(Organic Fantasy)",
    "14th Annual AAW Symposium Charlotte North Carolina"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517639",
@@ -3695,7 +3957,8 @@
    "What do I do with this?",
    "Tuning Gouges",
    "Taming the wild grain — So many possible answers"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517638",
@@ -3706,7 +3969,8 @@
   "contents": [
    "Buying a lathe",
    "Reducing Timber Drying Defects by Boiling"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517637",
@@ -3718,7 +3982,8 @@
    "Segmented Turnings",
    "Langley School of Fine Arts",
    "Bonnie Klein — A Big Hit!"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517636",
@@ -3732,7 +3997,8 @@
    "Regional News",
    "Canadian Woodturning Competition",
    "Ways to Volunteer!"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517635",
@@ -3745,7 +4011,8 @@
    "Collaborative Challenge Report",
    "Identification of Woods",
    "Software Review: WOODPRO"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517634",
@@ -3757,7 +4024,8 @@
    "The Visual Context of Wood",
    "Visiting Other Chapters",
    "Shear Scraping on the Cheap!"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517633",
@@ -3768,7 +4036,8 @@
   "contents": [
    "Software Review - μLathe",
    "Is Your Lathe Y2K Compliant?"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517632",
@@ -3781,7 +4050,8 @@
    "Turning Spindle Handled Bowls",
    "Tips from the Web",
    "How You Can Help"
-  ]
+  ],
+  "contents_source": "ce"
  },
  {
   "id": "1517631",
@@ -3793,6 +4063,7 @@
    "Inaugral newsletter with summary of everything leading up to the Guild’s formation",
    "Taming of the Skew",
    "Tips from the web"
-  ]
+  ],
+  "contents_source": "ce"
  }
 ]

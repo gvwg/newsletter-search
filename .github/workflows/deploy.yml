@@ -1,12 +1,10 @@
 name: Build and deploy search site
 
-# Runs after every extraction run (which may have committed new issues), when
-# the site code changes, or by hand. Commits pushed by the extraction workflow
-# use GITHUB_TOKEN and so do not trigger push events; workflow_run covers them.
+# Runs when an extraction run has committed new data (called from
+# extract.yml; its commits use GITHUB_TOKEN and so trigger no push events),
+# when the site code changes, or by hand.
 on:
-  workflow_run:
-    workflows: ["Extract newsletters"]
-    types: [completed]
+  workflow_call:
   push:
     branches: [main]
     paths:
@@ -27,9 +25,6 @@ concurrency:
 
 jobs:
   deploy:
-    # An extraction run that fails on one issue still commits the others, so
-    # deploy unless it was cancelled.
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'cancelled'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
