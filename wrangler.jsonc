@@ -7,8 +7,6 @@
     "directory": "./dist"
   },
   "routes": [
-    { "pattern": "newsletters.gvwg.ca", "custom_domain": true },
-    // Retired; remove once the CE banner points at newsletters.gvwg.ca.
-    { "pattern": "search.gvwg.ca", "custom_domain": true }
+    { "pattern": "newsletters.gvwg.ca", "custom_domain": true }
   ]
 }

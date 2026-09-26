@@ -278,9 +278,12 @@ All design questions answered; ready to build.
   Deployed 2026-09-26 (run 36266489211): Wrangler created the
   newsletters.gvwg.ca custom domain; live `/search` and `/` 200,
   `/search.html` 307 to `/search`, `_headers` applied, live searches match
-  the local counts; search.gvwg.ca still serves. Remaining: Don repastes
-  the banner in CE and checks Enter/click, then remove `search.gvwg.ca`
-  from `wrangler.jsonc`.
+  the local counts; search.gvwg.ca still serves.
+- Banner repasted in CE (2026-09-26): the live Newsletters page carries
+  `onkeydown`/`onclick` handlers pointing at `newsletters.gvwg.ca/search`
+  and no search.gvwg.ca references. `search.gvwg.ca` removed from
+  `wrangler.jsonc` and README. Don tested Enter and the Search button
+  on the live page: both open newsletters.gvwg.ca/search with results.
 
 ## Next steps
 1. Build the newsletters.gvwg.ca redesign on a branch, test locally against

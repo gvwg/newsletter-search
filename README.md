@@ -128,7 +128,7 @@ static files; the browser downloads only the index fragments a query needs.
 |---|---|---|---|
 | `.github/workflows/extract.yml` ("Extract newsletters") | GitHub Actions, ubuntu-24.04, Python 3.12, apt Tesseract | Daily cron `17 11 * * *`, or by hand (optional `limit`) | OCR self-test on `tests/sample.pdf`; `harvest.py`; `extract.py`; commits `data/`; `check.py --github` |
 | `.github/workflows/deploy.yml` ("Build and deploy search site") | GitHub Actions, Node 24 | After every extraction run (`workflow_run`, unless cancelled), pushes to `main` touching site or build files, or by hand | `npm ci`, `npm run build`, `wrangler deploy` (skipped with a warning if the Cloudflare secrets are absent) |
-| `wrangler.jsonc` | Cloudflare Workers | Deploy | Assets-only Worker serving `dist/`, custom domain `newsletters.gvwg.ca` (and `search.gvwg.ca` until it is retired) |
+| `wrangler.jsonc` | Cloudflare Workers | Deploy | Assets-only Worker serving `dist/`, custom domain `newsletters.gvwg.ca` |
 | `site/_headers` | Cloudflare | Every request | `frame-ancestors https://gvwg.ca https://www.gvwg.ca` (so the page may be iframed on gvwg.ca only) and `nosniff` |
 | `site/search.html` | Reader's browser | Page load | Search page, served at `/search` (and, until the issue list is built, at `/`) on the Pagefind JS API; reads `?q=&from=&to=` |
 | `ce/search-banner.html` | gvwg.ca (CE HTML widget) | Pasted by hand | Search box that opens newsletters.gvwg.ca/search with the reader's words |
