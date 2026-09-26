@@ -25,11 +25,15 @@ createServer(async (req, res) => {
   if (rel.endsWith("/")) rel += "index.html";
   const file = path.join(DIST, rel);
   if (!file.startsWith(DIST + path.sep)) { res.writeHead(403).end(); return; }
-  try {
-    const body = await readFile(file);
-    res.writeHead(200, { "Content-Type": TYPES[path.extname(file)] ?? "application/octet-stream" });
-    res.end(body);
-  } catch {
-    res.writeHead(404).end("Not found");
+  // Cloudflare serves /search from search.html; do the same here.
+  const candidates = path.extname(file) ? [file] : [file, file + ".html"];
+  for (const f of candidates) {
+    try {
+      const body = await readFile(f);
+      res.writeHead(200, { "Content-Type": TYPES[path.extname(f)] ?? "application/octet-stream" });
+      res.end(body);
+      return;
+    } catch {}
   }
+  res.writeHead(404).end("Not found");
 }).listen(PORT, () => console.log(`Serving ${DIST} at http://localhost:${PORT}`));

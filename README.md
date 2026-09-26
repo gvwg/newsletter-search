@@ -1,7 +1,7 @@
 # GVWG newsletter search
 
 Full-text search of the Greater Vancouver Woodturners Guild newsletter archive
-(October 1999 onward) at **https://search.gvwg.ca**. The newsletters themselves
+(October 1999 onward) at **https://newsletters.gvwg.ca/search**. The newsletters themselves
 stay where they are: PDFs in the ClubExpress (CE) Documents library, linked from
 the [Newsletters page](https://gvwg.ca/content.aspx?page_id=22&club_id=182740&module_id=717502)
 on gvwg.ca. This project reads that page, extracts the text of each PDF, and
@@ -33,7 +33,7 @@ search. The second part is for a developer changing it.
 |---|---|
 | [Issues labelled `link-check`](https://github.com/gvwg/newsletter-search/issues?q=label%3Alink-check) | A link on the Newsletters page probably opens the wrong PDF (a duplicate, the wrong month, or the wrong year). One issue per link. People watching the repository get an email when one opens. |
 | [Actions tab](https://github.com/gvwg/newsletter-search/actions) | Every run of "Extract newsletters" and "Build and deploy search site". A red X is a failed run. GitHub emails failures of the daily run to the account that last edited its schedule. |
-| https://search.gvwg.ca | Search for a word from the newest issue. If it is not found a day or two after the issue went up, check the Actions tab. |
+| https://newsletters.gvwg.ca/search | Search for a word from the newest issue. If it is not found a day or two after the issue went up, check the Actions tab. |
 
 **When a `link-check` issue appears:** open the link on the Newsletters page
 and look at the PDF. If the link is wrong, fix it in CE; the next daily run
@@ -80,7 +80,7 @@ has a **Run workflow** button, which republishes the site without checking CE.
 | Service | Used for | Cost |
 |---|---|---|
 | GitHub organization `gvwg` | This repository and the daily and deploy runs | Free (public repository, standard runners) |
-| Cloudflare account (holds the gvwg.ca DNS) | Hosting search.gvwg.ca as a Worker with static assets | Free: static-asset requests are free and unlimited, no storage charge |
+| Cloudflare account (holds the gvwg.ca DNS) | Hosting newsletters.gvwg.ca as a Worker with static assets | Free: static-asset requests are free and unlimited, no storage charge |
 | ClubExpress | The newsletters and the Newsletters page | The club's existing subscription |
 
 The deploy uses a Cloudflare account API token named
@@ -98,7 +98,7 @@ person.
 The search banner on the Newsletters page is an HTML widget in CE. Its source is
 [`ce/search-banner.html`](ce/search-banner.html); paste it into the widget's
 HTML view if the banner is ever lost or needs to go on another page. It sends
-readers to `https://search.gvwg.ca/?q=<their words>`.
+readers to `https://newsletters.gvwg.ca/search?q=<their words>`.
 
 ---
 
@@ -114,8 +114,8 @@ readers to `https://search.gvwg.ca/?q=<their words>`.
                                        check.py / alerts.py -> GitHub issues
                                        build.mjs -> dist/ (Pagefind index + site/)
                                        wrangler deploy  ----------------------------->  Worker "gvwg-newsletter-search"
-                                                                                        static assets at search.gvwg.ca
- Reader's browser: loads search.gvwg.ca, runs the search locally (Pagefind JS + WASM),
+                                                                                        static assets at newsletters.gvwg.ca
+ Reader's browser: loads newsletters.gvwg.ca/search, runs the search locally (Pagefind JS + WASM),
  and opens results at https://gvwg.ca/docs.ashx?id=N#page=P in a new tab.
 ```
 
@@ -128,10 +128,10 @@ static files; the browser downloads only the index fragments a query needs.
 |---|---|---|---|
 | `.github/workflows/extract.yml` ("Extract newsletters") | GitHub Actions, ubuntu-24.04, Python 3.12, apt Tesseract | Daily cron `17 11 * * *`, or by hand (optional `limit`) | OCR self-test on `tests/sample.pdf`; `harvest.py`; `extract.py`; commits `data/`; `check.py --github` |
 | `.github/workflows/deploy.yml` ("Build and deploy search site") | GitHub Actions, Node 24 | After every extraction run (`workflow_run`, unless cancelled), pushes to `main` touching site or build files, or by hand | `npm ci`, `npm run build`, `wrangler deploy` (skipped with a warning if the Cloudflare secrets are absent) |
-| `wrangler.jsonc` | Cloudflare Workers | Deploy | Assets-only Worker serving `dist/`, custom domain `search.gvwg.ca` |
+| `wrangler.jsonc` | Cloudflare Workers | Deploy | Assets-only Worker serving `dist/`, custom domain `newsletters.gvwg.ca` (and `search.gvwg.ca` until it is retired) |
 | `site/_headers` | Cloudflare | Every request | `frame-ancestors https://gvwg.ca https://www.gvwg.ca` (so the page may be iframed on gvwg.ca only) and `nosniff` |
-| `site/index.html` | Reader's browser | Page load | Search page on the Pagefind JS API; reads `?q=&from=&to=` |
-| `ce/search-banner.html` | gvwg.ca (CE HTML widget) | Pasted by hand | Search box that opens search.gvwg.ca with the reader's words |
+| `site/search.html` | Reader's browser | Page load | Search page, served at `/search` (and, until the issue list is built, at `/`) on the Pagefind JS API; reads `?q=&from=&to=` |
+| `ce/search-banner.html` | gvwg.ca (CE HTML widget) | Pasted by hand | Search box that opens newsletters.gvwg.ca/search with the reader's words |
 
 `deploy.yml` uses `workflow_run` because commits pushed by the extraction
 workflow with `GITHUB_TOKEN` do not trigger `push` workflows.
@@ -166,7 +166,7 @@ workflow with `GITHUB_TOKEN` do not trigger `push` workflows.
 
 ### Search page notes
 
-- `site/index.html` uses the Pagefind JS API rather than the default UI,
+- `site/search.html` uses the Pagefind JS API rather than the default UI,
   because the default UI ANDs selected filter values and each page has one
   year. The From/To range is sent as `{ year: { any: [...] } }`.
 - Pagefind excerpts are not HTML-escaped, so the page rebuilds each excerpt

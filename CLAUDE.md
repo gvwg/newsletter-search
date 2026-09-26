@@ -267,6 +267,17 @@ Answered by Don (2026-09-25):
 
 All design questions answered; ready to build.
 
+- Step 1 (branch `newsletters-domain`, 2026-09-26): search moved to
+  `newsletters.gvwg.ca/search` before the rest of the redesign, so the CE
+  Newsletters page keeps working unchanged. `site/index.html` is now
+  `site/search.html` (Workers serves it at `/search`); `build.mjs` also copies
+  it to `/` until the issue list exists. The Worker serves both domains;
+  `ce/search-banner.html` points at `newsletters.gvwg.ca/search?q=`. Tested
+  locally in headless Edge via CDP (no virtual time, so Pagefind works):
+  `/search?q=hollowing` 729 pages, with 2020-2022 range 86, `/?q=` same.
+  Remaining: deploy, repaste the banner in CE and check Enter/click, then
+  remove `search.gvwg.ca` from `wrangler.jsonc`.
+
 ## Next steps
 1. Build the newsletters.gvwg.ca redesign on a branch, test locally against
    the live folder, review with Don, then deploy and cut over (order above).

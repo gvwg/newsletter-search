@@ -1,4 +1,4 @@
-// Build the search site into dist/: copy site/ and write a Pagefind index
+// Build the newsletters site into dist/: copy site/ and write a Pagefind index
 // with one record per newsletter page.
 //
 // Each record links to https://gvwg.ca/docs.ashx?id=N#page=P, so a result
@@ -22,6 +22,9 @@ const catalog = JSON.parse(await readFile(path.join(ROOT, "data", "catalog.json"
 await rm(DIST, { recursive: true, force: true });
 await mkdir(DIST, { recursive: true });
 await cp(path.join(ROOT, "site"), DIST, { recursive: true });
+// The search page is served at /search (Workers drops the .html). Until the
+// issue list is built, the site root shows the search page too.
+await cp(path.join(DIST, "search.html"), path.join(DIST, "index.html"));
 
 const { index, errors } = await pagefind.createIndex({ forceLanguage: "en" });
 if (!index) throw new Error(`Pagefind createIndex failed: ${errors.join("; ")}`);

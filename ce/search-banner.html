@@ -4,11 +4,11 @@
 
      CE wraps the whole page in one ASP.NET <form>, so this cannot use its own
      <form> (browsers ignore nested forms and would post back to CE). Instead,
-     small inline handlers send the reader to https://search.gvwg.ca/?q=...
+     small inline handlers send the reader to https://newsletters.gvwg.ca/search?q=...
      If CE ever strips the handlers, the Search button still opens the search
      page (it is a plain link), but Enter in the box would post the CE page.
      Styles are inline because CE's editor may drop <style> blocks.
-     Colours match gvwg.ca and the search page (site/index.html). -->
+     Colours match gvwg.ca and the search page (site/search.html). -->
 <div role="search" style="margin: 12px 0 18px 0; clear: both; background: #02385a; border-radius: 6px;
      padding: 14px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.25);
      font-family: 'Open Sans', Arial, Helvetica, sans-serif;">
@@ -29,11 +29,11 @@
     </span>
     <input id="gvwg-search-q" type="search" autocomplete="off" enterkeyhint="search"
            placeholder="e.g. hollowing, Stuart Batty, pepper mill"
-           onkeydown="if (event.key === 'Enter') { event.preventDefault(); var q = this.value.trim(); window.location.href = 'https://search.gvwg.ca/' + (q ? '?q=' + encodeURIComponent(q) : ''); }"
+           onkeydown="if (event.key === 'Enter') { event.preventDefault(); var q = this.value.trim(); window.location.href = 'https://newsletters.gvwg.ca/search' + (q ? '?q=' + encodeURIComponent(q) : ''); }"
            style="flex: 1 1 auto; min-width: 0; border: 0; outline: 0; background: transparent; color: #000000;
                   font-family: 'Open Sans', Arial, Helvetica, sans-serif; font-size: 15px; padding: 9px 0; margin: 0;">
-    <a href="https://search.gvwg.ca/"
-       onclick="var q = document.getElementById('gvwg-search-q').value.trim(); if (q) { this.href = 'https://search.gvwg.ca/?q=' + encodeURIComponent(q); }"
+    <a href="https://newsletters.gvwg.ca/search"
+       onclick="var q = document.getElementById('gvwg-search-q').value.trim(); if (q) { this.href = 'https://newsletters.gvwg.ca/search?q=' + encodeURIComponent(q); }"
        style="flex: 0 0 auto; align-self: stretch; display: flex; align-items: center; background: #4298cc;
               color: #ffffff; font-size: 15px; font-weight: 700; padding: 9px 18px; text-decoration: none;">
       Search &rsaquo;
