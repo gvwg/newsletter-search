@@ -257,14 +257,14 @@ Answered by Don (2026-09-25):
   March/April 2020). The Dummy issue (1821788) stays in the Newsletters
   folder for now, so it goes on the exclusion list until Don moves it.
 - `extract.yml` runs every 3 hours.
+- A document removed from the folder is removed from the site, keeping the
+  existing prune guard (more than 10 removals in one run: stop and warn).
 
-Open questions for Don (validate before building):
-6. A document removed from the folder is removed from the site (existing
-   prune guard: max 10 per run)?
+All design questions answered; ready to build.
 
 ## Next steps
-1. Don: answer the open questions above; then build the redesign on a
-   branch, test locally against the live folder, then deploy.
+1. Build the newsletters.gvwg.ca redesign on a branch, test locally against
+   the live folder, review with Don, then deploy and cut over (order above).
 2. Don: check the search site on desktop and phone (headless Edge could not
    verify: its fast-forwarded time trips Pagefind's worker timeout).
 3. Don: train and add a second Cloudflare Super Administrator.
