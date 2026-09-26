@@ -260,6 +260,11 @@ Answered by Don (2026-09-25):
 - A document removed from the folder is removed from the site, keeping the
   existing prune guard (more than 10 removals in one run: stop and warn).
 
+- Subdomain (2026-09-26): a general `info.gvwg.ca` with `/newsletters/`
+  paths was considered, for a possible later site search or knowledge base.
+  Rejected: keep the scope to newsletters; any later service gets its own
+  subdomain (a cross-origin search of our index would need a CORS header).
+
 All design questions answered; ready to build.
 
 ## Next steps
