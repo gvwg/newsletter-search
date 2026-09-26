@@ -193,13 +193,73 @@ was judged unlikely to help.
 - GitHub org `gvwg` has one member and owner (flyfisher604): same single-person
   risk as Cloudflare; add the second officer as an org owner too.
 
+## Planned redesign: newsletters.gvwg.ca (decided 2026-09-25, not built)
+Why: publishing via Claude in Chrome (the `publish-newsletter` skill) works
+but is too slow. New goal: the editor only uploads the PDF to the CE
+Newsletters folder; the newsletter list and search update themselves. The
+News post stays manual.
+
+Decided by Don:
+- Domain `newsletters.gvwg.ca`. Landing page = the search box at the top
+  (like the CE Newsletters page banner) with the chronological issue list
+  below (link + contents bullets, newest first). Searching goes to
+  `newsletters.gvwg.ca/search` and works as search.gvwg.ca does today.
+- The list is auto-built and hosted on Cloudflare with search (same build
+  and deploy). Bootstrapped once from the current CE Newsletters page
+  (`data/catalog.json` titles and contents).
+- New uploads to the CE Newsletters folder update the list and search.
+
+Facts established 2026-09-25 (anonymous, same User-Agent, no extra headers):
+- Public Document Library: https://gvwg.ca/content.aspx?page_id=86&club_id=182740.
+  Newsletters folder id `216109`. Its document list comes from
+  `/handlers/documenthandler.ashx?cat_id=216109`, which returns 200 only
+  with the session cookie set by first loading page_id=86 (404 without).
+  Markup per document: `loadDetails(this,"<docid>")'>Title</div>`,
+  newest first.
+- Folder = 251 docs: all 248 on the CE page, plus 1685423 "January 2026 GVWG
+  Newsletter" (missing from the CE page; looks like an oversight), 1518566
+  "2020.04.April.pdf", and 1821788 (Dummy). 235 folder titles are bare
+  filenames, so known issues keep their catalog titles.
+- 1518566 is an earlier 26-page version of March/April 2020 (1517855, 30
+  pages): same contents list minus "Demo Day with Nick Agar", 88% text
+  similarity. Recommend excluding it.
+
+Planned build (to refine with Don, see open questions):
+1. `harvest.py` reads the folder instead of the CE page; `catalog.json`
+   becomes the committed record. New IDs: title from CE, contents from the
+   PDF via `publish_prep.py`'s reader (template since April 2026); if that
+   fails, open a GitHub issue and take the list from an override file.
+2. An exclusion list in the repo for folder documents not to publish.
+3. `build.mjs` generates the landing page; search moves to `/search`.
+4. Worker custom domain `newsletters.gvwg.ca`; `_headers` frame-ancestors
+   unchanged.
+5. `extract.yml` runs more often so an upload appears the same day.
+6. CE Newsletters page becomes the banner plus a link; banner searches go to
+   `newsletters.gvwg.ca/search?q=`. `ce/search-banner.html` updated.
+7. `publish-newsletter` skill cut back to the News post (step 4), or
+   replaced by a copy-and-paste kit from `publish_prep.py`.
+
+Open questions for Don (validate before building):
+1. search.gvwg.ca: redirect to newsletters.gvwg.ca/search keeping `?q=`
+   (Cloudflare Redirect Rule), or retire it?
+2. Landing list layout: all ~250 issues on one page with contents bullets,
+   or grouped by year (collapsible, with year jump links)?
+3. Title rule when CE and catalog differ: CE title wins only if it has a
+   month and year and is not a bare filename? (3 differ today, e.g. CE
+   "October 2025" vs page "October 2025 GVWG Newsletter".)
+4. January 2026 (1685423): publish. 1518566: exclude. Dummy (1821788):
+   move out of the folder (cleaner; it is public today) or exclude list?
+5. Update frequency: every 3 hours?
+6. A document removed from the folder is removed from the site (existing
+   prune guard: max 10 per run)?
+7. CE Newsletters menu item: keep the CE page (banner + link), or point the
+   menu straight at newsletters.gvwg.ca if CE menus allow external links?
+
 ## Next steps
-1. Don: check https://search.gvwg.ca on desktop and phone (headless Edge could
-   not verify: its fast-forwarded time trips Pagefind's worker timeout). Then
-   add a "Search the newsletters" link on the CE Newsletters page.
-2. First `/publish-newsletter` run on a real issue. The CE click paths are
-   recorded from the 2026-09-25 rehearsal; what is still untested is a real
-   issue's PDF and Don's choice of Share Image.
+1. Don: answer the open questions above; then build the redesign on a
+   branch, test locally against the live folder, then deploy.
+2. Don: check the search site on desktop and phone (headless Edge could not
+   verify: its fast-forwarded time trips Pagefind's worker timeout).
 3. Don: train and add a second Cloudflare Super Administrator.
 4. Later: trim the deploy token's account permissions; rename the Cloudflare
    account; check the gvwg.ca registrant contact.
