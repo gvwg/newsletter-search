@@ -27,10 +27,9 @@ keeping the site running. The second part is for developers.
    [newsletters.gvwg.ca](https://newsletters.gvwg.ca) with its cover and
    contents list (read from the PDF), and its text is searchable. Nothing needs
    to be done here.
-3. The News post on the gvwg.ca home page is still made by hand in CE.
-   `scripts/publish_prep.py` can prepare its body and cover image (see the
-   developer section). The earlier tool that did this through Claude in Chrome
-   is retired; see [`archive/`](archive/README.md).
+3. The News post on the gvwg.ca home page is still made by hand in CE. The
+   earlier tool that did this through Claude in Chrome is retired; see
+   [`archive/`](archive/README.md).
 
 To see a new issue sooner, run the update by hand (see "Running an update by
 hand" below). To take an issue off the site, delete it from the Newsletters
@@ -333,7 +332,7 @@ page and one scanned page. Afterwards delete `data/issues/999.json`, and run
     data/                catalog.json, folder.json, overrides.json (hand-kept),
                          issues/<id>.json (the text cache) and thumbs/<id>.jpg (committed)
     archive/             retired tools (the publish-newsletter skill); see archive/README.md
-    scripts/             harvest, extract, toc, check, alerts, publish_prep, common (Python);
+    scripts/             harvest, extract, toc, check, alerts, common (Python);
                          build, serve (Node)
     site/                issue list template, search page, shared CSS, _headers,
                          images copied from gvwg.ca
