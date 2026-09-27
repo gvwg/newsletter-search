@@ -11,57 +11,8 @@ This project reads that folder, extracts the text of each PDF, and publishes
 the site, which links back to the PDFs. It updates itself when a new issue is
 uploaded.
 
-This README has three parts: **for readers** (using the site), **for the club
-maintainer** (the volunteer keeping it running) and **for developers**.
-
----
-
-## For readers
-
-### Browsing the issues
-
-[newsletters.gvwg.ca](https://newsletters.gvwg.ca) lists every issue, newest
-first, grouped by year.
-
-- Each issue shows its cover and its list of articles. Click the title or the
-  cover to open the newsletter (PDF) in a new tab.
-- The two most recent years are open. Click any year to open or close it, or
-  use **Expand all** and **Collapse all**. The row of year buttons jumps
-  straight to a year.
-- **Years** (from and to), in the blue search panel, narrows the list to those
-  years. The same range applies if you then search from that page.
-
-### Searching
-
-Type a name, technique, wood or any other words in the search box and press
-Enter or **Search**, for example *hollowing*, *Stuart Batty* or *pepper mill*.
-The search covers the full text of every page of every issue, including
-scanned pages, where the text was recognised automatically and may be
-imperfect.
-
-- Each result is one page of a newsletter: the issue, the page number, the
-  passage with your words highlighted, and the issue's cover. Results are
-  shown ten at a time; **More results** shows the next ten.
-- Clicking a result opens the newsletter in a new tab at that page. A few
-  issues open on the wrong page in some browsers; if that happens, go to the
-  page number shown in the result.
-- **Years** narrows the search to a range of years.
-- The address in the browser keeps your search and year range, so you can
-  bookmark a search or send the link to someone.
-
-You can also search from the search box on the
-[Newsletters page](https://gvwg.ca/content.aspx?page_id=22&club_id=182740&module_id=717502)
-of gvwg.ca.
-
-### Getting around
-
-- The **Back** button at the top returns you to where you came from: the
-  gvwg.ca page you left, or the issue list after a search (with your place in
-  the list kept). If you opened the site directly, it takes you to the GVWG
-  home page, or from a search to the issue list.
-- Once you scroll down, a **Top** button in the corner takes you back to the
-  top of the page.
-- The site works on phones and tablets as well as computers.
+The first part of this README is for the club maintainer, the volunteer
+keeping the site running. The second part is for developers.
 
 ---
 
