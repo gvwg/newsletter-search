@@ -1,8 +1,11 @@
 """Download newsletter PDFs and extract per-page text into data/issues/<id>.json.
 
 Incremental: an issue whose JSON already exists is skipped, so OCR runs once
-per issue ever. Use --force ID to re-extract one issue (e.g. after CE replaces
-the file), or --all to rebuild everything.
+per issue ever. A file replaced in CE under the same doc ID is therefore not
+noticed (decided 2026-09-27: manual only). Use --force ID to re-extract one
+issue (text, thumbnail, and a contents list read from the PDF), or --all to
+rebuild everything. In GitHub, the workflow's "Re-extract doc ID" box does
+the same as --force.
 
 Pages with too little extractable text are treated as scanned and OCR'd with
 Tesseract via PyMuPDF. Tesseract must be installed (apt: tesseract-ocr).
@@ -231,10 +234,16 @@ def main():
                 continue
             pages, stats, contents = extract_pdf(resp.content, meta["id"])
             write_issue(meta, pages)
-            if not meta.get("contents") and contents:
-                meta.update(contents=as_strings(contents), contents_source="pdf")
-                catalog_changed = True
-                print(f"  contents: {len(contents)} entries read from the PDF")
+            # A forced re-extraction (e.g. the file was replaced in CE under the
+            # same doc ID) also refreshes a contents list that came from the PDF.
+            # Lists typed on the old CE page or set in overrides.json are kept.
+            forced = args.all or meta["id"] in args.force
+            if not meta.get("contents") or (forced and meta.get("contents_source") == "pdf"):
+                new = as_strings(contents) if contents else []
+                if new != meta.get("contents"):
+                    meta.update(contents=new, contents_source="pdf" if new else None)
+                    catalog_changed = True
+                    print(f"  contents: {len(new)} entries read from the PDF")
             totals["issues"] += 1
             totals["pages"] += stats["pages"]
             totals["ocr_pages"] += stats["ocr_pages"]

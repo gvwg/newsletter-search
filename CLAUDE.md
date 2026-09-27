@@ -14,14 +14,14 @@ https://gvwg.ca/content.aspx?page_id=22&club_id=182740&module_id=717502
    extracts per-page text with PyMuPDF, OCRs pages with no text layer (Tesseract
    via PyMuPDF), writes `data/issues/<docid>.json`. Incremental; the committed JSON
    is the cache so OCR runs once per issue.
-3. Next stage, not yet built: build a Pagefind index (Node API, custom records, one
+2. Next stage, not yet built: build a Pagefind index (Node API, custom records, one
    record per PDF page, URL `https://gvwg.ca/docs.ashx?id=N#page=P`, year filter)
    into `dist/`, plus a search page. Deploy to Cloudflare Workers static assets
    (not Cloudflare Pages; Cloudflare recommends Workers for new projects) via
    Cloudflare's wrangler GitHub Action, custom domain `search.gvwg.ca`. The gvwg.ca
    DNS is on Cloudflare; no CAA records. `site/_headers` should set
    `Content-Security-Policy: frame-ancestors https://gvwg.ca https://www.gvwg.ca`.
-4. The search page is iframed into a CE custom page. Result links open PDFs in a
+3. The search page is iframed into a CE custom page. Result links open PDFs in a
    new tab using the absolute `https://gvwg.ca/docs.ashx?id=N` form (CE's form for
    links from other websites).
 
@@ -233,7 +233,7 @@ Planned build (to refine with Don, see open questions):
 3. `build.mjs` generates the landing page; search moves to `/search`.
 4. Worker custom domain `newsletters.gvwg.ca`; `_headers` frame-ancestors
    unchanged.
-5. `extract.yml` runs more often so an upload appears the same day.
+4. `extract.yml` runs more often so an upload appears the same day.
 6. CE Newsletters page becomes the banner plus a link; banner searches go to
    `newsletters.gvwg.ca/search?q=`. `ce/search-banner.html` updated.
 7. `publish-newsletter` skill cut back to the News post (step 4), or
@@ -344,11 +344,15 @@ All design questions answered; ready to build.
   dropped it from folder.json and catalog.json, deleted its issue file and
   thumbnail, committed (run 14) and redeployed. Live: not in the list (2026
   back to 7), /thumbs/1821788.jpg 404, search finds none of its text.
-- Open: a file replaced in CE under the same doc ID is NOT picked up
+- A file replaced in CE under the same doc ID is NOT picked up
   (extracted IDs are skipped). docs.ashx 302s to an S3 object named
   <uploaded filename>_<random digits>.pdf; a replacement probably gets a new
   name (inference, untested). The CE details page shows only Date Created
-  and a size rounded to 0.1 MB. Workaround today: extract.py --force ID.
+  and a size rounded to 0.1 MB. Decided (Don, 2026-09-27): manual only.
+  Upload a correction as a new document and hide the old one (automatic),
+  or replace the file and run Extract newsletters with "Re-extract doc ID"
+  (workflow input `force`, = extract.py --force). A forced run also
+  refreshes a contents list whose source is pdf (ce/override kept).
 - Fixed: the search page's More results button showed even with every
   result on screen (`#more` display:block overrode `hidden`).
 - deploy.yml warns that cloudflare/wrangler-action@v3 targets Node 20
@@ -365,7 +369,6 @@ All design questions answered; ready to build.
 1. Cut over: point the CE Newsletters menu item at newsletters.gvwg.ca
    (same window if CE allows), or reduce the CE Newsletters page to the
    banner plus a link.
-2. Decide how to detect a replaced file (see Open above).
 3. Don: check the search site on desktop and phone (headless Edge could not
    verify: its fast-forwarded time trips Pagefind's worker timeout).
 4. Don: train and add a second Cloudflare Super Administrator.

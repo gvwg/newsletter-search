@@ -14,6 +14,10 @@ on:
         description: "Max new issues to process (blank = all)"
         required: false
         default: ""
+      force:
+        description: "Re-extract doc ID (e.g. after its file was replaced in CE; blank = none)"
+        required: false
+        default: ""
 
 permissions:
   contents: write   # to commit extracted text back to the repo
@@ -61,7 +65,8 @@ jobs:
       - name: Extract text from new issues
         env:
           LIMIT: ${{ inputs.limit }}
-        run: python scripts/extract.py ${LIMIT:+--limit "$LIMIT"}
+          FORCE: ${{ inputs.force }}
+        run: python scripts/extract.py ${LIMIT:+--limit "$LIMIT"} ${FORCE:+--force "$FORCE"}
 
       # Runs even if extraction partly failed, so completed issues are kept
       # and never re-OCR'd.

@@ -48,6 +48,20 @@ header), close the issue by hand with a comment. The next run closes an issue
 once its cause is fixed. A closed issue is never reopened or repeated for that
 document.
 
+### Correcting an issue that is already published
+
+The site notices new documents in the Newsletters folder, not changes to a
+document already there. To publish a corrected PDF, either:
+
+- **Upload it as a new document** in the Newsletters folder and delete (or
+  hide) the old one. The next run adds the new one and removes the old one.
+  Nothing else is needed.
+- **Or replace the file on the existing document** in CE, then refresh it
+  here: Actions tab, **Extract newsletters**, **Run workflow**, enter the doc
+  ID (the number in `docs.ashx?id=N`) in **Re-extract doc ID**, and run. This
+  re-reads its text, cover and contents list. Without this step the site keeps
+  showing the old version.
+
 ### Hand corrections: `data/overrides.json`
 
 Edit it on GitHub (pencil icon) and commit; the next run applies it. All
@@ -148,7 +162,7 @@ static files; the browser downloads only the index fragments a query needs.
 
 | Component | Runs on | Trigger | Does |
 |---|---|---|---|
-| `.github/workflows/extract.yml` ("Extract newsletters") | GitHub Actions, ubuntu-24.04, Python 3.12, apt Tesseract | Cron `17 */3 * * *`, or by hand (optional `limit`) | OCR self-test on `tests/sample.pdf`; `harvest.py`; `extract.py`; commits `data/`; `check.py --github`; calls `deploy.yml` if it committed anything |
+| `.github/workflows/extract.yml` ("Extract newsletters") | GitHub Actions, ubuntu-24.04, Python 3.12, apt Tesseract | Cron `17 */3 * * *`, or by hand (optional `limit`, and `force` to re-extract one doc ID) | OCR self-test on `tests/sample.pdf`; `harvest.py`; `extract.py`; commits `data/`; `check.py --github`; calls `deploy.yml` if it committed anything |
 | `.github/workflows/deploy.yml` ("Build and deploy search site") | GitHub Actions, Node 24 | Called by an extraction run that committed data (`workflow_call`), pushes to `main` touching site or build files, or by hand | `npm ci`, `npm run build`, `wrangler deploy` (skipped with a warning if the Cloudflare secrets are absent) |
 | `wrangler.jsonc` | Cloudflare Workers | Deploy | Assets-only Worker serving `dist/`, custom domain `newsletters.gvwg.ca` |
 | `site/_headers` | Cloudflare | Every request | `frame-ancestors https://gvwg.ca https://www.gvwg.ca` (so the page may be iframed on gvwg.ca only) and `nosniff` |
