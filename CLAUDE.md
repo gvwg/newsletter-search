@@ -332,8 +332,18 @@ All design questions answered; ready to build.
   36284335402): live `/` serves the list (249 cards), thumbnails, site.css,
   site.js; headers intact. Manual extraction run 36284391599 on GitHub:
   folder harvest 249 from 251, nothing new, no commit, deploy job skipped
-  as designed, no new alert issues. Not yet seen on GitHub: a run that
-  commits and so calls deploy.yml (first real new upload).
+  as designed, no new alert issues.
+- End-to-end test 2026-09-27: the dummy December 2026 issue (1821788) was
+  taken off the exclude list (no catalog entry, issue file or thumbnail
+  existed) and extraction run 36284664496 (manual, blank limit: the same
+  steps as the schedule) harvested it, read 7 contents entries from the PDF
+  (layout reader), made its thumbnail, committed (run 13), and its deploy
+  job (deploy.yml via workflow_call) published 250 issues. Live list shows
+  it first in 2026 with cover and contents; live search finds it. The
+  dummy is now public on newsletters.gvwg.ca; to remove it, exclude it
+  again or delete it from the CE folder (either prunes it next run).
+- Fixed: the search page's More results button showed even with every
+  result on screen (`#more` display:block overrode `hidden`).
 - deploy.yml warns that cloudflare/wrangler-action@v3 targets Node 20
   (deprecated, forced onto Node 24 for now); update when a newer major
   version of the action is released.
@@ -348,7 +358,8 @@ All design questions answered; ready to build.
 1. Cut over: point the CE Newsletters menu item at newsletters.gvwg.ca
    (same window if CE allows), or reduce the CE Newsletters page to the
    banner plus a link.
-2. Watch the first run after a real upload (commit plus deploy hand-off).
+2. Remove the dummy issue from the site (exclude again, or Don deletes it
+   from the CE Newsletters folder).
 3. Don: check the search site on desktop and phone (headless Edge could not
    verify: its fast-forwarded time trips Pagefind's worker timeout).
 4. Don: train and add a second Cloudflare Super Administrator.
