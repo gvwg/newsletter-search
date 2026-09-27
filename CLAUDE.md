@@ -320,7 +320,7 @@ All design questions answered; ready to build.
   emulation, at 390 px (no horizontal scroll).
   Backfill done locally: 249 thumbnails, 3.9 MB. Search result cards show
   the issue cover too (Pagefind meta.image). Back-to-top button on both
-  pages (site/to-top.js), tested at 390 px via CDP.
+  pages (site/site.js), tested at 390 px via CDP.
 
 ## Next steps
 1. Continue the newsletters.gvwg.ca redesign: review and merge branch

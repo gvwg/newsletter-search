@@ -225,7 +225,13 @@ commit avoids eight identical deploys a day.
   year. The From/To range is sent as `{ year: { any: [...] } }`.
 - Each result card shows the issue's cover (`meta.image` in the Pagefind
   record, `/thumbs/<id>.jpg`), not the matching page.
-- A back-to-top button (`site/to-top.js`, shared with the issue list) appears
+- The Back link (`site/site.js`) goes back in the browser history when the
+  reader came from gvwg.ca or from this site, so they return to the exact
+  page (CE pages send `Referrer-Policy: no-referrer` but also
+  `<meta name="referrer" content="always">`, which wins: tested
+  2026-09-26 from the Contact Us page). Arriving directly, it is a plain link:
+  gvwg.ca home from the list, the list from search.
+- A back-to-top button (`site/site.js`, shared with the issue list) appears
   once the reader has scrolled a screen down.
 - Pagefind excerpts are not HTML-escaped, so the page rebuilds each excerpt
   keeping only text and `<mark>`.
