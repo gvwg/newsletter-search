@@ -230,7 +230,7 @@ commit avoids eight identical deploys a day.
   page (CE pages send `Referrer-Policy: no-referrer` but also
   `<meta name="referrer" content="always">`, which wins: tested
   2026-09-26 from the Contact Us page). Arriving directly, it is a plain link:
-  GVWG home from the list, the list from search.
+  "Back to GVWG home" from the list, the list from search.
 - A back-to-top button (`site/site.js`, shared with the issue list) appears
   once the reader has scrolled a screen down.
 - Pagefind excerpts are not HTML-escaped, so the page rebuilds each excerpt

@@ -3,7 +3,7 @@
 // "Back" goes back to where the reader came from, like the browser's Back
 // button, so returning to the list keeps its open years and scroll position.
 // Arriving directly (bookmark, typed address, new tab) leaves the page's own
-// fallback link in place (GVWG home, or the issue list).
+// fallback link in place (Back to GVWG home, or the issue list).
 const back = document.querySelector("a.back");
 if (back && document.referrer && history.length > 1) {
   let from = null;
