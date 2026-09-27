@@ -322,13 +322,31 @@ All design questions answered; ready to build.
   the issue cover too (Pagefind meta.image). Back-to-top button on both
   pages (site/site.js), tested at 390 px via CDP.
 
+- Back link (site.js): history.back() when the referrer is gvwg.ca or this
+  site ("‹ Back to GVWG" / "‹ Back"), else a plain link ("‹ Back to GVWG
+  home" on the list, "‹ All newsletters" on search). CE sends
+  `Referrer-Policy: no-referrer` plus `<meta name="referrer" content="always">`;
+  the meta wins (tested from the Contact Us page). A CE menu item opening
+  in a new tab would leave no history (falls back to GVWG home).
+- Merged `newsletters-list` into main and deployed 2026-09-27 (deploy run
+  36284335402): live `/` serves the list (249 cards), thumbnails, site.css,
+  site.js; headers intact. Manual extraction run 36284391599 on GitHub:
+  folder harvest 249 from 251, nothing new, no commit, deploy job skipped
+  as designed, no new alert issues. Not yet seen on GitHub: a run that
+  commits and so calls deploy.yml (first real new upload).
+- deploy.yml warns that cloudflare/wrangler-action@v3 targets Node 20
+  (deprecated, forced onto Node 24 for now); update when a newer major
+  version of the action is released.
+
 ## Next steps
-1. Continue the newsletters.gvwg.ca redesign: review and merge branch
-   `newsletters-list`, then deploy and cut over (order above).
-2. Don: check the search site on desktop and phone (headless Edge could not
+1. Cut over: point the CE Newsletters menu item at newsletters.gvwg.ca
+   (same window if CE allows), or reduce the CE Newsletters page to the
+   banner plus a link. Then cut `publish-newsletter` back to the News post.
+2. Watch the first run after a real upload (commit plus deploy hand-off).
+3. Don: check the search site on desktop and phone (headless Edge could not
    verify: its fast-forwarded time trips Pagefind's worker timeout).
-3. Don: train and add a second Cloudflare Super Administrator.
-4. Later: trim the deploy token's account permissions; rename the Cloudflare
+4. Don: train and add a second Cloudflare Super Administrator.
+5. Later: trim the deploy token's account permissions; rename the Cloudflare
    account; check the gvwg.ca registrant contact.
 
 ## Working with the maintainer (Don)
