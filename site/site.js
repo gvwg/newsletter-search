@@ -3,14 +3,14 @@
 // "Back" goes back to where the reader came from, like the browser's Back
 // button, so returning to the list keeps its open years and scroll position.
 // Arriving directly (bookmark, typed address, new tab) leaves the page's own
-// fallback link in place (gvwg.ca home, or the issue list).
+// fallback link in place (GVWG home, or the issue list).
 const back = document.querySelector("a.back");
 if (back && document.referrer && history.length > 1) {
   let from = null;
   try { from = new URL(document.referrer); } catch { /* unreadable referrer: keep fallback */ }
   if (from && (from.hostname === "gvwg.ca" || from.hostname === "www.gvwg.ca"
                || from.origin === location.origin)) {
-    back.textContent = from.origin === location.origin ? "\u2039 Back" : "\u2039 Back to gvwg.ca";
+    back.textContent = from.origin === location.origin ? "\u2039 Back" : "\u2039 Back to GVWG";
     back.addEventListener("click", (e) => { e.preventDefault(); history.back(); });
   }
 }
