@@ -6,6 +6,7 @@
   <title>GVWG newsletters</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800&amp;display=swap">
   <link rel="stylesheet" href="/site.css">
+  <script>document.documentElement.classList.add("js");</script>
   <style>
     /* Issue list only; the shared look is in site.css. The list itself is
        written into this template by scripts/build.mjs (the build: markers). */
@@ -21,6 +22,16 @@
     .jump a { display: block; min-width: 3.2em; text-align: center; padding: 3px 6px; border-radius: 4px;
               background: #fff; color: #02385a; font-weight: 600; text-decoration: none; }
     .jump a:hover, .jump a:focus-visible { background: #fde68a; }
+    /* Narrow screens: the year links fill several rows, so a dropdown
+       replaces them (built by the script; without it the links stay).
+       768px is where gvwg.ca's menu collapses. */
+    .goto { display: none; margin: 0 0 1rem; font-weight: 600; }
+    .goto select { font: inherit; font-weight: 400; padding: 0.35rem 0.4rem; margin-left: 0.25rem;
+                   border: 2px solid #02385a; border-radius: 4px; background: #fff; color: #000; }
+    @media (max-width: 48rem) {
+      .has-goto .jump { display: none; }
+      .has-goto .goto { display: block; }
+    }
     /* One fold-out section per year: a header card, then one card per issue. */
     details.year { margin: 0 0 10px; scroll-margin-top: 10px; }
     details.year > summary { cursor: pointer; padding: 10px 16px; display: flex; align-items: baseline;
@@ -44,6 +55,9 @@
     .contents li { break-inside: avoid; }
     /* Long lists in two columns on wide screens, about the height of the cover. */
     @media (min-width: 48rem) { .contents.long { columns: 2; column-gap: 2rem; } }
+    /* The column is up to 100rem wide, as on gvwg.ca: a third column keeps
+       entries short enough to scan. */
+    @media (min-width: 90rem) { .contents.long { columns: 3; } }
     @media (max-width: 36rem) {
       .issues { padding-left: 0; }
       .issue { padding: 10px 12px; }
@@ -58,9 +72,10 @@
       <a href="https://gvwg.ca/"><img src="/gvwg-title.png" alt="Greater Vancouver Woodturners Guild" width="525" height="36"></a>
     </div>
     <nav aria-label="gvwg.ca">
-      <ul>
+      <button class="menutoggle" type="button" aria-controls="site-menu" aria-expanded="false" aria-label="Menu"><svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
+      <ul id="site-menu">
         <li><a href="https://gvwg.ca/">Home</a></li>
-        <li><a href="/">Newsletters</a></li>
+        <li><a href="/" aria-current="page">Newsletters</a></li>
         <li><a href="https://gvwg.ca/content.aspx?page_id=4&amp;club_id=182740">Contact Us</a></li>
       </ul>
     </nav>
@@ -96,7 +111,8 @@
   </div>
   <p class="intro"><!-- build:count --> issues, newest first. Each opens the newsletter (PDF) in a new tab.</p>
   <p id="status" aria-live="polite"></p>
-  <nav aria-label="Years"><ul class="jump"><!-- build:year-links --></ul></nav>
+  <nav aria-label="Years" id="years"><ul class="jump"><!-- build:year-links --></ul>
+    <label class="goto">Go to year <select id="goto"><option value="">Choose a year</option></select></label></nav>
   <!-- build:issue-list -->
   </main>
 
@@ -127,6 +143,8 @@
         const inRange = d.dataset.year >= from && d.dataset.year <= to;
         d.hidden = !inRange;
         document.querySelector(`.jump a[href="#y${d.dataset.year}"]`).parentElement.hidden = !inRange;
+        const opt = document.querySelector(`#goto option[value="${d.dataset.year}"]`);
+        opt.hidden = opt.disabled = !inRange;
         if (inRange) issues += Number(d.dataset.count);
       }
       const all = from === first && to === last;
@@ -139,6 +157,19 @@
         history.replaceState(null, "", (String(url) ? `?${url}` : location.pathname) + location.hash);
       }
     }
+
+    // The narrow-screen year dropdown, newest first like the list.
+    for (const y of [...years].reverse()) $("goto").add(new Option(y, y));
+    $("years").classList.add("has-goto");
+    $("goto").addEventListener("change", () => {
+      const d = $("y" + $("goto").value);
+      if (!d) return;
+      d.open = true;
+      history.replaceState(null, "", location.search + "#" + d.id);
+      d.scrollIntoView();
+      d.querySelector("summary").focus({ preventScroll: true });
+      $("goto").value = "";
+    });
 
     const params = new URLSearchParams(location.search);
     if (years.includes(params.get("from"))) $("from").value = params.get("from");

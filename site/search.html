@@ -6,6 +6,7 @@
   <title>Search GVWG newsletters</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800&amp;display=swap">
   <link rel="stylesheet" href="/site.css">
+  <script>document.documentElement.classList.add("js");</script>
   <style>
     /* Search page only; the shared look is in site.css. */
     #more { border: 0; color: #fff; cursor: pointer; font: 700 15px "Open Sans", Arial, sans-serif;
@@ -27,7 +28,7 @@
     .issue { color: #02385a; font-size: 17px; font-weight: 800; }
     .pageno { background: #02385a; color: #fff; font-size: 12px; font-weight: 600;
               border-radius: 10px; padding: 1px 9px; }
-    .excerpt { margin: 6px 0; line-height: 1.5; }
+    .excerpt { margin: 6px 0; line-height: 1.5; max-width: 80ch; }   /* readable line length in a wide column */
     .open { color: #0826ba; font-size: 13px; font-weight: 600; }
     .card:hover .open { text-decoration: underline; }
     mark { background: #fde68a; color: inherit; padding: 0 1px; border-radius: 2px; }
@@ -42,9 +43,10 @@
       <a href="https://gvwg.ca/"><img src="/gvwg-title.png" alt="Greater Vancouver Woodturners Guild" width="525" height="36"></a>
     </div>
     <nav aria-label="gvwg.ca">
-      <ul>
+      <button class="menutoggle" type="button" aria-controls="site-menu" aria-expanded="false" aria-label="Menu"><svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
+      <ul id="site-menu">
         <li><a href="https://gvwg.ca/">Home</a></li>
-        <li><a href="/">Newsletters</a></li>
+        <li><a href="/" aria-current="true">Newsletters</a></li>
         <li><a href="https://gvwg.ca/content.aspx?page_id=4&amp;club_id=182740">Contact Us</a></li>
       </ul>
     </nav>

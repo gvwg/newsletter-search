@@ -365,14 +365,58 @@ All design questions answered; ready to build.
   still prepares its body and cover. Revisit only with a way that does not
   need Claude in Chrome.
 
+- Cut over (checked 2026-09-27): the gvwg.ca menu item Resources >
+  Newsletters links to `https://newsletters.gvwg.ca/` (same window, no
+  `target`). The old CE Newsletters page (page_id=22, module_id=717502) is in
+  no menu but still exists, so bookmarks can reach it; an anonymous request
+  redirects to the CE login page. Don is fine with this for now.
+- Width (2026-09-27, measured in headless Edge at 390-2560 px): gvwg.ca's
+  light blue column (`#content_column`, #4298cc) is capped at 100rem and
+  centred, body `#02385a` either side; header and footer full width. The
+  club's own `clubs/182740/css/custom.css` (Don's) also caps it at 900px
+  for windows up to 1024px, so between about 915 and 1024px navy sidebars
+  appear, then at 1025 the column jumps to full width. Content fills the
+  column. `site.css` copies all of this (boxes match to the pixel from 900 to
+  2560), plus header rows (80 + 70px, 40px menu items) and the current menu
+  item in #113d57 (`aria-current`). Readability in the wide column: three
+  contents columns from 90rem, excerpts and intro capped at 80ch. Not copied:
+  CE's light blue bottom bar (Home | Contact Us | Copyright | Terms |
+  Privacy | Powered By ClubExpress) and the Member Login link.
+- CE mobile layout (found 2026-09-27; explains CE pages, e.g. forums, that
+  look different on phones but cannot be recreated by narrowing a PC
+  window): CE picks the layout on the server from the User-Agent. For a
+  phone UA (iPhone and Android tested) the HTML sets `isMobileDevice = True`,
+  wraps the page in `#mobile_layout_wrapper` instead of `#layout_wrapper`,
+  and adds `/css/mobile.css`, a viewport meta tag, mobile page tools and a
+  bottom toolbar. Then plain CSS in `css/layout/99/layout.css`
+  (`@media (max-width: 768px) #mobile_layout_wrapper ...`) shows the
+  three-bar `.menutoggle` and hides the menu; opened, the items stack full
+  width. Separately, on desktop HTML a jQuery `resize` handler in
+  `script/layouts/99/layout.js` collapses the menu after the window is
+  resized to <= 768 (not on load). To reproduce on a PC: probably browser
+  dev tools device mode with a phone preset, which sends a phone UA, then
+  reload (inference, not tried). In
+  headless Edge via CDP, `Network.setUserAgentOverride` needs
+  `Network.enable` first, or the page is fetched with the desktop UA.
+- Ours: same three-bar menu at 768px and below, by width only (a static
+  site cannot see the UA). Button is in the HTML; a head script sets
+  `html.js` so it starts closed without a flash; `site.js` toggles it.
+  Without JavaScript the menu stays visible.
+- Year jump links: at 768px and below the list page swaps them (186-218px
+  tall on phones) for a "Go to year" dropdown built by the page script;
+  without JavaScript the links stay. It follows the From/To range.
+- Local build glitch (2026-09-27, once): `npm run build` left several
+  `dist/pagefind/` files at zero bytes (search then fails with "Failed to
+  load Pagefind metadata"); an immediate rebuild was clean. Cause not
+  confirmed; the repo is in OneDrive, so sync is a suspect. If local search
+  breaks, check `find dist -type f -size 0` and rebuild. CI builds run
+  outside OneDrive, so probably unaffected (inference, not checked).
+
 ## Next steps
-1. Cut over: point the CE Newsletters menu item at newsletters.gvwg.ca
-   (same window if CE allows), or reduce the CE Newsletters page to the
-   banner plus a link.
-2. Don: check the search site on desktop and phone (headless Edge could not
+1. Don: check the search site on desktop and phone (headless Edge could not
    verify: its fast-forwarded time trips Pagefind's worker timeout).
-3. Don: train and add a second Cloudflare Super Administrator.
-4. Later: trim the deploy token's account permissions; rename the Cloudflare
+2. Don: train and add a second Cloudflare Super Administrator.
+3. Later: trim the deploy token's account permissions; rename the Cloudflare
    account; check the gvwg.ca registrant contact.
 
 ## Working with the maintainer (Don)

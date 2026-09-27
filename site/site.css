@@ -9,22 +9,43 @@ a { color: #0826ba; }
 .top { background: url(/mountain-backdrop.png) center / 100% 100%,
          linear-gradient(to top, transparent 0%, transparent 50%, hsl(211 53% 40%) 100%);
        border-bottom: 10px solid #02385a; }
-.title { padding: 20px 20px 10px; }
+/* Header rows sized as on gvwg.ca (measured September 2026): title row 80px,
+   menu row 70px with 40px menu items, then a 10px gap of body colour. */
+.title { padding: 20px 20px 20px; }
 .title img { max-width: 100%; height: auto; }
 .top nav { text-align: center; padding: 10px 1rem 20px; }
 .top nav ul { display: inline-flex; flex-wrap: wrap; justify-content: center; list-style: none;
          margin: 0; padding: 0; background: #4298cc; }
-.top nav a { display: block; padding: 8px 10px; color: #fff; text-decoration: none;
-        font: bold 18px Arial, Helvetica, sans-serif; }
-.top nav a:hover { text-decoration: underline; }
+.top nav a { display: block; padding: 5px 10px; color: #fff; text-decoration: none;
+        font: bold 18px/30px Arial, Helvetica, sans-serif; }
+.top nav a:hover, .top nav a:focus-visible, .top nav a[aria-current] { background: #113d57; }
+/* Phone menu, as gvwg.ca's mobile layout (CE serves it to phones it detects
+   from the User-Agent; a static site can only go by width): a 40px three-bar button;
+   opened, the items stack full width on the header, the current one a bar.
+   Only with JavaScript (html.js, set in the page head); otherwise the menu
+   stays visible. */
+.menutoggle { display: none; }
+@media (max-width: 48rem) {
+  .js .top nav .menutoggle { display: block; width: 100%; height: 45px; padding: 0; border: 0;
+                                     background: transparent; color: #fff; cursor: pointer; }
+  .js .top nav .menutoggle:focus-visible { outline: 3px solid #fde68a; outline-offset: -3px; }
+  .js .top nav .menutoggle svg { display: block; margin: 0 auto; }
+  .js .top nav ul { display: none; }
+  .js .top nav.open ul { display: flex; flex-direction: column; width: 100%; background: transparent; }
+}
 
 main:focus { outline: none; }
-main { background: #4298cc; padding: 1rem 20px 2rem; min-height: 55vh; }
-main > :not(.panel, #results) { max-width: 60rem; }
+/* Width: as gvwg.ca. CE's .center-col and the club's custom.css cap the
+   light blue column at 100rem, centred, with the body colour either side,
+   and at 900px for windows up to 1024px wide. Content fills the column, as
+   on gvwg.ca; long text is held to a readable line length instead. */
+main { display: block; background: #4298cc; padding: 1rem 20px 2rem; min-height: 55vh;
+       box-sizing: border-box; max-width: 100rem; margin: 0 auto; }
+@media (max-width: 1024px) { main { max-width: 900px; } }
 .back { display: inline-block; margin: 0 0 0.75rem; padding: 6px 12px; border-radius: 4px;
         background: #02385a; color: #fff; font-weight: 600; text-decoration: none; }
 .back:hover { text-decoration: underline; }
-.intro { margin: 0 0 1rem; }
+.intro { margin: 0 0 1rem; max-width: 80ch; }
 
 /* Search panel: same look as the search banner on the gvwg.ca Newsletters page. */
 .panel { background: #02385a; color: #fff; border-radius: 6px; padding: 14px 16px;

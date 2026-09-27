@@ -32,3 +32,13 @@ document.body.append(toTop);
 const update = () => { toTop.hidden = scrollY < innerHeight; };
 addEventListener("scroll", update, { passive: true });
 update();
+
+// Phone menu: the three-bar button (in the page, shown at 768px and below
+// once the head script has set html.js) opens and closes the menu.
+const toggle = document.querySelector(".menutoggle");
+if (toggle) {
+  toggle.addEventListener("click", () => {
+    const open = toggle.closest("nav").classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(open));
+  });
+}
