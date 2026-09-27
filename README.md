@@ -1,45 +1,102 @@
-# GVWG newsletter search
+# GVWG newsletters
 
-The Greater Vancouver Woodturners Guild newsletter archive (October 1999
-onward) at **https://newsletters.gvwg.ca**: every issue listed by year with
-its cover and contents, and full-text search at
-**https://newsletters.gvwg.ca/search**. The newsletters themselves
-stay where they are: PDFs in the Newsletters folder of the ClubExpress (CE)
-[Document Library](https://gvwg.ca/content.aspx?page_id=86&club_id=182740)
-on gvwg.ca. This project reads that folder, extracts the text of each PDF, and
-publishes a search site that links back to the PDFs.
+The Greater Vancouver Woodturners Guild newsletter archive, from October 1999
+to the latest issue, at **https://newsletters.gvwg.ca**: every issue with its
+cover and contents, and a search of the full text of every page.
 
-The first part of this README is for the club volunteer looking after the
-search. The second part is for a developer changing it.
+The newsletters themselves stay where they are, as PDFs in the Newsletters
+folder of the club's ClubExpress (CE)
+[Document Library](https://gvwg.ca/content.aspx?page_id=86&club_id=182740).
+This project reads that folder, extracts the text of each PDF, and publishes
+the site, which links back to the PDFs. It updates itself when a new issue is
+uploaded.
+
+This README has three parts: **for readers** (using the site), **for the club
+maintainer** (the volunteer keeping it running) and **for developers**.
+
+---
+
+## For readers
+
+### Browsing the issues
+
+[newsletters.gvwg.ca](https://newsletters.gvwg.ca) lists every issue, newest
+first, grouped by year.
+
+- Each issue shows its cover and its list of articles. Click the title or the
+  cover to open the newsletter (PDF) in a new tab.
+- The two most recent years are open. Click any year to open or close it, or
+  use **Expand all** and **Collapse all**. The row of year buttons jumps
+  straight to a year.
+- **Years** (from and to), in the blue search panel, narrows the list to those
+  years. The same range applies if you then search from that page.
+
+### Searching
+
+Type a name, technique, wood or any other words in the search box and press
+Enter or **Search**, for example *hollowing*, *Stuart Batty* or *pepper mill*.
+The search covers the full text of every page of every issue, including
+scanned pages, where the text was recognised automatically and may be
+imperfect.
+
+- Each result is one page of a newsletter: the issue, the page number, the
+  passage with your words highlighted, and the issue's cover. Results are
+  shown ten at a time; **More results** shows the next ten.
+- Clicking a result opens the newsletter in a new tab at that page. A few
+  issues open on the wrong page in some browsers; if that happens, go to the
+  page number shown in the result.
+- **Years** narrows the search to a range of years.
+- The address in the browser keeps your search and year range, so you can
+  bookmark a search or send the link to someone.
+
+You can also search from the search box on the
+[Newsletters page](https://gvwg.ca/content.aspx?page_id=22&club_id=182740&module_id=717502)
+of gvwg.ca.
+
+### Getting around
+
+- The **Back** button at the top returns you to where you came from: the
+  gvwg.ca page you left, or the issue list after a search (with your place in
+  the list kept). If you opened the site directly, it takes you to the GVWG
+  home page, or from a search to the issue list.
+- Once you scroll down, a **Top** button in the corner takes you back to the
+  top of the page.
+- The site works on phones and tablets as well as computers.
 
 ---
 
 ## For the club maintainer
 
-### What happens on its own
+### How a new issue gets published
 
-- **Every 3 hours** GitHub checks the Newsletters folder in the CE Document
-  Library. Any new document is downloaded, its text and table of contents
-  extracted, and the site republished. A newsletter uploaded to the folder is
-  searchable within a few hours. Runs that find nothing new change nothing.
-- **Nothing needs to be done here when a newsletter is published.** Upload the
-  PDF to the Newsletters folder in CE, with a title that includes the month
-  and year (for example "October 2026"). The folder is the only list: every
-  document in it is published, except those excluded in `data/overrides.json`.
-  Removing a document from the folder removes it from the site.
-- **Problems are reported** as GitHub issues (see "Seeing problems" below):
-  a document whose title may not match its PDF, an issue whose contents list
-  could not be read, or a document left out because its title has no year.
+1. The editor uploads the PDF to the **Newsletters** folder of the CE Document
+   Library, visible to the public, with a title that includes the month and
+   year (for example "October 2026").
+2. Within about three hours it appears on
+   [newsletters.gvwg.ca](https://newsletters.gvwg.ca) with its cover and
+   contents list (read from the PDF), and its text is searchable. Nothing needs
+   to be done here.
+3. The News post on the gvwg.ca home page is still made by hand in CE.
+   `scripts/publish_prep.py` can prepare its body and cover image (see the
+   developer section). The earlier tool that did this through Claude in Chrome
+   is retired; see [`archive/`](archive/README.md).
+
+To see a new issue sooner, run the update by hand (see "Running an update by
+hand" below). To take an issue off the site, delete it from the Newsletters
+folder or hide it; the next run removes it.
+
+The folder is the only list: every public document in it is published, except
+those excluded in `data/overrides.json` (see "Hand corrections" below).
 
 ### Seeing problems
 
 | Where to look | What it tells you |
 |---|---|
 | [Issues labelled `link-check`](https://github.com/gvwg/newsletter-search/issues?q=label%3Alink-check) | A newsletter's title probably does not match its PDF (a duplicate, the wrong month, or the wrong year). One issue per document. People watching the repository get an email when one opens. |
-| [Issues labelled `contents`](https://github.com/gvwg/newsletter-search/issues?q=label%3Acontents) | No contents list could be read from a new issue (its layout may have changed). It is still searchable; add the list by hand (see below). |
+| [Issues labelled `contents`](https://github.com/gvwg/newsletter-search/issues?q=label%3Acontents) | No contents list could be read from a new issue (its layout may have changed). It is still listed and searchable; add the list by hand (see "Hand corrections"). |
 | [Issues labelled `untitled`](https://github.com/gvwg/newsletter-search/issues?q=label%3Auntitled) | A document in the Newsletters folder was left out because its title has no year. |
 | [Actions tab](https://github.com/gvwg/newsletter-search/actions) | Every run of "Extract newsletters" and "Build and deploy search site". A red X is a failed run. GitHub emails failures of the scheduled run to the account that last edited its schedule. |
-| https://newsletters.gvwg.ca/search | Search for a word from the newest issue. If it is not found a few hours after the issue went up, check the Actions tab. |
+| https://newsletters.gvwg.ca | Check that the newest issue is listed and that a word from it is found. If not, a few hours after it was uploaded, check the Actions tab. |
 
 Each issue says what to do. In short: fix a wrong title in CE (or set one in
 `data/overrides.json`); add a missing contents list to `data/overrides.json`;
@@ -74,26 +131,28 @@ entries are keyed by the CE doc ID, the number in `docs.ashx?id=N`.
   one string per article, for example
   `"1830001": ["Presidential Ramblings", "Tech Talk"]`.
 
+### Running an update by hand
+
+1. Go to the [Actions tab](https://github.com/gvwg/newsletter-search/actions)
+   and click **Extract newsletters** in the left-hand list.
+2. Click **Run workflow**, leave the boxes blank, and click the green
+   **Run workflow** button.
+3. If it found anything new, its "deploy" job republishes the site. Check that
+   the run has a green tick, then look for the new issue on the site.
+
+"Build and deploy search site" also has a **Run workflow** button, which
+republishes the site without checking CE.
+
 ### Restarting the scheduled run
 
 The repository is public, so GitHub Actions costs nothing. The catch is that
 **GitHub pauses scheduled workflows in public repositories after 60 days with
 no repository activity**, which can happen over a summer with no new issues.
-The search site keeps working while paused; only new issues stop being added.
+The site keeps working while paused; only new issues stop being added.
 
-To restart it:
-
-1. Go to the [Actions tab](https://github.com/gvwg/newsletter-search/actions)
-   and click **Extract newsletters** in the left-hand list.
-2. If a banner says the workflow is disabled, click **Enable workflow**.
-3. Click **Run workflow**, leave the box blank, and click the green
-   **Run workflow** button. This catches up now instead of waiting.
-4. If it found anything new, its "deploy" job republishes the site. Check that
-   the run has a green tick, then search for a word from the newest issue.
-
-The same **Run workflow** button is the way to force an update at any time, for
-example straight after uploading a new issue. "Build and deploy search site" also
-has a **Run workflow** button, which republishes the site without checking CE.
+To restart it, open **Extract newsletters** in the Actions tab; if a banner
+says the workflow is disabled, click **Enable workflow**. Then run an update
+by hand (above) to catch up.
 
 ### When a run fails
 
@@ -123,19 +182,24 @@ from the "Edit Cloudflare Workers" template limited to the gvwg.ca zone, and
 paste it into the `CLOUDFLARE_API_TOKEN` repository secret.
 
 Each of these accounts should have at least two club officers as
-administrators with their own logins, so the search does not depend on one
+administrators with their own logins, so the site does not depend on one
 person.
 
-### The search box on gvwg.ca
+### Links from gvwg.ca
 
-The search banner on the Newsletters page is an HTML widget in CE. Its source is
-[`ce/search-banner.html`](ce/search-banner.html); paste it into the widget's
-HTML view if the banner is ever lost or needs to go on another page. It sends
-readers to `https://newsletters.gvwg.ca/search?q=<their words>`.
+- **Search banner.** The search box on the gvwg.ca Newsletters page is an HTML
+  widget in CE. Its source is [`ce/search-banner.html`](ce/search-banner.html);
+  paste it into the widget's HTML view if the banner is ever lost or needs to
+  go on another page. It sends readers to
+  `https://newsletters.gvwg.ca/search?q=<their words>`.
+- **Menu links.** Link to https://newsletters.gvwg.ca in the same window, not
+  a new tab, so the site's Back button can return readers to the gvwg.ca page
+  they came from.
 
 ---
 
 ## For developers
+
 
 ### Architecture
 
@@ -169,6 +233,7 @@ static files; the browser downloads only the index fragments a query needs.
 | `site/index.html` | Reader's browser | Page load | Template for the issue list at `/`; `build.mjs` writes the list into it. Search box (submits to `/search`) and a From/To year range that also filters the list; reads `?from=&to=` |
 | `site/search.html` | Reader's browser | Page load | Search page, served at `/search`, on the Pagefind JS API; reads `?q=&from=&to=` |
 | `site/site.css` | Reader's browser | Page load | Look shared by both pages (header, search panel, footer) |
+| `site/site.js` | Reader's browser | Page load | Shared by both pages: the Back link (browser history when the reader came from gvwg.ca or this site) and the back-to-top button |
 | `ce/search-banner.html` | gvwg.ca (CE HTML widget) | Pasted by hand | Search box that opens newsletters.gvwg.ca/search with the reader's words |
 
 The extraction workflow calls `deploy.yml` itself because its commits, pushed
@@ -231,8 +296,11 @@ commit avoids eight identical deploys a day.
    with one custom record per PDF page (URL `docs.ashx?id=N#page=P`, a `year`
    filter, meta for issue label, page and page count).
 
-### Search page notes
+### Site notes
 
+- The issue list at `/` is static HTML written at build time; its script
+  (year range, Expand/Collapse all, year links) only enhances it, so the list
+  works without JavaScript.
 - `site/search.html` uses the Pagefind JS API rather than the default UI,
   because the default UI ANDs selected filter values and each page has one
   year. The From/To range is sent as `{ year: { any: [...] } }`.
