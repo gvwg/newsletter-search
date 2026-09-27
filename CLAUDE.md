@@ -340,8 +340,15 @@ All design questions answered; ready to build.
   (layout reader), made its thumbnail, committed (run 13), and its deploy
   job (deploy.yml via workflow_call) published 250 issues. Live list shows
   it first in 2026 with cover and contents; live search finds it. The
-  dummy is now public on newsletters.gvwg.ca; to remove it, exclude it
-  again or delete it from the CE folder (either prunes it next run).
+  Removal test: Don hid the dummy in the Document Library; run 36285118668
+  dropped it from folder.json and catalog.json, deleted its issue file and
+  thumbnail, committed (run 14) and redeployed. Live: not in the list (2026
+  back to 7), /thumbs/1821788.jpg 404, search finds none of its text.
+- Open: a file replaced in CE under the same doc ID is NOT picked up
+  (extracted IDs are skipped). docs.ashx 302s to an S3 object named
+  <uploaded filename>_<random digits>.pdf; a replacement probably gets a new
+  name (inference, untested). The CE details page shows only Date Created
+  and a size rounded to 0.1 MB. Workaround today: extract.py --force ID.
 - Fixed: the search page's More results button showed even with every
   result on screen (`#more` display:block overrode `hidden`).
 - deploy.yml warns that cloudflare/wrangler-action@v3 targets Node 20
@@ -358,8 +365,7 @@ All design questions answered; ready to build.
 1. Cut over: point the CE Newsletters menu item at newsletters.gvwg.ca
    (same window if CE allows), or reduce the CE Newsletters page to the
    banner plus a link.
-2. Remove the dummy issue from the site (exclude again, or Don deletes it
-   from the CE Newsletters folder).
+2. Decide how to detect a replaced file (see Open above).
 3. Don: check the search site on desktop and phone (headless Edge could not
    verify: its fast-forwarded time trips Pagefind's worker timeout).
 4. Don: train and add a second Cloudflare Super Administrator.
