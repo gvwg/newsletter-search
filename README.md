@@ -54,8 +54,7 @@ Edit it on GitHub (pencil icon) and commit; the next run applies it. All
 entries are keyed by the CE doc ID, the number in `docs.ashx?id=N`.
 
 - `exclude`: documents in the Newsletters folder not to publish, each with a
-  reason. Currently an earlier version of March/April 2020 and the dummy issue
-  from the publishing rehearsal.
+  reason. Currently an earlier version of March/April 2020.
 - `titles`: a title to use instead of the CE title.
 - `contents`: a contents list to use instead of the one read from the PDF,
   one string per article, for example
@@ -300,6 +299,7 @@ page and one scanned page. Afterwards delete `data/issues/999.json`, and run
     ce/                  HTML pasted into ClubExpress (search banner)
     data/                catalog.json, folder.json, overrides.json (hand-kept),
                          issues/<id>.json (the text cache) and thumbs/<id>.jpg (committed)
+    archive/             retired tools (the publish-newsletter skill); see archive/README.md
     scripts/             harvest, extract, toc, check, alerts, publish_prep, common (Python);
                          build, serve (Node)
     site/                issue list template, search page, shared CSS, _headers,

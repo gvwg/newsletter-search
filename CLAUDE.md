@@ -338,10 +338,16 @@ All design questions answered; ready to build.
   (deprecated, forced onto Node 24 for now); update when a newer major
   version of the action is released.
 
+- `publish-newsletter` skill deprecated 2026-09-27 (Don: too painful via
+  Claude in Chrome); moved to `archive/publish-newsletter-skill/` so Claude
+  Code no longer offers it. The News post stays manual; `publish_prep.py`
+  still prepares its body and cover. Revisit only with a way that does not
+  need Claude in Chrome.
+
 ## Next steps
 1. Cut over: point the CE Newsletters menu item at newsletters.gvwg.ca
    (same window if CE allows), or reduce the CE Newsletters page to the
-   banner plus a link. Then cut `publish-newsletter` back to the News post.
+   banner plus a link.
 2. Watch the first run after a real upload (commit plus deploy hand-off).
 3. Don: check the search site on desktop and phone (headless Edge could not
    verify: its fast-forwarded time trips Pagefind's worker timeout).

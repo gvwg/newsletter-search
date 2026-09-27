@@ -6,8 +6,7 @@
   "contents: a contents list to use instead of the one read from the PDF."
  ],
  "exclude": {
-  "1518566": "Earlier 26-page version of March/April 2020; the published issue is 1517855",
-  "1821788": "Dummy December 2026 issue from the publishing rehearsal; remove once deleted from the folder"
+  "1518566": "Earlier 26-page version of March/April 2020; the published issue is 1517855"
  },
  "titles": {},
  "contents": {}
