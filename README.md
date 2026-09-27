@@ -137,14 +137,16 @@ person.
 
 ### Links from gvwg.ca
 
-- **Search banner.** The search box on the gvwg.ca Newsletters page is an HTML
+- **Search banner.** The search box on the old gvwg.ca Newsletters page (no
+  longer in the gvwg.ca menu, but still reachable from bookmarks) is an HTML
   widget in CE. Its source is [`ce/search-banner.html`](ce/search-banner.html);
   paste it into the widget's HTML view if the banner is ever lost or needs to
   go on another page. It sends readers to
   `https://newsletters.gvwg.ca/search?q=<their words>`.
-- **Menu links.** Link to https://newsletters.gvwg.ca in the same window, not
-  a new tab, so the site's Back button can return readers to the gvwg.ca page
-  they came from.
+- **Menu links.** The gvwg.ca menu item Resources > Newsletters links to
+  https://newsletters.gvwg.ca. Keep such links in the same window, not a new
+  tab, so the site's Back button can return readers to the gvwg.ca page they
+  came from.
 
 ---
 
@@ -180,10 +182,10 @@ static files; the browser downloads only the index fragments a query needs.
 | `.github/workflows/deploy.yml` ("Build and deploy search site") | GitHub Actions, Node 24 | Called by an extraction run that committed data (`workflow_call`), pushes to `main` touching site or build files, or by hand | `npm ci`, `npm run build`, `wrangler deploy` (skipped with a warning if the Cloudflare secrets are absent) |
 | `wrangler.jsonc` | Cloudflare Workers | Deploy | Assets-only Worker serving `dist/`, custom domain `newsletters.gvwg.ca` |
 | `site/_headers` | Cloudflare | Every request | `frame-ancestors https://gvwg.ca https://www.gvwg.ca` (so the page may be iframed on gvwg.ca only) and `nosniff` |
-| `site/index.html` | Reader's browser | Page load | Template for the issue list at `/`; `build.mjs` writes the list into it. Search box (submits to `/search`) and a From/To year range that also filters the list; reads `?from=&to=` |
+| `site/index.html` | Reader's browser | Page load | Template for the issue list at `/`; `build.mjs` writes the list into it. Search box (submits to `/search`) and a From/To year range that also filters the list; reads `?from=&to=`. At 768px and below a "Go to year" dropdown replaces the year links |
 | `site/search.html` | Reader's browser | Page load | Search page, served at `/search`, on the Pagefind JS API; reads `?q=&from=&to=` |
-| `site/site.css` | Reader's browser | Page load | Look shared by both pages (header, search panel, footer) |
-| `site/site.js` | Reader's browser | Page load | Shared by both pages: the Back link (browser history when the reader came from gvwg.ca or this site) and the back-to-top button |
+| `site/site.css` | Reader's browser | Page load | Look shared by both pages (header, menu, column width, search panel, footer), matched to gvwg.ca |
+| `site/site.js` | Reader's browser | Page load | Shared by both pages: the Back link (browser history when the reader came from gvwg.ca or this site), the back-to-top button and the phone menu button |
 | `ce/search-banner.html` | gvwg.ca (CE HTML widget) | Pasted by hand | Search box that opens newsletters.gvwg.ca/search with the reader's words |
 
 The extraction workflow calls `deploy.yml` itself because its commits, pushed
@@ -264,6 +266,19 @@ commit avoids eight identical deploys a day.
   "Back to GVWG home" from the list, the list from search.
 - A back-to-top button (`site/site.js`, shared with the issue list) appears
   once the reader has scrolled a screen down.
+- Layout matches gvwg.ca (measured 2026-09-27). The light blue column is
+  capped at 100rem and centred, with the dark body colour either side, and
+  at 900px for windows up to 1024px wide (a rule in the club's CE
+  `custom.css`); content fills the column. In the wide column, long contents
+  lists go to three columns and excerpts are held to 80 characters a line.
+- Phone menu: at 768px and below the menu becomes a three-bar button that
+  opens a stacked list, like gvwg.ca on a phone. CE chooses its phone layout
+  from the browser's User-Agent, so narrowing a PC window does not show it
+  there; this site can only go by width, so it does. A script in each page
+  head sets `html.js` so the menu starts closed without a flash; without
+  JavaScript the menu stays visible.
+- At 768px and below the year links on the list page become a "Go to year"
+  dropdown (built by the page script; the links remain without JavaScript).
 - Pagefind excerpts are not HTML-escaped, so the page rebuilds each excerpt
   keeping only text and `<mark>`.
 - Some PDFs open at the wrong page in Edge and Chrome despite `#page=N` (a

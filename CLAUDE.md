@@ -405,6 +405,10 @@ All design questions answered; ready to build.
 - Year jump links: at 768px and below the list page swaps them (186-218px
   tall on phones) for a "Go to year" dropdown built by the page script;
   without JavaScript the links stay. It follows the From/To range.
+- Deployed 2026-09-27 (commit 9f01ebc, deploy run 36335921787): live checks
+  in headless Edge matched local (phone menu at 390/768, none at 769/1200,
+  no-JS fallback, "hollowing" 734 pages, 1600px column at 1920). Not yet
+  checked on a real phone after deploy.
 - Local build glitch (2026-09-27, once): `npm run build` left several
   `dist/pagefind/` files at zero bytes (search then fails with "Failed to
   load Pagefind metadata"); an immediate rebuild was clean. Cause not
