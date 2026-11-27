@@ -416,6 +416,24 @@ All design questions answered; ready to build.
   breaks, check `find dist -type f -size 0` and rebuild. CI builds run
   outside OneDrive, so probably unaffected (inference, not checked).
 
+- Contents and hyphen fix (branch `fix-contents-hyphens`, 2026-11-27):
+  November 2026 (1857364) got three letter-spaced running headers as its
+  contents. Causes: the layout reader gave up because one entry's page
+  number shared a block with its title ("5\nTitle") and a caption sat
+  below the box; the text reader then read "...2 0 2 6" as title + page 6.
+  Fixed in `toc.py` (split number blocks, end the box at trailing text,
+  reject letter-spaced/over-long titles and all-one-page lists, so junk
+  now raises the `contents` alert). Also: soft hyphens (U+00AD + newline)
+  were deleted before the hyphen re-join, leaving "Wood\nturning" in the
+  indexed text; 970 words in 16 issues (2010, 2011, 2026) re-joined by a
+  local `--all` re-extract (OCR pages kept from CI's Tesseract output, as
+  local Tesseract differs). `extract.py` now visits the Document Library
+  (page_id=86) instead of the retired Newsletters page (404 since the
+  cut-over), and prints UTF-8 (a U+2044 title crashed a redirected local run).
+  Tested: layout reader matches all 6 April-November 2026 lists exactly;
+  `toc.py --score` unchanged except 2 junk 2026 reads gone; check.py only the
+  known May 2022 finding; live vs local search counts equal or higher.
+
 ## Next steps
 1. Don: check the search site on desktop and phone (headless Edge could not
    verify: its fast-forwarded time trips Pagefind's worker timeout).

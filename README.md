@@ -225,8 +225,11 @@ commit avoids eight identical deploys a day.
    `toc.py` tries a position-based reader for the CONTENTS box of the April
    2026 template, then a layout-independent reader that finds the longest run
    of title and page-number pairs on pages 1-3. A result needs at least 3
-   entries with ascending page numbers within the issue, or the list stays
-   empty and is reported. `python toc.py --score` scores the text reader
+   entries with ascending page numbers within the issue, not all on one page,
+   and no letter-spaced or over-long titles (which are running headers, not
+   articles), or the list stays empty and is reported. Words the layout
+   software hyphenated at a line end (a soft hyphen in the PDF) are re-joined
+   in both the contents and the searchable text. `python toc.py --score` scores the text reader
    against the 248 hand-typed CE lists (0.74 of entries found, 2026-09-26);
    a change to either reader should not lower it.
 3. **`scripts/check.py`** flags newsletters whose title may not match the PDF:

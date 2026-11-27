@@ -14,6 +14,9 @@ FOLDER_PATH = DATA_DIR / "folder.json"         # raw CE folder listing, for the 
 OVERRIDES_PATH = DATA_DIR / "overrides.json"   # hand-kept exclusions, titles, contents
 
 SITE = "https://gvwg.ca"
+# The old CE Newsletters page. Retired at the cut-over to newsletters.gvwg.ca
+# (2026-09-27): out of the menus, 404 to anonymous visitors. Only the one-off
+# harvest.py --bootstrap and the archived publish_prep.py --verify use it.
 LISTING_URL = f"{SITE}/content.aspx?page_id=22&club_id=182740&module_id=717502"
 DOC_URL = SITE + "/docs.ashx?id={id}"
 # The Newsletters folder of the public Document Library. The list handler

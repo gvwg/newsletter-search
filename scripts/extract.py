@@ -34,9 +34,9 @@ from datetime import datetime, timezone
 
 import pymupdf
 
-from common import (CATALOG_PATH, ISSUES_DIR, LISTING_URL, REQUEST_DELAY_SECONDS,
+from common import (CATALOG_PATH, ISSUES_DIR, LIBRARY_URL, REQUEST_DELAY_SECONDS,
                     THUMBS_DIR, BlockedError, http_get, new_session)
-from toc import as_strings, read_contents
+from toc import as_strings, join_soft_hyphens, read_contents
 
 MAX_CONSECUTIVE_NON_PDF = 3   # this many HTML responses in a row => treat as blocked
 
@@ -53,7 +53,7 @@ MAX_PRUNE = 10   # more orphans than this suggests a bad harvest; prune nothing
 
 def clean_text(text: str) -> str:
     """Normalise extracted text for indexing."""
-    text = text.replace("\u00ad", "")                       # soft hyphens
+    text = join_soft_hyphens(text)                          # "Wood\u00ad\nturning" -> "Woodturning"
     text = re.sub(r"(\w)-\n(\w)", r"\1\2", text)             # re-join hyphenated line breaks
     text = re.sub(r"[ \t\u00a0]+", " ", text)
     text = re.sub(r"\s*\n\s*", "\n", text)
@@ -170,6 +170,10 @@ def fill_contents_from_cache(catalog: list) -> bool:
 
 
 def main():
+    # Titles can hold characters a Windows console code page lacks (e.g. U+2044
+    # in "March⁄April"); print them as UTF-8 rather than crash mid-run.
+    for stream in (sys.stdout, sys.stderr):
+        stream.reconfigure(encoding="utf-8", errors="replace", line_buffering=True)
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, help="process at most N new issues")
     ap.add_argument("--force", action="append", default=[], metavar="ID", help="re-extract this ID")
@@ -198,15 +202,17 @@ def main():
         todo = todo[: args.limit]
     print(f"{len(catalog)} issues in catalog, {len(todo)} to process")
 
-    # Visit the Newsletters page first, as a browser would, so any session
-    # cookies ClubExpress sets are sent with the document requests, and send
-    # it as the Referer.
+    # Visit the public Document Library first, as a browser would, so any
+    # session cookies ClubExpress sets are sent with the document requests,
+    # and send it as the Referer. (Until 2026-11 this was the old Newsletters
+    # page, retired at the cut-over; tests showed the User-Agent alone decides
+    # CE's 403, so this is courtesy, not a requirement.)
     session = new_session()
     try:
-        http_get(LISTING_URL, session)
-        session.headers["Referer"] = LISTING_URL
+        http_get(LIBRARY_URL, session)
+        session.headers["Referer"] = LIBRARY_URL
     except Exception as exc:
-        print(f"Warning: could not load listing page first: {exc}", file=sys.stderr)
+        print(f"Warning: could not load the Document Library page first: {exc}", file=sys.stderr)
 
     catalog_changed = fill_contents_from_cache(catalog)
     consecutive_non_pdf = 0

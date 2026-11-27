@@ -22,9 +22,17 @@ Regression check against the hand-typed CE lists for the whole archive
     python toc.py --score
 Share of CE entries found, text reader only, 2026-09-26: 0.74 overall;
 0.74 to 0.98 for every year 2011-2025; weakest before 2009 and for the
-April 2026 template (which the layout reader handles; --score has no PDFs). The CE lists are edited by
-hand (Tech Talk topics added, recurring items often dropped), so 1.0 is not
-reachable; a change to either reader should not lower these figures.
+April 2026 template (which the layout reader handles; --score has no PDFs).
+The CE lists are edited by hand (Tech Talk topics added, recurring items
+often dropped), so 1.0 is not reachable; a change to either reader should
+not lower these figures.
+
+The sanity checks also reject lists that cannot be real: a letter-spaced
+title (running headers such as "N O V E M B E R 2 0 2 6", whose last digit
+looks like a page number), a title over MAX_TITLE characters, or every entry
+on one page. A rejected list leaves the issue without contents, so check.py
+opens a GitHub issue instead of the site showing a wrong list (November 2026
+got three running headers as its contents before these checks).
 """
 
 import argparse
@@ -36,6 +44,7 @@ from difflib import SequenceMatcher
 from common import CATALOG_PATH, ISSUES_DIR
 
 MIN_ENTRIES = 3
+MAX_TITLE = 150
 
 # layout reader
 PAGE_NUM_RE = re.compile(r"^\d{1,3}$")
@@ -50,6 +59,21 @@ NAME = re.compile(r"^([A-Z][\w'’.-]+)(\s+(and|&)?\s*[A-Z][\w'’.-]+){1,3}$") 
 STOP = re.compile(r"special points|next meeting|gvwg\.ca|follow us", re.I)
 
 
+def join_soft_hyphens(text: str) -> str:
+    """Re-join words that layout software hyphenated at a line end. The PDF
+    holds a soft hyphen (U+00AD) and a line break there, not '-'."""
+    text = re.sub(r"­[ \t]*\n\s*", "", text)
+    return text.replace("­", "")
+
+
+def letter_spaced(text: str) -> bool:
+    """True for letter-spaced headings such as 'T H E C I R C U L A R'.
+    Dot leaders ('Title . . . . 4') are not letter spacing, so only tokens
+    containing a letter or digit count."""
+    tokens = [t for t in text.split() if any(ch.isalnum() for ch in t)]
+    return len(tokens) >= 6 and sum(len(t) == 1 for t in tokens) > len(tokens) / 2
+
+
 def squash(text: str) -> str:
     """Lower-case with all whitespace removed, so letter-spaced headings
     such as 'CO N T E N TS' can be matched."""
@@ -59,7 +83,8 @@ def squash(text: str) -> str:
 def read_layout(doc):
     """[(title, byline or None, page)] from the CONTENTS box, or None."""
     for page in list(doc)[:4]:
-        blocks = [(b[0], b[1], b[2], b[3], b[4].strip()) for b in page.get_text("blocks")]
+        blocks = [(b[0], b[1], b[2], b[3], join_soft_hyphens(b[4]).strip())
+                  for b in page.get_text("blocks")]
         heads = [b for b in blocks if squash(b[4]) == "contents"]
         if heads:
             break
@@ -67,7 +92,17 @@ def read_layout(doc):
         return None
 
     hx0, _, _, hy1, _ = heads[0]
-    column = [b for b in blocks if b[0] >= hx0 - 20 and b[1] > hy1 and b[4]]
+    column = []
+    for x0, y0, x1, y1, text in blocks:
+        if x0 < hx0 - 20 or y0 <= hy1 or not text:
+            continue
+        # A page number and its title sometimes share one block ("5\nTitle",
+        # November 2026); split it so the number pairs like the others.
+        first, _, rest = text.partition("\n")
+        if PAGE_NUM_RE.match(first.strip()) and rest.strip():
+            column.append((x0, y0, x1, y1, first.strip()))
+            text = rest.strip()
+        column.append((x0, y0, x1, y1, text))
     numbers = [b for b in column if PAGE_NUM_RE.match(b[4])]
     titles = sorted((b for b in column if not PAGE_NUM_RE.match(b[4])), key=lambda b: b[1])
 
@@ -75,6 +110,12 @@ def read_layout(doc):
     for x0, y0, x1, y1, text in titles:
         # The page number sits level with the first line of its title.
         near = [n for n in numbers if abs(n[1] - y0) < 6 and id(n) not in used]
+        if not near and entries and all(id(n) in used for n in numbers if n[1] > y0):
+            # Text below the box in the same column (a caption in November
+            # 2026) ends the list, but only once the list has started and no
+            # unpaired page number lies further down.
+            numbers = [n for n in numbers if n[1] < y0]
+            break
         if len(near) != 1:
             return None
         used.add(id(near[0]))
@@ -97,12 +138,13 @@ def _run_number_first(lines, maxpage):
     title only if the list resumes on the next line (a wrapped title)."""
     best, cur, last = [], [], 0
     for i, s in enumerate(lines):
-        m = LEAD.match(s)
+        m = None if letter_spaced(s) else LEAD.match(s)
         nxt = LEAD.match(lines[i + 1]) if i + 1 < len(lines) else None
         if m and last <= int(m[1]) <= maxpage:
             cur.append([m[2], int(m[1]), None])
             last = int(m[1])
-        elif cur and not NUM.match(s) and not STOP.search(s) and len(s) < 60 \
+        elif cur and not NUM.match(s) and not STOP.search(s) and not letter_spaced(s) \
+                and len(s) < 60 \
                 and nxt and last <= int(nxt[1]) <= maxpage:
             cur[-1][0] += " " + s
         else:
@@ -126,7 +168,7 @@ def _run_number_last(lines, maxpage):
 
     for i, s in enumerate(lines):
         nxt = lines[i + 1] if i + 1 < len(lines) else ""
-        if STOP.search(s) or HEAD.match(s):
+        if STOP.search(s) or HEAD.match(s) or letter_spaced(s):
             end_run()
             continue
         n, title = None, None
@@ -170,7 +212,11 @@ def read_text(texts):
 def valid(entries, page_count) -> bool:
     if not entries or len(entries) < MIN_ENTRIES:
         return False
+    if any(letter_spaced(t) or len(t) > MAX_TITLE for t, _, _ in entries):
+        return False
     pages = [p for _, _, p in entries]
+    if len(set(pages)) == 1:
+        return False
     return pages == sorted(pages) and 1 <= pages[0] and pages[-1] <= page_count
 
 
